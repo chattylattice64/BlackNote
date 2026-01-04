@@ -1,0 +1,1284 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  overflow-y: auto;
+}
+
+.topbar {
+  background-color: #000000; 
+  color: white;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  font-family: Inter, system-ui, Arial, sans-serif;
+  position: relative;
+  overflow: visible; /* CHANGED: was "hidden", now "visible" */
+  z-index: 100; /* ADD: base z-index for topbar */
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.hamburger {
+  border: none;
+  background: transparent;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  padding: 6px;
+  position: relative;
+  z-index: 1200;
+  color: white;
+}
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transform-origin: center center;
+  transition: transform .26s cubic-bezier(.2,.9,.2,1), opacity .18s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(3px, 3px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-6px);
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(3px, -3px);
+}
+
+.hamburger:not(.active):hover span {
+  opacity: .95;
+  transform: none;
+}
+
+.logo {
+  height: 45px; 
+  width: auto;
+}
+
+.center-section {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  visibility: visible !important;
+}
+
+.search-box {
+  width: 500px;
+  padding: 12px 24px;
+  border: 1px solid #3a3a3a;
+  border-radius: 30px;
+  font-size: 15px;
+  outline: none;
+  background-color: #2a2a2a;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.search-box:focus {
+  background-color: #333;
+  border-color: #555;
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.1);
+}
+
+.search-box::placeholder {
+  color: #999;
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 8px;
+  transition: transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.icon-btn:hover {
+  transform: scale(1.1);
+}
+
+.icon-btn img {
+  width: 60px;   /* Adjust to your preference */
+  height: 60px;
+  object-fit: contain;
+}
+/* Slide menu styles */
+.slide-menu {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 260px;
+  max-width: 85%;
+  background: #1E1E1E;
+  box-shadow: 3px 0 20px rgba(0,0,0,0.45);
+  transform: translateX(-110%);
+  transition: transform .28s cubic-bezier(.2,.9,.2,1);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.slide-menu.open {
+  transform: translateX(0);
+}
+
+.slide-menu-inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.menu-item {
+  display: block;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  color: white;
+  text-align: left;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.2s;
+}
+
+.menu-item:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.menu-item.login-btn {
+  background: white;
+  color: #1E1E1E;
+  border: none;
+}
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 1050;
+  opacity: 0;
+  transition: opacity .2s ease;
+  pointer-events: none;
+}
+
+.menu-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+/*search bar start */
+
+
+/* Center section - keep it centered in topbar */
+.center-section {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999; /* Much higher */
+}
+
+/* Search container - positioned relatively for dropdown */
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  visibility: visible !important;
+}
+
+
+/* Search Results Dropdown */
+.search-results {
+  position: fixed;
+  top: 73px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  background: var(--panel);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  max-height: 500px;
+  overflow-y: auto;
+  z-index: 10002;
+}
+
+/* Search Section Headers */
+.search-section {
+  margin-bottom: 0;
+}
+
+.search-section:last-child {
+  margin-bottom: 0;
+}
+
+.search-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 16px 8px 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--border-color);
+  margin: 0;
+}
+
+.search-section:first-child .search-section-title {
+  border-radius: 16px 16px 0 0;
+}
+
+.search-results-list {
+  padding: 4px 8px 8px 8px;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--accent);
+  transition: background 0.2s ease;
+}
+
+.search-result-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.search-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--friend-avatar-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-initial {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.search-info {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.search-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--accent);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-username {
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Post-specific styling */
+.search-post-item {
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 12px 8px;
+}
+
+.search-post-author {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.search-post-author .search-name {
+  margin-bottom: 0;
+}
+
+.search-post-author .search-username {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.search-post-text {
+  font-size: 13px;
+  color: #aaa;
+  line-height: 1.5;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2; /* ADD THIS - standard property */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Loading, Error, No Results */
+.search-loading,
+.search-error,
+.search-no-results {
+  padding: 32px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.search-error {
+  color: var(--danger-action);
+}
+
+/* Scrollbar styling for search results */
+.search-results::-webkit-scrollbar {
+  width: 8px;
+}
+
+.search-results::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.search-results::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+
+
+
+
+/* top bar end */
+
+.login-container {
+  background: #000000b2; /* deep blue */
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  width: 320px;
+  text-align: center;
+  color: white;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.center-screen {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  background: #0d47a1;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.login-btn:hover {
+  background: #242323;
+}
+
+.create-btn {
+  width: 100%;
+  padding: 10px;
+  background: white;
+  color: #0d47a1;
+  border: none;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.create-btn:hover {
+  background: #f0f0f0;
+}
+
+.map-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: top;
+  padding: 10px 40px 40px 40px; 
+  margin-top: 10px; 
+}
+
+
+#map {
+  width: 90%;
+  height: 80vh; 
+  border: 3px solid white;
+  border-radius: 16px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+   :root {
+        --bg: #121212;
+        --panel: #1E1E1E;
+        --muted: #A0A0A0;
+        --accent: #FFFFFF;
+        --primary-action: #00A8E8; 
+        --danger-action: #FF5252;
+        --friend-avatar-bg: #373737;
+        --border-color: rgba(255, 255, 255, 0.1);
+        --font-main: 'Inter', sans-serif;
+    }
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        background: var(--bg);
+        color: var(--accent);
+        font-family: var(--font-main);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+
+    
+    
+    .offline-banner {
+      display: none;
+      width: 100%;
+      text-align: center;
+      background: #b91c1c; /* red */
+      color: white;
+      padding: 8px 12px;
+      font-weight: 700;
+      position: sticky;
+      top: 65px; /* Stick below the topbar */
+      z-index: 99;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+    .offline-banner.visible { display: block; }
+
+    /* Main Layout */
+    .layout {
+      max-width: 1280px; /* Slightly wider for modern screens */
+      margin: 2rem auto;
+      padding: 0 1rem 4rem;
+      display: grid;
+      grid-template-columns: 300px 1fr 300px;
+      gap: 1.5rem; /* Increased gap */
+      align-items: start;
+    }
+    @media (max-width: 1024px) {
+        .layout { grid-template-columns: 1fr; padding: 1rem; }
+        .left, .right { display: none; } /* Hide side panels on smaller screens for focus */
+    }
+
+    /* Panel Styling */
+    .panel {
+      background: var(--panel);
+      border-radius: 16px; /* Larger radius */
+      padding: 1.5rem;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Profile Panel */
+    .profile-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .profile-pic {
+        width: 120px; height: 120px;
+        border-radius: 50%; object-fit: cover;
+        margin-bottom: 0.5rem; border: 3px solid var(--accent);
+        background: var(--friend-avatar-bg); color: var(--accent);
+        font-weight: 800; font-size: 48px;
+        display: flex; align-items: center; justify-content: center;
+        user-select: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+    .profile-name { font-weight: 800; font-size: 1.25rem; }
+    .profile-bio { font-size: 0.9rem; color: var(--muted); text-align: center; line-height: 1.6; }
+    .edit-profile-btn { width: 100%; margin-top: 1rem; }
+
+    /* Create Post Panel */
+    .create-post-textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem;
+      color: var(--accent);
+      font-size: 1rem;
+      resize: vertical;
+      min-height: 100px;
+      box-sizing: border-box;
+      margin-bottom: 1rem;
+      transition: all 0.2s ease;
+    }
+    .create-post-textarea:focus {
+        border-color: var(--primary-action);
+        box-shadow: 0 0 0 3px rgba(0, 168, 232, 0.2);
+        outline: none;
+    }
+    .create-post-actions { display: flex; justify-content: flex-end; }
+    .post-btn {
+      background: var(--primary-action);
+      color: var(--accent);
+      border: none;
+      font-weight: 700;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0, 168, 232, 0.2);
+    }
+    .post-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 168, 232, 0.3); }
+    .post-btn[disabled] { background: #444; color: #999; cursor: not-allowed; box-shadow: none; transform: none; }
+
+    /* Feed & Posts */
+    .feed { display: flex; flex-direction: column; gap: 1.5rem; }
+    .empty-feed-message { background: var(--panel); padding: 3rem 1.5rem; text-align: center; color: var(--muted); border-radius: 16px; border: 2px dashed var(--border-color); }
+
+    .post {
+      background: var(--panel);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+    .post-header {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      padding: 1rem 1.25rem;
+    }
+    .avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%; object-fit: cover;
+      border: 2px solid var(--border-color);
+      background: var(--friend-avatar-bg); color: var(--accent);
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+    }
+    .author { font-weight: 700; color: var(--accent); text-decoration: none; }
+    .time { font-size: 0.8rem; color: var(--muted); }
+    .post-image { width: 100%; max-height: 600px; background: #111; object-fit: cover; display: block; }
+    .post-body { padding: 1.25rem; color: #E0E0E0; line-height: 1.7; font-size: 1rem; }
+    .post-actions { display: flex; gap: 0.75rem; align-items: center; padding: 0.5rem 1.25rem 1.25rem; }
+    .action-btn {
+        display: inline-flex; gap: 0.5rem; align-items: center;
+        padding: 0.6rem 1rem; border-radius: 12px;
+        color: var(--muted); background: rgba(255, 255, 255, 0.05);
+        border: 1px solid transparent;
+        cursor: pointer; transition: all 160ms ease; font-weight: 600;
+    }
+    .action-btn:hover { background: rgba(255, 255, 255, 0.1); color: var(--accent); transform: translateY(-2px); }
+    .action-btn.active-like { background: rgba(0, 168, 232, 0.15); color: var(--primary-action); }
+    .action-btn.active-dislike { background: rgba(255, 82, 82, 0.15); color: var(--danger-action); }
+
+    /* Comments Section */
+    .post-comments-section { padding: 0 1.25rem 1.25rem; border-top: 1px solid var(--border-color); }
+    .comments-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+    .comment { display: flex; gap: 0.75rem; align-items: flex-start; position: relative; }
+    .comment-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: var(--friend-avatar-bg); display: flex; align-items: center; justify-content: center; color: var(--accent); flex-shrink: 0; }
+    .comment-content { background: var(--bg); padding: 0.75rem 1rem; border-radius: 12px; flex: 1; border: 1px solid var(--border-color); }
+    .comment-author { font-weight: 700; font-size: 0.85rem; }
+    .comment-text { margin: 0.25rem 0 0; font-size: 0.9rem; color: var(--muted); line-height: 1.5; word-wrap: break-word; }
+    .comment-form { display: flex; gap: 0.75rem; align-items: center; margin-top: 1rem; }
+    .comment-input {
+      flex: 1; background: var(--bg);
+      border: 1px solid var(--border-color);
+      border-radius: 24px; padding: 0.6rem 1rem;
+      color: var(--accent);
+      transition: all 0.2s ease;
+    }
+
+    .comment-input:focus { border-color: var(--primary-action); outline: none; }
+    .comment-submit-btn { background: none; border: none; color: var(--primary-action); font-weight: 700; cursor: pointer; transition: color 0.2s ease; }
+    .comment-submit-btn:hover { color: var(--accent); }
+
+    /* Friends List */
+    .friends-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem; }
+    .friend-item {
+        display: flex; gap: 1rem; align-items: center;
+        padding: 0.75rem; border-radius: 12px;
+        background: transparent;
+        color: var(--muted); border: 1px solid transparent;
+        text-decoration: none; transition: all 0.2s ease;
+    }
+    .friend-item:hover { background: rgba(255,255,255,0.05); border-color: var(--border-color); }
+    .friend-item .f-avatar {
+        width: 54px; height: 54px;
+        border-radius: 50%; object-fit: cover;
+        display: flex; align-items: center; justify-content: center;
+        background: var(--friend-avatar-bg); color: var(--accent); font-weight: 700;
+    }
+    .friend-name { font-weight: 600; color: var(--accent); }
+.friend-buttons {
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
+
+.friend-buttons button {
+  padding: 0.4rem 0.7rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.friend-buttons button:hover {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+.friend-buttons .accept-btn:hover {
+  background: #2ecc71;
+  border-color: #2ecc71;
+}
+
+.friend-buttons .decline-btn:hover {
+  background: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.friend-buttons .holla-btn {
+  width: 40px;
+  transition: all 0.3s ease;
+}
+
+.friend-buttons .holla-btn:hover {
+  background: #3498db;
+  border-color: #3498db;  
+}
+
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      display: none; align-items: center; justify-content: center; z-index: 1000;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .modal-overlay.visible { display: flex; opacity: 1; }
+    .modal-content {
+      background: var(--panel);
+      padding: 2rem; border-radius: 16px;
+      width: 90%; max-width: 480px;
+      position: relative; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--border-color);
+      transform: scale(0.95); transition: transform 0.3s ease;
+    }
+    .modal-overlay.visible .modal-content { transform: scale(1); }
+
+    .modal-content label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+    .modal-content input[type="text"],
+    .modal-content textarea {
+        width: 100%;
+        box-sizing: border-box;
+        background: var(--bg);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 0.75rem;
+        color: var(--accent);
+        margin-bottom: 1rem;
+        transition: border-color 0.2s ease;
+    }
+    .modal-content input[type="text"]:focus,
+    .modal-content textarea:focus {
+        border-color: var(--primary-action);
+        outline: none;
+    }
+    #pfp-preview { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); display: block; margin: 0.5rem 0 1.5rem; cursor: pointer; }
+    #username-cooldown-msg { font-size: 0.8rem; color: var(--danger-action); min-height: 1.2em; margin-top: -0.5rem; margin-bottom: 1rem; }
+
+    /* ---------- Action menu (three-dot) styling & animation ---------- */
+/* make container positioned so absolute menus align correctly */
+.actions-menu-container {
+  position: relative; /* required so .action-menu is positioned relative to this */
+  display: inline-block;
+}
+
+/* three-dot button */
+.action-menu-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color .12s ease, transform .12s ease;
+}
+.action-menu-btn:hover,
+.action-menu-btn:focus {
+  background: rgba(255,255,255,0.03);
+  color: var(--accent);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+/* the floating menu itself — collapsed by default */
+.action-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 160px;
+  max-width: 260px;
+  box-sizing: border-box;
+  background: var(--panel);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  padding: 6px;
+  z-index: 120;
+  overflow: hidden;
+
+  /* collapsed state */
+  opacity: 0;
+  transform-origin: top right;
+  transform: translateY(-8px) scale(.98);
+  pointer-events: none;
+  max-height: 0;
+  transition:
+    opacity .18s ease,
+    transform .18s cubic-bezier(.2,.9,.2,1),
+    max-height .28s ease;
+}
+
+/* visible/expanded */
+.action-menu.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  max-height: 360px; /* large enough to show items */
+}
+
+/* little caret/arrow above the menu */
+.action-menu::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  right: 12px;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid var(--panel);
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));
+}
+
+/* menu links (stacked) */
+.action-menu a {
+  display: block;
+  padding: 10px 12px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  margin: 2px 0;
+  transition: background .12s ease, color .12s ease;
+}
+
+/* hover & focus */
+.action-menu a:hover,
+.action-menu a:focus {
+  background: rgba(255,255,255,0.03);
+  color: var(--accent);
+  outline: none;
+}
+
+/* danger-style items (delete/report) */
+.action-menu a.danger {
+  color: var(--danger-action);
+}
+.action-menu a.danger:hover {
+  background: rgba(255,82,82,0.08);
+}
+
+/* ensure comment menus don't overflow the post */
+.post .actions-menu-container,
+.comment .actions-menu-container {
+  /* keep menus layered above content and not push layout */
+  z-index: 120;
+}
+
+/* small responsive tweak so menu doesn't go off-screen on very small widths */
+@media (max-width: 420px) {
+  .action-menu {
+    right: -6px;
+    min-width: 140px;
+    left: 6px; /* allow menu to grow toward left if necessary */
+  }
+  .action-menu::before {
+    right: 20px;
+  }
+}
+
+/* ---------- Optional niceties for the edit UIs ---------- */
+.post-edit,
+.comment-edit-input,
+.comment-edit-input:focus,
+.post-edit-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* style save / cancel buttons inside edit UI to match action buttons */
+.save-post-edit,
+.cancel-post-edit,
+.save-comment-edit,
+.cancel-comment-edit {
+  margin-right: 8px;
+  cursor: pointer;
+}
+.save-post-edit,
+.save-comment-edit {
+  background: var(--primary-action);
+  color: #071017;
+  border-radius: 10px;
+  border: none;
+  padding: 8px 12px;
+  font-weight: 700;
+}
+.cancel-post-edit,
+.cancel-comment-edit {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 700;
+}
+
+/* ---------- Make report button sit comfortably next to dislike ---------- */
+.post-actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+.post-actions .report-visible-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: rgba(255,255,255,0.02);
+  color: var(--muted);
+  font-weight: 700;
+  cursor: pointer;
+}
+.post-actions .report-visible-btn:hover {
+  background: rgba(255,255,255,0.04);
+  color: var(--accent);
+}
+
+/* keep comment action menu aligned to the right of the comment */
+.comment > .actions-menu-container {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+}
+
+/* small visual polish to separate comment content from menu */
+.comment { position: relative; padding-right: 44px; }
+
+/* ensure menu transitions are smooth when js toggles .visible */
+.action-menu,
+.action-menu.visible {
+  will-change: transform, opacity, max-height;
+}
+
+/* ---------- Hamburger (stacked bars) + X animation ---------- */
+/* Replace your existing .hamburger and .hamburger span rules with this */
+
+.hamburger {
+  border: none;
+  background: transparent;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  flex-direction: column;       /* stack bars vertically */
+  justify-content: center;
+  align-items: center;
+  gap: 6px;                     /* spacing between bars */
+  cursor: pointer;
+  margin-right: 0.5rem;
+  padding: 6px;
+  position: relative;
+  z-index: 1200;
+  color: var(--text-color);
+}
+
+/* bars */
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transform-origin: center center;
+  transition: transform .26s cubic-bezier(.2,.9,.2,1), opacity .18s ease;
+}
+
+/* active -> morph to X */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(3px, 3px);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-6px);
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(3px, -3px);
+}
+
+/* small hover/tap feedback without breaking layout */
+.hamburger:not(.active):hover span {
+  opacity: .95;
+  transform: none;
+}
+
+
+/* slide menu */
+.slide-menu {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 260px;
+  max-width: 85%;
+  background: var(--panel);
+  box-shadow: 3px 0 20px rgba(0,0,0,0.45);
+  transform: translateX(-110%);
+  transition: transform .28s cubic-bezier(.2,.9,.2,1);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+.slide-menu.open { transform: translateX(0); }
+
+.slide-menu-inner { width: 100%; display:flex; flex-direction:column; gap:0.75rem; }
+
+.menu-item {
+  display: block;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  color: var(--text-color);
+  text-align: left;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+}
+
+/* Logout gets login-btn styles; keep this fallback in case CSS file order differs */
+.menu-item.login-btn {
+  background: var(--accent);
+  color: var(--panel);
+  border: none;
+}
+
+/* overlay */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 1050;
+  opacity: 0;
+  transition: opacity .2s ease;
+  pointer-events: none;
+}
+.menu-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* responsive: hide main nav when small, if you want */
+@media (max-width: 640px) {
+  header .nav-buttons { display: none; }
+}
+/* --- Hamburger animation (add this below your .hamburger CSS) --- */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+.comment-action-toggle {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+  position: relative;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.comment-action-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Hidden by default */
+.comment-actions-menu.hidden {
+  display: none;
+}
+
+
+.comment-actions-menu {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 6px); /* appears above the comment */
+  min-width: 160px;
+  background: var(--panel);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 200;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: all 0.18s ease;
+}
+
+.comment-actions-menu.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Each button */
+.comment-actions-menu button {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #ddd;
+  text-align: left;
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.comment-actions-menu button:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+.comment-action-toggle {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.comment-action-toggle:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+.action-btn.is-active {
+  font-weight: 700;
+  transform: translateY(-1px);
+  /* or background/border change etc. */
+}
+.friend-item .f-avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  overflow: hidden; /* keeps it perfectly circular */
+  flex-shrink: 0;   /* prevents flexbox from squishing it */
+
+  /* optional — only needed if you still want initials centered
+     when there is NO image */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--friend-avatar-bg);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* 🔥 Add this new rule below it */
+.friend-item .f-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block; /* removes weird gaps from inline images */
+}
+.create-post-media {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.media-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #1e1e1e;
+  color: #00aaff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-weight: 600;
+  border: 1px solid #333;
+}
+
+.media-upload-btn:hover {
+  background: #2a2a2a;
+}
+
+.file-name {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+.remove-media-btn {
+  background: transparent;
+  border: none;
+  color: #ff5252;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.remove-media-btn:hover {
+  background: rgba(255,82,82,0.1);
+  color: #fff;
+}
+.search-container {
+  visibility: hidden;
+}
+.product-media {
+  position: relative;
+  overflow: hidden;
+}
+
+.product-media img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.product-media img.fade-out {
+  opacity: 0;
+}

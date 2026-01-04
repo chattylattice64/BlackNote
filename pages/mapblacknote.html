@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="/assets/BN.png">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Map - BlackNote</title>
+  <link rel="stylesheet" href="/css/blacknote.css"/>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      background: #0a0a0a;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      overflow: hidden;
+    }
+
+    .main-container {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      height: calc(100vh - 65px);
+      gap: 0;
+    }
+
+    .map-section {
+      position: relative;
+      background: #141414;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+      border: 3px solid #3b82f6;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+    }
+
+    .sidebar {
+      background: #141414;
+      border-left: 1px solid #2a2a2a;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      padding: 24px;
+      border-bottom: 1px solid #2a2a2a;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    }
+
+    .sidebar-header h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .sidebar-header p {
+      margin: 8px 0 0 0;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .sidebar-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #a0a0a0;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .empty-state-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .court-info {
+      margin-bottom: 24px;
+    }
+
+    .court-name {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #3b82f6;
+    }
+
+    .court-address {
+      font-size: 14px;
+      color: #a0a0a0;
+      margin-bottom: 20px;
+    }
+
+    .create-game-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: white;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .create-game-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .games-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .game-card {
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .game-card:hover {
+      border-color: #3b82f6;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+    }
+
+    .game-time {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #3b82f6;
+      margin-bottom: 8px;
+    }
+
+    .game-description {
+      font-size: 14px;
+      color: #d0d0d0;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .game-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #a0a0a0;
+      margin-bottom: 12px;
+    }
+
+    .game-creator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .game-slots {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #10b981;
+      font-weight: 600;
+    }
+
+    .game-slots.full {
+      color: #ef4444;
+    }
+
+    .players-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .player-tag {
+      padding: 4px 10px;
+      background: #2a2a2a;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #d0d0d0;
+    }
+
+    .game-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .game-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .join-btn {
+      background: #10b981;
+      color: white;
+    }
+
+    .join-btn:hover {
+      background: #059669;
+    }
+
+    .join-btn:disabled {
+      background: #374151;
+      color: #6b7280;
+      cursor: not-allowed;
+    }
+
+    .leave-btn {
+      background: #ef4444;
+      color: white;
+    }
+
+    .leave-btn:hover {
+      background: #dc2626;
+    }
+
+    .cancel-btn {
+      background: #ef4444;
+      color: white;
+    }
+
+    .cancel-btn:hover {
+      background: #dc2626;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #1e1e1e;
+      border: 1px solid #3b82f6;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3);
+    }
+
+    .modal-header {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: #ffffff;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #d0d0d0;
+      margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid #2a2a2a;
+      background: #0f0f0f;
+      color: #ffffff;
+      font-size: 14px;
+      outline: none;
+      box-sizing: border-box;
+      font-family: inherit;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus,
+    .form-select:focus {
+      border-color: #3b82f6;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .time-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .modal-btn {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: white;
+    }
+
+    .modal-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .modal-btn-secondary {
+      background: #2a2a2a;
+      color: #ffffff;
+    }
+
+    .modal-btn-secondary:hover {
+      background: #374151;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0f0f0f;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #2a2a2a;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3b82f6;
+    }
+
+    .no-games {
+      text-align: center;
+      padding: 40px 20px;
+      color: #a0a0a0;
+    }
+
+    .no-games-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+
+<body bgcolor="#242323">
+  
+  <!-- Top Bar -->
+<header class="topbar">
+  <div class="left-section">
+    <button id="menuToggle" class="hamburger" aria-label="Open menu" aria-expanded="false" title="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="/pages/blacknote.html">
+      <img src="/assets/blacknotetrans.png" alt="Logo" class="logo" />
+    </a>
+  </div>
+
+  <div class="center-section">
+    <div class="search-container">
+      <input type="text" class="search-box" placeholder="Search..." />
+    </div>
+  </div>
+
+<div class="right-section">
+
+  <a href="/pages/noteai.html" class="icon-btn" title="Ai Assistant">
+    <img src="/assets/gem.png" alt="Gemini" class="custom-emoji">
+  </a>
+
+<a href="/pages/blacknote.html" class="icon-btn" title="home">
+    <img src="/assets/home.png" alt="home" class="custom-emoji">
+  </a>
+  <a href="/pages/friendsblacknote.html" class="icon-btn" title="Add">
+    <img src="/assets/add.png" alt="Add" class="custom-emoji">
+  </a>
+  <a href="/pages/mapblacknote.html" class="icon-btn" title="Basketball">
+    <img src="/assets/ball.png" alt="Basketball" class="custom-emoji">
+  </a>
+  <a href="/pages/dripblacknote.html" class="icon-btn" title="Black Market">
+    <img src="/assets/shop.png" alt="Money" class="custom-emoji">
+  </a>
+  <a href="/pages/hollablacknote.html" class="icon-btn" title="Holla">
+    <img src="/assets/hol.png" alt="Holla" class="custom-emoji">
+  </a>
+</div>
+
+</header>
+
+<nav id="slideMenu" class="slide-menu" aria-hidden="true" role="navigation">
+  <div class="slide-menu-inner" role="menu" aria-label="Site menu">
+    <button id="contactBtn" class="menu-item" role="menuitem">Contact Us!</button>
+    <button id="aboutBtn" class="menu-item" role="menuitem">About</button>
+    <button id="logoutBtn" class="menu-item login-btn" role="menuitem">Logout</button>
+  </div>
+</nav>
+<div id="menuOverlay" class="menu-overlay" aria-hidden="true"></div>
+
+
+  <!-- Main Container -->
+  <div class="main-container">
+    <!-- Map Section -->
+    <div class="map-section">
+      <div id="map"></div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2 id="sidebarTitle">🏀 Find Courts</h2>
+        <p id="sidebarSubtitle">Select a court to view games</p>
+      </div>
+      <div class="sidebar-content" id="sidebarContent">
+        <div class="empty-state">
+          <div class="empty-state-icon">🏀</div>
+          <p>Click on a basketball court marker to view scheduled games and create your own!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Game Modal -->
+  <div class="modal" id="createGameModal">
+    <div class="modal-content">
+      <div class="modal-header">Schedule a Game</div>
+      
+      <div class="form-group">
+        <label class="form-label">Start Time</label>
+        <input type="datetime-local" class="form-input" id="startTime" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">End Time</label>
+        <input type="datetime-local" class="form-input" id="endTime" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Player Limit</label>
+        <input type="number" class="form-input" id="playerLimit" min="2" max="20" value="10" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Game Description</label>
+        <textarea class="form-textarea" id="gameDescription" placeholder="E.g., Casual pickup game, 5v5, all skill levels welcome!" required></textarea>
+      </div>
+
+      <div class="modal-buttons">
+        <button class="modal-btn modal-btn-secondary" id="cancelGameBtn">Cancel</button>
+        <button class="modal-btn modal-btn-primary" id="confirmGameBtn">Create Game</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { supabase, onAuthStateChanged, getUserProfile, startGlobalNotifications } from '/javascript/supabase.js';
+
+    let currentUser = null;
+    let currentUserProfile = null;
+    let selectedCourt = null;
+    let map = null;
+
+    // Initialize Map
+    map = L.map('map').setView([0, 0], 13);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+    }).addTo(map);
+
+    const glowStyle = "filter: drop-shadow(0 0 6px white);";
+
+    // Initialize user location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const userLat = position.coords.latitude;
+        const userLng = position.coords.longitude;
+
+        map.setView([userLat, userLng], 15);
+
+        const userIcon = L.divIcon({
+          html: `<img src='https://maps.google.com/mapfiles/ms/icons/blue-dot.png' 
+                  style='width:40px;height:40px;${glowStyle}'>`,
+          iconSize: [40, 40],
+          className: "user-marker"
+        });
+
+        const basketballIcon = L.divIcon({
+          html: `<img src='https://maps.google.com/mapfiles/ms/icons/orange-dot.png' 
+                  style='width:40px;height:40px;${glowStyle}'>`,
+          iconSize: [40, 40],
+          className: "basketball-marker"
+        });
+
+        L.marker([userLat, userLng], { icon: userIcon })
+          .addTo(map)
+          .bindPopup("<b>You are here!</b>")
+          .openPopup();
+
+        // Fetch nearby basketball courts
+        try {
+          const response = await fetch(`https://overpass-api.de/api/interpreter?data=[out:json];
+            node(around:5000,${userLat},${userLng})[leisure=pitch][sport=basketball];
+            out;`);
+          const data = await response.json();
+
+          if (data.elements.length === 0) {
+            alert("No nearby basketball courts found.");
+          } else {
+            data.elements.forEach((court) => {
+              const marker = L.marker([court.lat, court.lon], { icon: basketballIcon })
+                .addTo(map)
+                .bindPopup(`<b>Basketball Court</b><br>Click marker to view games`);
+              
+              marker.on('click', () => selectCourt(court));
+            });
+          }
+        } catch (error) {
+          console.error("Error loading basketball courts:", error);
+        }
+      }, () => {
+        alert("Unable to get your location.");
+      });
+    }
+
+    function generateCourtId(lat, lon) {
+      return `court_${lat.toFixed(6)}_${lon.toFixed(6)}`;
+    }
+
+    async function selectCourt(court) {
+      selectedCourt = {
+        id: generateCourtId(court.lat, court.lon),
+        lat: court.lat,
+        lon: court.lon,
+        name: court.tags?.name || 'Basketball Court',
+        address: `${court.lat.toFixed(5)}, ${court.lon.toFixed(5)}`
+      };
+
+      document.getElementById('sidebarTitle').textContent = selectedCourt.name;
+      document.getElementById('sidebarSubtitle').textContent = selectedCourt.address;
+
+      await loadGamesForCourt(selectedCourt.id);
+    }
+
+    async function loadGamesForCourt(courtId) {
+      const sidebarContent = document.getElementById('sidebarContent');
+      
+      if (!currentUser) {
+        sidebarContent.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">🔒</div>
+            <p>Please sign in to view and create games</p>
+          </div>
+        `;
+        return;
+      }
+
+      try {
+        const now = new Date().toISOString();
+        
+        // Query games for this court that haven't ended yet
+        const { data: games, error } = await supabase
+          .from('basketball_games')
+          .select('*')
+          .eq('court_id', courtId)
+          .gt('end_time', now)
+          .order('start_time', { ascending: true });
+
+        if (error) throw error;
+
+        renderGames(games || []);
+      } catch (error) {
+        console.error('Error loading games:', error);
+        sidebarContent.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">⚠️</div>
+            <p>Error loading games</p>
+          </div>
+        `;
+      }
+    }
+
+    function renderGames(games) {
+      const sidebarContent = document.getElementById('sidebarContent');
+      
+      if (games.length === 0) {
+        sidebarContent.innerHTML = `
+          <div class="court-info">
+            <div class="court-name">${selectedCourt.name}</div>
+            <div class="court-address">${selectedCourt.address}</div>
+            <button class="create-game-btn" onclick="openCreateGameModal()">
+              <span>➕</span>
+              <span>Schedule a Game</span>
+            </button>
+          </div>
+          <div class="no-games">
+            <div class="no-games-icon">🏀</div>
+            <p>No games scheduled yet.<br>Be the first to create one!</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = `
+        <div class="court-info">
+          <div class="court-name">${selectedCourt.name}</div>
+          <div class="court-address">${selectedCourt.address}</div>
+          <button class="create-game-btn" onclick="openCreateGameModal()">
+            <span>➕</span>
+            <span>Schedule a Game</span>
+          </button>
+        </div>
+        <div class="games-list">
+      `;
+
+      games.forEach(game => {
+        const startDate = new Date(game.start_time);
+        const endDate = new Date(game.end_time);
+        const timeStr = `${startDate.toLocaleDateString()} ${startDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${endDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+        
+        const isCreator = currentUser.id === game.creator_id;
+        const hasJoined = game.players.includes(currentUser.id);
+        const isFull = game.players.length >= game.player_limit;
+
+        html += `
+          <div class="game-card">
+            <div class="game-time">⏰ ${timeStr}</div>
+            <div class="game-description">${game.description}</div>
+            <div class="game-meta">
+              <div class="game-creator">👤 ${game.creator_name}</div>
+              <div class="game-slots ${isFull ? 'full' : ''}">
+                ${game.players.length}/${game.player_limit} players
+              </div>
+            </div>
+            ${game.players.length > 0 ? `
+              <div class="players-list">
+                ${game.player_names.map(name => `<div class="player-tag">${name}</div>`).join('')}
+              </div>
+            ` : ''}
+            <div class="game-actions">
+              ${isCreator ? `
+                <button class="game-btn cancel-btn" onclick="cancelGame('${game.id}')">Cancel Game</button>
+              ` : hasJoined ? `
+                <button class="game-btn leave-btn" onclick="leaveGame('${game.id}')">Leave Game</button>
+              ` : `
+                <button class="game-btn join-btn" ${isFull ? 'disabled' : ''} onclick="joinGame('${game.id}')">
+                  ${isFull ? 'Game Full' : 'Join Game'}
+                </button>
+              `}
+            </div>
+          </div>
+        `;
+      });
+
+      html += '</div>';
+      sidebarContent.innerHTML = html;
+    }
+
+    window.openCreateGameModal = function() {
+      document.getElementById('createGameModal').classList.add('show');
+      
+      // Set default times
+      const now = new Date();
+      now.setMinutes(0);
+      now.setSeconds(0);
+      now.setMilliseconds(0);
+      
+      const start = new Date(now.getTime() + 60 * 60 * 1000); // 1 hour from now
+      const end = new Date(start.getTime() + 2 * 60 * 60 * 1000); // 2 hours later
+      
+      document.getElementById('startTime').value = start.toISOString().slice(0, 16);
+      document.getElementById('endTime').value = end.toISOString().slice(0, 16);
+    };
+
+    document.getElementById('cancelGameBtn').addEventListener('click', () => {
+      document.getElementById('createGameModal').classList.remove('show');
+    });
+
+    document.getElementById('createGameModal').addEventListener('click', (e) => {
+      if (e.target.id === 'createGameModal') {
+        document.getElementById('createGameModal').classList.remove('show');
+      }
+    });
+
+    document.getElementById('confirmGameBtn').addEventListener('click', async () => {
+      const startTime = document.getElementById('startTime').value;
+      const endTime = document.getElementById('endTime').value;
+      const playerLimit = parseInt(document.getElementById('playerLimit').value);
+      const description = document.getElementById('gameDescription').value.trim();
+
+      if (!startTime || !endTime || !playerLimit || !description) {
+        alert('Please fill in all fields');
+        return;
+      }
+
+      if (new Date(startTime) >= new Date(endTime)) {
+        alert('End time must be after start time');
+        return;
+      }
+
+      if (playerLimit < 2 || playerLimit > 20) {
+        alert('Player limit must be between 2 and 20');
+        return;
+      }
+
+      try {
+        const playerName = currentUserProfile.name || currentUserProfile.username || 'Player';
+
+        const { error } = await supabase
+          .from('basketball_games')
+          .insert({
+            court_id: selectedCourt.id,
+            court_name: selectedCourt.name,
+            start_time: startTime,
+            end_time: endTime,
+            player_limit: playerLimit,
+            description: description,
+            creator_id: currentUser.id,
+            creator_name: playerName,
+            players: [currentUser.id],
+            player_names: [playerName],
+            created_at: new Date().toISOString()
+          });
+
+        if (error) throw error;
+
+        document.getElementById('createGameModal').classList.remove('show');
+        document.getElementById('gameDescription').value = '';
+        
+        await loadGamesForCourt(selectedCourt.id);
+        alert('Game created successfully!');
+      } catch (error) {
+        console.error('Error creating game:', error);
+        alert('Failed to create game: ' + error.message);
+      }
+    });
+
+    window.joinGame = async function(gameId) {
+      if (!currentUser || !currentUserProfile) return;
+
+      try {
+        // Get current game data
+        const { data: gameData, error: fetchError } = await supabase
+          .from('basketball_games')
+          .select('*')
+          .eq('id', gameId)
+          .single();
+
+        if (fetchError) throw fetchError;
+
+        if (!gameData) {
+          alert('Game not found');
+          return;
+        }
+        
+        if (gameData.players.length >= gameData.player_limit) {
+          alert('Game is full');
+          return;
+        }
+
+        if (gameData.players.includes(currentUser.id)) {
+          alert('You have already joined this game');
+          return;
+        }
+
+        const playerName = currentUserProfile.name || currentUserProfile.username || 'Player';
+
+        // Update game with new player
+        const { error: updateError } = await supabase
+          .from('basketball_games')
+          .update({
+            players: [...gameData.players, currentUser.id],
+            player_names: [...gameData.player_names, playerName]
+          })
+          .eq('id', gameId);
+
+        if (updateError) throw updateError;
+
+        await loadGamesForCourt(selectedCourt.id);
+      } catch (error) {
+        console.error('Error joining game:', error);
+        alert('Failed to join game: ' + error.message);
+      }
+    };
+
+    window.leaveGame = async function(gameId) {
+      if (!currentUser || !currentUserProfile) return;
+
+      try {
+        // Get current game data
+        const { data: gameData, error: fetchError } = await supabase
+          .from('basketball_games')
+          .select('*')
+          .eq('id', gameId)
+          .single();
+
+        if (fetchError) throw fetchError;
+
+        if (!gameData) {
+          alert('Game not found');
+          return;
+        }
+
+        if (gameData.creator_id === currentUser.id) {
+          alert('Creator cannot leave the game. Cancel the game instead.');
+          return;
+        }
+
+        const playerName = currentUserProfile.name || currentUserProfile.username || 'Player';
+
+        // Remove player from arrays
+        const updatedPlayers = gameData.players.filter(id => id !== currentUser.id);
+        const updatedPlayerNames = gameData.player_names.filter(name => name !== playerName);
+
+        const { error: updateError } = await supabase
+          .from('basketball_games')
+          .update({
+            players: updatedPlayers,
+            player_names: updatedPlayerNames
+          })
+          .eq('id', gameId);
+
+        if (updateError) throw updateError;
+
+        await loadGamesForCourt(selectedCourt.id);
+      } catch (error) {
+        console.error('Error leaving game:', error);
+        alert('Failed to leave game: ' + error.message);
+      }
+    };
+
+    window.cancelGame = async function(gameId) {
+      if (!confirm('Are you sure you want to cancel this game?')) return;
+
+      try {
+        const { error } = await supabase
+          .from('basketball_games')
+          .delete()
+          .eq('id', gameId);
+
+        if (error) throw error;
+
+        await loadGamesForCourt(selectedCourt.id);
+        alert('Game cancelled successfully');
+      } catch (error) {
+        console.error('Error cancelling game:', error);
+        alert('Failed to cancel game: ' + error.message);
+      }
+    };
+
+    // Auth state listener
+    onAuthStateChanged(async (user) => {
+      if (user) {
+        currentUser = user;
+        try {
+          currentUserProfile = await getUserProfile(user.id);
+          console.log('✅ Signed in as:', currentUserProfile.username);
+          
+          // Start notifications
+          startGlobalNotifications(user.id);
+          
+          if (selectedCourt) {
+            await loadGamesForCourt(selectedCourt.id);
+          }
+        } catch (error) {
+          console.error('Error loading user profile:', error);
+        }
+      } else {
+        currentUser = null;
+        currentUserProfile = null;
+        console.log('❌ Not signed in');
+      }
+    });
+  </script>
+
+  <!-- Menu Script -->
+  <script type="module">
+    import { logout } from '/javascript/supabase.js';
+
+    const menuToggle = document.getElementById('menuToggle');
+    const slideMenu = document.getElementById('slideMenu');
+    const overlay = document.getElementById('menuOverlay');
+    const contactBtn = document.getElementById('contactBtn');
+    const aboutBtn = document.getElementById('aboutBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    function openMenu() {
+      slideMenu.classList.add('open');
+      overlay.classList.add('visible');
+      slideMenu.setAttribute('aria-hidden', 'false');
+      overlay.removeAttribute('aria-hidden');
+      menuToggle.setAttribute('aria-expanded', 'true');
+    }
+    
+    function closeMenu() {
+      slideMenu.classList.remove('open');
+      overlay.classList.remove('visible');
+      slideMenu.setAttribute('aria-hidden', 'true');
+      overlay.setAttribute('aria-hidden', 'true');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    }
+    
+    function toggleMenu() { 
+      slideMenu.classList.contains('open') ? closeMenu() : openMenu(); 
+    }
+
+    menuToggle.addEventListener('click', (e) => { 
+      e.stopPropagation(); 
+      toggleMenu(); 
+    });
+    
+    overlay.addEventListener('click', closeMenu);
+    
+    document.addEventListener('keydown', (e) => { 
+      if (e.key === 'Escape') closeMenu(); 
+    });
+
+    contactBtn.addEventListener('click', () => {
+      closeMenu();
+      const gmailComposeURL = 'https://mail.google.com/mail/?view=cm&fs=1&to=hamdiglennurdaneta@gmail.com&su=Contact%20BlackNote';
+      window.open(gmailComposeURL, '_blank');
+    });
+
+    aboutBtn.addEventListener('click', () => {
+      closeMenu();
+      location.href = '/pages/aboutblacknote.html';
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        await logout();
+        location.href = '/index.html';
+      } catch (err) {
+        console.error('Logout error:', err);
+        location.href = '/index.html';
+      }
+    });
+  </script>
+</body>
+</html>

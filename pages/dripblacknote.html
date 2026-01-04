@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Black Market</title>
+  <link rel="stylesheet" href="/css/blacknote.css" />
+  <link rel="icon" type="image/png" href="/assets/BN.png" />
+  
+  <style src="/css/blacknote.css">
+    /* Page basics */
+    :root {
+      --bg: #121212;
+      --card-bg: rgba(20, 20, 20, 0.7);
+      --accent: #ffffff;
+      --muted: #a0a0a0;
+      --glow-color: rgba(76, 172, 255, 0.5);
+    }
+
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1.page-title {
+      margin: 8px 0 28px 8px;
+      font-size: 36px;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+      font-weight: 800;
+    }
+
+    /* Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(315px, 1fr));
+      gap: 23px;
+    }
+
+    /* Card */
+    .product-card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: box-shadow 300ms ease, border-color 300ms ease;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      transform-style: preserve-3d;
+    }
+
+    .product-card:focus-within,
+    .product-card:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Image area */
+    .product-media {
+      position: relative;
+      background: #000;
+      display: block;
+      width: 100%;
+      height: 500px;
+    }
+
+    .product-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 800ms ease-in-out;
+    }
+
+    .product-media img.fade-out {
+        opacity: 0;
+    }
+
+    /* Product name overlay at top of image */
+    .product-name {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      text-align: left;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 20px;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1));
+      padding: 10px 14px;
+      border-radius: 12px;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      pointer-events: none;
+    }
+
+    /* Description area (collapsible) */
+    .product-info {
+      padding: 0 18px;
+      background: var(--card-bg);
+      color: var(--muted);
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 350ms cubic-bezier(.2, .9, .2, 1), padding 350ms ease, opacity 200ms ease;
+      opacity: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .product-card:hover .product-info,
+    .product-card.open .product-info,
+    .product-card:focus-within .product-info {
+      max-height: 240px;
+      padding: 18px;
+      opacity: 1;
+    }
+
+    .product-desc {
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .product-actions {
+      margin-top: auto;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      background: white;
+      color: #121212;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      font-size: 15px;
+      transition: transform 200ms ease, background-color 200ms ease;
+    }
+    .btn:hover {
+        transform: scale(1.05);
+        background-color: #f0f0f0;
+    }
+
+    /* Donate button special style */
+    .btn.donate-btn {
+      background: #CD2C58;
+      color: white;
+    }
+    .btn.donate-btn:hover {
+      background-color: #b02548;
+    }
+
+    /* Small caption area below image (price etc) */
+    .product-bottom {
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 16px;
+      margin-top: auto;
+    }
+
+    .price {
+        font-size: 1.2em;
+        font-weight: 700;
+        color: var(--accent);
+    }
+
+    .meta {
+        font-weight: 600;
+        background: rgba(255,255,255,0.1);
+        padding: 4px 10px;
+        border-radius: 8px;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 640px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .product-media {
+        height: 300px;
+      }
+      .product-name {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Your header is unchanged as requested -->
+  <header class="topbar">
+  <div class="left-section">
+    <button id="menuToggle" class="hamburger" aria-label="Open menu" aria-expanded="false" title="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="/pages/blacknote.html">
+      <img src="/assets/blacknotetrans.png" alt="Logo" class="logo" />
+    </a>
+  </div>
+
+  <div class="center-section">
+    <div class="search-container">
+      <input type="text" class="search-box" placeholder="Search..." />
+    </div>
+  </div>
+
+<div class="right-section">
+  
+<a href="/pages/noteai.html" class="icon-btn" title="Ai Assistant">
+    <img src="/assets/gem.png" alt="Gemini" class="custom-emoji">
+  </a>
+
+<a href="/pages/blacknote.html" class="icon-btn" title="home">
+    <img src="/assets/home.png" alt="home" class="custom-emoji">
+  </a>
+  <a href="/pages/friendsblacknote.html" class="icon-btn" title="Add">
+    <img src="/assets/add.png" alt="Add" class="custom-emoji">
+  </a>
+  <a href="/pages/mapblacknote.html" class="icon-btn" title="Basketball">
+    <img src="/assets/ball.png" alt="Basketball" class="custom-emoji">
+  </a>
+  <a href="/pages/dripblacknote.html" class="icon-btn" title="Black Market">
+    <img src="/assets/shop.png" alt="Money" class="custom-emoji">
+  </a>
+  <a href="/pages/hollablacknote.html" class="icon-btn" title="Holla">
+    <img src="/assets/hol.png" alt="Holla" class="custom-emoji">
+  </a>
+</div>
+
+</header>
+
+<nav id="slideMenu" class="slide-menu" aria-hidden="true" role="navigation">
+  <div class="slide-menu-inner" role="menu" aria-label="Site menu">
+    <button id="contactBtn" class="menu-item" role="menuitem">Contact Us!</button>
+    <button id="aboutBtn" class="menu-item" role="menuitem">About</button>
+    <button id="logoutBtn" class="menu-item login-btn" role="menuitem">Logout</button>
+  </div>
+</nav>
+<div id="menuOverlay" class="menu-overlay" aria-hidden="true"></div>
+
+
+  <div class="container">
+    <h1 class="page-title">BlackNote Merch - Coming Soon!</h1>
+
+    <div class="products-grid">
+      <!-- Product 1 -->
+      <article class="product-card" tabindex="0">
+        <div class="product-media">
+          <img src="/assets/shirt1.png" alt="BlackNote Shirt #1">
+          <div class="product-name">BlackNote Shirt #1</div>
+        </div>
+        <div class="product-info">
+          <div class="product-desc">
+            <b style="color: white;text-shadow: 0 0 10px rgba(255,255,255,0.5);font-weight: 700;">Black/White</b><br>
+            Clean. Confident. Rooted in Black culture — the Ty Walker Shirt speaks through style, not words.
+          </div>
+          <div class="product-actions">
+            <button class="btn inquire-btn" data-product="BlackNote Shirt 1#">Inquire</button>
+          </div>
+        </div>
+        <div class="product-bottom">
+          <div class="price">₱300</div>
+          <div class="meta">New</div>
+        </div>
+      </article>
+
+      <!-- Product 2 -->
+      <article class="product-card" tabindex="0">
+        <div class="product-media">
+          <img src="/assets/shirt2.png" alt="BlackNote Shirt #2">
+          <div class="product-name">BlackNote Shirt #2</div>
+        </div>
+        <div class="product-info">
+          <div class="product-desc">
+            <b style="color: white;text-shadow: 0 0 10px rgba(255,255,255,0.5);font-weight: 700;">Grey/Black</b><br>
+            Clean. Confident. Rooted in Black culture — the Ty Walker Shirt speaks through style, not words.
+          </div>
+          <div class="product-actions">
+            <button class="btn inquire-btn" data-product="BlackNote Shirt 2#">Inquire</button>
+          </div>
+        </div>
+        <div class="product-bottom">
+          <div class="price">₱300</div>
+          <div class="meta">New</div>
+        </div>
+      </article>
+
+      <!-- Product 3 -->
+      <article class="product-card" tabindex="0">
+        <div class="product-media">
+          <img src="/assets/hoodie.png" alt="BlackNote Sweater">
+          <div class="product-name">BlackNote Sweater</div>
+        </div>
+        <div class="product-info">
+          <div class="product-desc">
+            A warm and cozy sweater that reps Black culture — clean, minimalist design with roots, rhythm, and realness.
+          </div>
+          <div class="product-actions">
+            <button class="btn inquire-btn" data-product="BlackNote Sweater">Inquire</button>
+          </div>
+        </div>
+        <div class="product-bottom">
+          <div class="price">₱500</div>
+          <div class="meta">New</div>
+        </div>
+      </article>
+
+      <!-- Product 4 -->
+      <article class="product-card" tabindex="0">
+        <div class="product-media">
+          <img src="/assets/mug.png" alt="BlackNote mug">
+          <div class="product-name">Five Nights At Black Society</div>
+        </div>
+        <div class="product-info">
+          <div class="product-desc">
+            Come play FNABS. A thrilling horror game where you survive against animatronic homies in a dark society. Can you last all five nights?
+          </div>
+          <div class="product-actions">
+            <button class="btn inquire-btn" data-product="Five Nights At Black Society">Play Now!</button>
+          </div>
+        </div>
+        <div class="product-bottom">
+          <div class="price">Free</div>
+          <div class="meta">+</div>
+        </div>
+      </article>
+    </div>
+
+    <div class="bottom-buttons" style="text-align:center; margin-top:40px;">
+      <button id="addStoreBtn" class="btn">Sell at BlackNote</button>
+      <button id="donateBtn" class="btn donate-btn" style="margin-left:12px;">Donate💖</button>
+      <button id="infoBtn" class="btn" style="margin-left:12px;">Info</button>
+    </div>
+
+  </div>
+  
+<script>
+  // --- Script for Inquire Buttons (Consolidated) ---
+  document.querySelector('.products-grid').addEventListener('click', (e) => {
+    if (!e.target.matches('.inquire-btn')) return;
+    e.preventDefault();
+
+    const product = e.target.dataset.product || 'BlackNote Product';
+
+    // 🔸 Special behavior for Product 4 (Five Nights At Black Society)
+    if (product === 'Five Nights At Black Society') {
+      window.open('https://gamejolt.com/games/FNABS/1020557', '_blank');
+      return;
+    }
+
+    // 📨 Default behavior for other products
+    const SUPPORT_EMAIL = 'hamdiglennurdaneta@gmail.com';
+    const subject = `Inquiry about ${product}`;
+    const body = `Hi BlackNote Team,\n\nI would like to inquire about "${product}".\nPlease send me more details.\n\nThank you!`;
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(SUPPORT_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    const popup = window.open(gmailUrl, '_blank');
+    if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+      window.location.href = `mailto:${encodeURIComponent(SUPPORT_EMAIL)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+  });
+
+  // --- Script for toggling card info on mobile ---
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('button')) return;
+      card.classList.toggle('open');
+    });
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') card.classList.remove('open');
+    });
+  });
+  </script>
+
+<script type="module">
+  import { onAuthStateChanged, logout, startGlobalNotifications } from '/javascript/supabase.js';
+
+  // --- Script for slide-out menu ---
+  const menuToggle = document.getElementById('menuToggle');
+  const slideMenu = document.getElementById('slideMenu');
+  const overlay = document.getElementById('menuOverlay');
+  const contactBtn = document.getElementById('contactBtn');
+  const aboutBtn = document.getElementById('aboutBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  function openMenu() {
+    slideMenu.classList.add('open');
+    overlay.classList.add('visible');
+    slideMenu.setAttribute('aria-hidden', 'false');
+    overlay.removeAttribute('aria-hidden');
+    menuToggle.setAttribute('aria-expanded', 'true');
+    logoutBtn.focus();
+  }
+  function closeMenu() {
+    slideMenu.classList.remove('open');
+    overlay.classList.remove('visible');
+    slideMenu.setAttribute('aria-hidden', 'true');
+    overlay.setAttribute('aria-hidden', 'true');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.focus();
+  }
+  function toggleMenu() { slideMenu.classList.contains('open') ? closeMenu() : openMenu(); }
+
+  menuToggle.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+  overlay.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+
+  contactBtn.addEventListener('click', () => {
+    closeMenu();
+    const gmailComposeURL = 'https://mail.google.com/mail/?view=cm&fs=1&to=hamdiglennurdaneta@gmail.com&su=Contact%20BlackNote';
+    window.open(gmailComposeURL, '_blank');
+  });
+
+  aboutBtn.addEventListener('click', () => {
+    closeMenu();
+    location.href = '/pages/aboutblacknote.html';
+  });
+
+  // Updated logout with Supabase
+  logoutBtn.addEventListener('click', async () => {
+    try {
+      await logout();
+      location.href = '/index.html';
+    } catch (err) {
+      console.error('Logout error:', err);
+      location.href = '/index.html';
+    }
+  });
+
+  // --- Script for product image slideshow ---
+  document.addEventListener('DOMContentLoaded', () => {
+    const productImages = {
+      "BlackNote Shirt #1": ["/assets/shirt1.png", "/assets/Shirt2.png", "/assets/slide1x.png"],
+      "BlackNote Shirt #2": ["/assets/shirt2.png", "/assets/shirt2y.png", "/assets/slide4y.png"],
+      "BlackNote Sweater": ["/assets/hoodie.png", "/assets/sweater2.png", "/assets/Slide6z.png"],
+      "Five Nights At Black Society": ["/assets/mug.png", "/assets/fnabs2.png", "/assets/fnabs1.png"]
+    };
+
+    document.querySelectorAll('.product-card').forEach(card => {
+      const img = card.querySelector('.product-media img');
+      const name = card.querySelector('.product-name').textContent.trim();
+
+      if (!productImages[name] || productImages[name].length < 2) return;
+
+      let currentIndex = 0;
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % productImages[name].length;
+        img.classList.add('fade-out');
+        setTimeout(() => {
+          img.src = productImages[name][currentIndex];
+          img.classList.remove('fade-out');
+        }, 800);
+      }, 5000);
+    });
+  });
+
+  // --- Script for 3D hover effect ---
+  document.querySelectorAll('.product-card').forEach(card => {
+    const sensitivity = 20; 
+
+    card.addEventListener('mousemove', (e) => {
+      const { left, top, width, height } = card.getBoundingClientRect();
+      const x = e.clientX - left;
+      const y = e.clientY - top;
+
+      const rotateX = (height / 2 - y) / sensitivity;
+      const rotateY = (x - width / 2) / sensitivity;
+
+      card.style.transition = 'transform 50ms linear';
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform 400ms ease-out';
+      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+    });
+  });
+
+  // --- Add Your Store Button ---
+  document.getElementById('addStoreBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const SUPPORT_EMAIL = 'hamdiglennurdaneta@gmail.com';
+    const subject = 'Sell my products to BlackNote';
+    const body = `Hi BlackNote Team,\n\nI would like to sell my products to the BlackNote platform.\nHere are some details about my store:\n\n- Store Name:\n- Description:\n- Contact Info:\n\nThank you!`;
+
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(SUPPORT_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    const popup = window.open(gmailUrl, '_blank');
+    if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+      window.location.href = `mailto:${encodeURIComponent(SUPPORT_EMAIL)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+  });
+
+  // --- Donate Button ---
+  document.getElementById('donateBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const SUPPORT_EMAIL = 'hamdiglennurdaneta@gmail.com';
+    const subject = 'Thank You for Your Donation! 💖';
+    const body = `Hi there!\n\nThank you so much for considering a donation to support BlackNote! Your generosity helps us keep creating and improving.\n\nHere are the ways you can donate:\n\n1. GCash: [Your GCash Number/Details]\n2. [Payment Method 2 - To be added]\n3. [Payment Method 3 - To be added]\n\nEvery contribution, big or small, makes a difference. Thank you for being part of our community!\n\nWith gratitude,\nThe BlackNote Team`;
+
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(SUPPORT_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    const popup = window.open(gmailUrl, '_blank');
+    if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+      window.location.href = `mailto:${encodeURIComponent(SUPPORT_EMAIL)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+  });
+
+  // Start global notifications when page loads
+  onAuthStateChanged((user) => {
+    if (user) {
+      startGlobalNotifications(user.id);
+    }
+  });
+</script>
+
+<!-- Info Popup Window -->
+<div id="infoPopup" class="info-popup hidden">
+  <div class="info-content">
+    <button class="close-info">&times;</button>
+    <h2>About BlackNote</h2>
+    <p>
+      Welcome to BlackNote Store! Here you'll find exclusive creations, projects, and community merch.
+      You can easily reach out to collaborate or list your store here.
+      Please note that although its free all shipping costs are the responsibility of the seller. if you have any concern Feel free to contact us!
+    </p>
+  </div>
+</div>
+
+<style>
+  .info-popup {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    transition: opacity 0.3s ease;
+  }
+  .info-popup.hidden { opacity: 0; pointer-events: none; }
+
+  .info-content {
+    background: #111;
+    color: #fff;
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 480px;
+    width: 90%;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  .info-content h2 {
+    margin-top: 0;
+    font-size: 22px;
+  }
+
+  .info-content p {
+    margin-top: 10px;
+    color: #ccc;
+    line-height: 1.6;
+  }
+
+  .close-info {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 26px;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  // --- Info popup logic ---
+  const infoBtn = document.getElementById('infoBtn');
+  const infoPopup = document.getElementById('infoPopup');
+  const closeInfo = document.querySelector('.close-info');
+
+  infoBtn.addEventListener('click', () => infoPopup.classList.remove('hidden'));
+  closeInfo.addEventListener('click', () => infoPopup.classList.add('hidden'));
+  infoPopup.addEventListener('click', (e) => {
+    if (e.target === infoPopup) infoPopup.classList.add('hidden');
+  });
+</script>
+
+</body>
+</html>

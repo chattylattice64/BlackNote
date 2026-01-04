@@ -1,0 +1,2565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Holla</title>
+  <link rel="stylesheet" href="/css/blacknote.css">
+  <link rel="icon" type="image/png" href="/assets/BN.png" />
+
+  <style>
+    :root {
+      --background: #0a0a0a;
+      --panel: #141414;
+      --panel-dark: #0f0f0f;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --text-color: #ffffff;
+      --text-muted: #a0a0a0;
+      --border-color: #2a2a2a;
+      --message-received: #1e293b;
+      --message-sent: #3b82f6;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+      --success: #10b981;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      overflow: hidden;
+      background: var(--background);
+      color: var(--text-color);
+    }
+
+    .topbar {
+      background-color: #000000; 
+      color: white;
+      height: 65px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      font-family: Inter, system-ui, Arial, sans-serif;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .search-box {
+      width: 250px;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 20px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      margin-top: 10px;
+    }
+
+    .nav-buttons a {
+      background-color: rgb(0, 0, 0);
+      color: #ffffff;
+      border: none;
+      border-radius: 80px;
+      padding: 8px 25px;
+      font-weight: bold;
+      font-size: 29px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      text-decoration: none;
+    }
+
+    .nav-buttons a:hover {
+      background-color: #e7f0ff;
+      color: #000; 
+    }
+
+    .chat-container {
+      display: grid;
+      grid-template-columns: 320px 1fr 280px;
+      height: calc(100vh - 65px);
+      background: var(--background);
+    }
+
+    .chat-list {
+      background: var(--panel);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-list-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .chat-list-header h2 {
+      margin: 0 0 15px 0;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .create-group-btn {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 12px;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .create-group-btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+    }
+
+    .chat-search {
+      width: 100%;
+      padding: 10px 15px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background: var(--panel-dark);
+      color: var(--text-color);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .chat-search:focus {
+      border-color: var(--accent);
+    }
+
+    .chat-list-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px;
+    }
+
+    .chat-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      margin-bottom: 8px;
+      border-radius: 12px;
+      background: var(--panel-dark);
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .chat-item:hover {
+      background: rgba(59, 130, 246, 0.1);
+      transform: translateX(4px);
+    }
+
+    .chat-item.active {
+      background: var(--accent);
+    }
+
+    .chat-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chat-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .group-badge {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      background: var(--success);
+      color: white;
+      font-size: 10px;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .chat-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .chat-name {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .chat-preview {
+      font-size: 13px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .notification-badge {
+      min-width: 24px;
+      height: 24px;
+      background: #ff3b30;
+      color: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 0 6px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 4px rgba(255, 59, 48, 0.3);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 2px 4px rgba(255, 59, 48, 0.3);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 3px 8px rgba(255, 59, 48, 0.5);
+      }
+    }
+
+    .online-indicator {
+      display: none;
+    }
+
+    .chat-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .chat-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .chat-item.active {
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    .chat-main {
+      display: flex;
+      flex-direction: column;
+      background: var(--panel-dark);
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--panel);
+    }
+
+    .chat-header-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      overflow: hidden;
+    }
+
+    .chat-header-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .chat-header-info {
+      flex: 1;
+    }
+
+    .chat-header-info h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .chat-header-status {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .chat-header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .header-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-btn-add {
+      background: var(--accent);
+      color: white;
+    }
+
+    .header-btn-add:hover {
+      background: var(--accent-hover);
+    }
+
+    .header-btn-leave {
+      background: var(--danger);
+      color: white;
+    }
+
+    .header-btn-leave:hover {
+      background: var(--danger-hover);
+    }
+
+    .header-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 0;
+    }
+
+    .message {
+      display: flex;
+      gap: 10px;
+      max-width: 70%;
+      animation: messageSlide 0.3s ease;
+    }
+
+    @keyframes messageSlide {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.sent {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .message.received {
+      align-self: flex-start;
+    }
+
+    .message-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .message-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .message-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .message-sender {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 0 4px;
+    }
+
+    .message.sent .message-sender {
+      text-align: right;
+    }
+
+    .message-bubble {
+      padding: 12px 16px;
+      border-radius: 16px;
+      line-height: 1.5;
+      word-wrap: break-word;
+      font-size: 14px;
+    }
+
+    .message.sent .message-bubble {
+      background: var(--message-sent);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .message.received .message-bubble {
+      background: var(--message-received);
+      border-bottom-left-radius: 4px;
+    }
+
+    .message img {
+      max-width: 280px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .message img:hover {
+      transform: scale(1.02);
+    }
+
+    .message-time {
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 0 4px;
+    }
+
+    .chat-input-container {
+      padding: 20px 24px;
+      border-top: 1px solid var(--border-color);
+      background: var(--panel);
+    }
+
+    .attached-file {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      margin-bottom: 12px;
+      background: var(--panel-dark);
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .attached-file.show {
+      display: flex;
+    }
+
+    .attached-file button {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0;
+      margin-left: auto;
+      transition: color 0.2s;
+    }
+
+    .attached-file button:hover {
+      color: #ef4444;
+    }
+
+    .chat-input {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .chat-input input[type="file"] {
+      display: none;
+    }
+
+    .chat-input label {
+      background: var(--panel-dark);
+      color: var(--text-color);
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .chat-input label:hover {
+      background: var(--accent);
+      transform: scale(1.05);
+    }
+
+    .chat-input input[type="text"] {
+      flex: 1;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background: var(--panel-dark);
+      color: var(--text-color);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .chat-input input[type="text"]:focus {
+      border-color: var(--accent);
+    }
+
+    .chat-input button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 12px;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .chat-input button:hover {
+      background: var(--accent-hover);
+      transform: scale(1.05);
+    }
+
+    .chat-input button:active {
+      transform: scale(0.98);
+    }
+
+    .chat-input button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .profile-panel {
+      background: var(--panel);
+      border-left: 1px solid var(--border-color);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      overflow-y: auto;
+    }
+
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      color: white;
+      font-weight: 700;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .profile-name {
+      font-size: 20px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .profile-status {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .profile-bio {
+      color: var(--text-muted);
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.6;
+      padding: 16px;
+      background: var(--panel-dark);
+      border-radius: 12px;
+      width: 100%;
+    }
+
+    .profile-members {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .profile-members-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .member-item {
+      display: flex;
+      flex-direction: column;
+      padding: 10px 12px;
+      background: var(--panel-dark);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .member-item-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .member-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .member-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .member-name-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .member-name {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .admin-badge {
+      font-size: 11px;
+      color: #fbbf24;
+      font-weight: 600;
+    }
+
+    .member-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      margin-top: 0;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .member-item:hover {
+      padding: 12px;
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    .member-item:hover .member-actions {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: 10px;
+    }
+
+    .member-action-btn {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--panel-dark);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+    }
+
+    .member-action-btn:hover {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .member-action-btn.kick-btn {
+      background: var(--danger);
+      color: white;
+      border-color: var(--danger);
+    }
+
+    .member-action-btn.kick-btn:hover {
+      background: var(--danger-hover);
+      border-color: var(--danger-hover);
+    }
+
+    .member-action-btn.profile-btn {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .member-action-btn.profile-btn:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .edited-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-left: 4px;
+    }
+
+    .message-actions {
+      display: none;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .message:hover .message-actions {
+      display: flex;
+    }
+
+    .message-action-btn {
+      padding: 4px 8px;
+      border: none;
+      border-radius: 6px;
+      background: var(--panel);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .message-action-btn:hover {
+      background: var(--accent);
+      color: white;
+    }
+
+    .message-content {
+      max-width: 85%;
+    }
+
+    @keyframes buttonPress {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(0.95);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .message-action-btn:active,
+    .member-action-btn:active {
+      animation: buttonPress 0.2s ease;
+    }
+
+    .message-action-btn[title]:hover::after,
+    .member-action-btn[title]:hover::after {
+      content: attr(title);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      white-space: nowrap;
+      margin-bottom: 4px;
+      pointer-events: none;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--panel-dark);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--text-muted);
+      gap: 12px;
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      opacity: 0.5;
+    }
+
+    .loading {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 20px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--panel);
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-header {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text-color);
+    }
+
+    .modal-input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background: var(--panel-dark);
+      color: var(--text-color);
+      font-size: 14px;
+      outline: none;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+    }
+
+    .modal-input:focus {
+      border-color: var(--accent);
+    }
+
+    .friends-list-modal {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .friend-checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--panel-dark);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .friend-checkbox-item:hover {
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    .friend-checkbox-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .friend-checkbox-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .friend-checkbox-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .friend-checkbox-name {
+      flex: 1;
+      font-weight: 500;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .modal-btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 14px;
+    }
+
+    .modal-btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .modal-btn-primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .modal-btn-secondary {
+      background: var(--panel-dark);
+      color: var(--text-color);
+    }
+
+    .modal-btn-secondary:hover {
+      background: var(--border-color);
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+  <div class="left-section">
+    <button id="menuToggle" class="hamburger" aria-label="Open menu" aria-expanded="false" title="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="/pages/blacknote.html">
+      <img src="/assets/blacknotetrans.png" alt="Logo" class="logo" />
+    </a>
+  </div>
+
+<div class="center-section">
+  <div class="search-container" style="display: none;">
+    <input type="text" class="search-box" placeholder="Search..." />
+  </div>
+</div>
+
+<div class="right-section">
+
+<a href="/pages/noteai.html" class="icon-btn" title="Ai Assistant">
+    <img src="/assets/gem.png" alt="Gemini" class="custom-emoji">
+  </a>
+
+<a href="/pages/blacknote.html" class="icon-btn" title="home">
+    <img src="/assets/home.png" alt="home" class="custom-emoji">
+  </a>
+  <a href="/pages/friendsblacknote.html" class="icon-btn" title="Add">
+    <img src="/assets/add.png" alt="Add" class="custom-emoji">
+  </a>
+  <a href="/pages/mapblacknote.html" class="icon-btn" title="Basketball">
+    <img src="/assets/ball.png" alt="Basketball" class="custom-emoji">
+  </a>
+  <a href="/pages/dripblacknote.html" class="icon-btn" title="Black Market">
+    <img src="/assets/shop.png" alt="Money" class="custom-emoji">
+  </a>
+  <a href="/pages/hollablacknote.html" class="icon-btn" title="Holla">
+    <img src="/assets/hol.png" alt="Holla" class="custom-emoji">
+  </a>
+</div>
+
+</header>
+
+<nav id="slideMenu" class="slide-menu" aria-hidden="true" role="navigation">
+  <div class="slide-menu-inner" role="menu" aria-label="Site menu">
+    <button id="contactBtn" class="menu-item" role="menuitem">Contact Us!</button>
+    <button id="aboutBtn" class="menu-item" role="menuitem">About</button>
+    <button id="logoutBtn" class="menu-item login-btn" role="menuitem">Logout</button>
+  </div>
+</nav>
+<div id="menuOverlay" class="menu-overlay" aria-hidden="true"></div>
+
+
+  <div class="chat-container">
+    <div class="chat-list">
+      <div class="chat-list-header">
+        <h2>Messages</h2>
+        <button class="create-group-btn" id="createGroupBtn">
+          <span>➕</span>
+          <span>Create Group Chat</span>
+        </button>
+        <input type="text" class="chat-search" id="chatSearch" placeholder="Search conversations...">
+      </div>
+      <div class="chat-list-items" id="chatList">
+        <div class="loading">Loading conversations...</div>
+      </div>
+    </div>
+
+    <div class="chat-main">
+      <div class="chat-header" id="chatHeader">
+        <div class="chat-header-avatar">💬</div>
+        <div class="chat-header-info">
+          <h3>Select a conversation</h3>
+          <div class="chat-header-status">Choose a friend to start messaging</div>
+        </div>
+        <div class="chat-header-actions" id="chatHeaderActions" style="display: none;">
+          <button class="header-btn header-btn-add" id="addUserBtn">
+            <span>➕</span>
+            <span>Add User</span>
+          </button>
+          <button class="header-btn header-btn-leave" id="leaveChatBtn">
+            <span>🚪</span>
+            <span>Leave Chat</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <div class="empty-state">
+          <div class="empty-state-icon">💬</div>
+          <div>Select a conversation to start messaging</div>
+        </div>
+      </div>
+
+      <div class="chat-input-container">
+        <div id="imageName" class="attached-file">
+          <span id="imageNameText"></span>
+          <button id="removeAttachment" title="Remove attachment">✖</button>
+        </div>
+
+        <div class="chat-input">
+          <label for="imageInput">📷</label>
+          <input id="imageInput" type="file" accept="image/*">
+          <input id="messageInput" type="text" placeholder="Type a message...">
+          <button id="sendBtn">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-panel" id="profilePanel">
+      <div class="profile-avatar">💬</div>
+      <div class="profile-name">Messages</div>
+      <div class="profile-status">Select a conversation</div>
+      <div class="profile-bio">
+        Start a conversation with your friends or create a group chat.
+      </div>
+      <div class="profile-members" id="profileMembers" style="display: none;">
+        <div class="profile-members-title">Members</div>
+        <div id="membersList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="groupModal">
+    <div class="modal-content">
+      <div class="modal-header">Create Group Chat</div>
+      <input type="text" class="modal-input" id="groupNameInput" placeholder="Group name...">
+      <div class="friends-list-modal" id="friendsListModal">
+        <div class="loading">Loading friends...</div>
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-btn-secondary" id="cancelGroupBtn">Cancel</button>
+        <button class="modal-btn modal-btn-primary" id="confirmGroupBtn">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="addUserModal">
+    <div class="modal-content">
+      <div class="modal-header">Add User to Group</div>
+      <input type="text" class="modal-input" id="addUserInput" placeholder="Enter friend's full name or email...">
+      <div class="modal-buttons">
+        <button class="modal-btn modal-btn-secondary" id="cancelAddUserBtn">Cancel</button>
+        <button class="modal-btn modal-btn-primary" id="confirmAddUserBtn">Add User</button>
+      </div>
+    </div>
+  </div>
+
+<script type="module">
+    import {
+      supabase,
+      uploadImageForUser,
+      sendMessageToChat,
+      subscribeToChat,
+      onAuthStateChanged,
+      getUserFriendsList,
+      getUserProfile,
+      startGlobalNotifications
+    } from '/javascript/supabase.js';
+
+    const chatMessages = document.getElementById('chatMessages');
+    const messageInput = document.getElementById('messageInput');
+    const imageInput = document.getElementById('imageInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const imageNameEl = document.getElementById('imageName');
+    const imageNameText = document.getElementById('imageNameText');
+    const removeAttachmentBtn = document.getElementById('removeAttachment');
+    const chatList = document.getElementById('chatList');
+    const chatSearch = document.getElementById('chatSearch');
+    const chatHeader = document.getElementById('chatHeader');
+    const profilePanel = document.getElementById('profilePanel');
+    const chatHeaderActions = document.getElementById('chatHeaderActions');
+    const addUserBtn = document.getElementById('addUserBtn');
+    const leaveChatBtn = document.getElementById('leaveChatBtn');
+    const createGroupBtn = document.getElementById('createGroupBtn');
+    const groupModal = document.getElementById('groupModal');
+    const groupNameInput = document.getElementById('groupNameInput');
+    const friendsListModal = document.getElementById('friendsListModal');
+    const cancelGroupBtn = document.getElementById('cancelGroupBtn');
+    const confirmGroupBtn = document.getElementById('confirmGroupBtn');
+    const addUserModal = document.getElementById('addUserModal');
+    const addUserInput = document.getElementById('addUserInput');
+    const cancelAddUserBtn = document.getElementById('cancelAddUserBtn');
+    const confirmAddUserBtn = document.getElementById('confirmAddUserBtn');
+    const profileMembers = document.getElementById('profileMembers');
+    const membersList = document.getElementById('membersList');
+
+    const MAX_IMAGE_SIZE = 10 * 1024 * 1024;
+    let selectedImage = null;
+    let currentUserUid = null;
+    let currentChatId = null;
+    let currentChatData = null;
+    let unsubscribeChat = null;
+    let userProfiles = {};
+    let friendsList = [];
+    let conversationsList = [];
+    let editingMessageId = null;
+
+    // Notification system variables
+    let unreadCounts = {};
+    let allChatsListeners = [];
+    let lastMessageCounts = {};
+
+    function generateDMChatId(uid1, uid2) {
+      const sorted = [uid1, uid2].sort();
+      return `dm_${sorted[0]}_${sorted[1]}`;
+    }
+
+    function generateGroupChatId() {
+      return `group_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    }
+
+    async function fetchUserProfile(uid) {
+      if (userProfiles[uid]) return userProfiles[uid];
+      
+      try {
+        const profile = await getUserProfile(uid);
+        userProfiles[uid] = profile;
+        return profile;
+      } catch (err) {
+        console.warn(`Failed to fetch profile for ${uid}:`, err);
+        return { name: 'User', username: `user${uid.slice(0, 4)}`, pfp: null };
+      }
+    }
+
+    function getDisplayName(profile) {
+      return profile.name || profile.username || 'User';
+    }
+
+    function getAvatarLetter(profile) {
+      const name = profile.name || profile.username || 'U';
+      return name.charAt(0).toUpperCase();
+    }
+
+    function createAvatarElement(profile) {
+      const avatarEl = document.createElement('div');
+      if (profile.pfp && String(profile.pfp).startsWith('http')) {
+        const img = document.createElement('img');
+        img.src = profile.pfp;
+        img.alt = getDisplayName(profile);
+        avatarEl.appendChild(img);
+      } else {
+        avatarEl.textContent = getAvatarLetter(profile);
+      }
+      return avatarEl;
+    }
+
+    async function getChatInfo(chatId) {
+      try {
+        const { data, error } = await supabase
+          .from('chats')
+          .select('*')
+          .eq('id', chatId)
+          .single();
+        
+        if (error) throw error;
+        return data;
+      } catch (err) {
+        console.error('Error getting chat info:', err);
+        return null;
+      }
+    }
+
+    async function createOrGetDMChat(friendUid) {
+      const chatId = generateDMChatId(currentUserUid, friendUid);
+      
+      try {
+        const chatData = await getChatInfo(chatId);
+        if (!chatData) {
+          const { error } = await supabase
+            .from('chats')
+            .insert({
+              id: chatId,
+              type: 'dm',
+              participants: [currentUserUid, friendUid],
+              created_at: new Date().toISOString(),
+              last_message: null
+            });
+          
+          if (error) throw error;
+        }
+        return chatId;
+      } catch (err) {
+        console.error('Error creating DM chat:', err);
+        throw err;
+      }
+    }
+
+    async function createGroupChat(groupName, participantUids) {
+      const chatId = generateGroupChatId();
+      
+      try {
+        const { error } = await supabase
+          .from('chats')
+          .insert({
+            id: chatId,
+            type: 'group',
+            name: groupName,
+            participants: [currentUserUid, ...participantUids],
+            created_by: currentUserUid,
+            admin: currentUserUid,
+            created_at: new Date().toISOString(),
+            last_message: null
+          });
+        
+        if (error) throw error;
+        return chatId;
+      } catch (err) {
+        console.error('Error creating group chat:', err);
+        throw err;
+      }
+    }
+
+    async function getAllGroupChatsForUser(uid) {
+      try {
+        const { data, error } = await supabase
+          .from('chats')
+          .select('*')
+          .eq('type', 'group')
+          .contains('participants', [uid]);
+        
+        if (error) throw error;
+        return data || [];
+      } catch (err) {
+        console.error('Error fetching group chats:', err);
+        return [];
+      }
+    }
+
+    async function addUserToGroup(chatId, nameOrEmail) {
+      try {
+        if (!friendsList || friendsList.length === 0) {
+          alert('You have no friends to add to this group!');
+          return false;
+        }
+
+        // Search for user by name, username, or email
+        let { data: users, error } = await supabase
+          .from('users')
+          .select('*')
+          .or(`name.eq.${nameOrEmail},username.eq.${nameOrEmail},email.eq.${nameOrEmail}`)
+          .limit(1);
+        
+        if (error) throw error;
+        
+        if (!users || users.length === 0) {
+          alert('User not found! Try using their full name or email from their profile.');
+          return false;
+        }
+        
+        const userToAdd = users[0];
+        const userUid = userToAdd.uid;
+        
+        if (!friendsList.includes(userUid)) {
+          alert('You can only add friends to group chats!');
+          return false;
+        }
+        
+        const chatData = await getChatInfo(chatId);
+        if (chatData && chatData.participants && chatData.participants.includes(userUid)) {
+          alert('This user is already in the group!');
+          return false;
+        }
+        
+        // Add user to participants array
+        const updatedParticipants = [...(chatData.participants || []), userUid];
+        const { error: updateError } = await supabase
+          .from('chats')
+          .update({ participants: updatedParticipants })
+          .eq('id', chatId);
+        
+        if (updateError) throw updateError;
+        
+        console.log('✅ User added to group:', userUid);
+        return true;
+      } catch (err) {
+        console.error('Error adding user to group:', err);
+        alert('Failed to add user: ' + (err.message || err));
+        return false;
+      }
+    }
+
+    async function kickUserFromGroup(chatId, userUid) {
+      try {
+        const chatData = await getChatInfo(chatId);
+        
+        if (!chatData || chatData.admin !== currentUserUid) {
+          alert('Only the admin can kick members!');
+          return false;
+        }
+
+        if (userUid === currentUserUid) {
+          alert('You cannot kick yourself! Use "Assign Admin" to transfer ownership first.');
+          return false;
+        }
+
+        // Remove user from participants array
+        const updatedParticipants = chatData.participants.filter(uid => uid !== userUid);
+        const { error } = await supabase
+          .from('chats')
+          .update({ participants: updatedParticipants })
+          .eq('id', chatId);
+        
+        if (error) throw error;
+        
+        console.log('✅ User kicked from group:', userUid);
+        return true;
+      } catch (err) {
+        console.error('Error kicking user:', err);
+        alert('Failed to kick user: ' + (err.message || err));
+        return false;
+      }
+    }
+
+    async function assignNewAdmin(chatId, newAdminUid) {
+      try {
+        const chatData = await getChatInfo(chatId);
+        
+        if (!chatData || chatData.admin !== currentUserUid) {
+          alert('Only the current admin can assign a new admin!');
+          return false;
+        }
+
+        if (!chatData.participants.includes(newAdminUid)) {
+          alert('User must be a member of the group!');
+          return false;
+        }
+
+        const { error } = await supabase
+          .from('chats')
+          .update({ admin: newAdminUid })
+          .eq('id', chatId);
+        
+        if (error) throw error;
+        
+        console.log('✅ New admin assigned:', newAdminUid);
+        return true;
+      } catch (err) {
+        console.error('Error assigning admin:', err);
+        alert('Failed to assign admin: ' + (err.message || err));
+        return false;
+      }
+    }
+
+    async function leaveGroup(chatId) {
+      try {
+        const chatData = await getChatInfo(chatId);
+        
+        if (chatData && chatData.admin === currentUserUid) {
+          alert('You are the admin! Please assign a new admin before leaving the group.');
+          return false;
+        }
+
+        // Remove current user from participants
+        const updatedParticipants = chatData.participants.filter(uid => uid !== currentUserUid);
+        const { error } = await supabase
+          .from('chats')
+          .update({ participants: updatedParticipants })
+          .eq('id', chatId);
+        
+        if (error) throw error;
+        
+        console.log('✅ Left group:', chatId);
+        return true;
+      } catch (err) {
+        console.error('Error leaving group:', err);
+        alert('Failed to leave group: ' + (err.message || err));
+        return false;
+      }
+    }
+
+    async function deleteMessage(chatId, messageId) {
+      try {
+        const { error } = await supabase
+          .from('messages')
+          .delete()
+          .eq('id', messageId)
+          .eq('chat_id', chatId);
+        
+        if (error) throw error;
+        console.log('✅ Message deleted:', messageId);
+        return true;
+      } catch (err) {
+        console.error('Error deleting message:', err);
+        alert('Failed to delete message: ' + (err.message || err));
+        return false;
+      }
+    }
+
+    async function editMessage(chatId, messageId, newText) {
+      try {
+        const { error } = await supabase
+          .from('messages')
+          .update({
+            text: newText,
+            edited: true,
+            edited_at: new Date().toISOString()
+          })
+          .eq('id', messageId)
+          .eq('chat_id', chatId);
+        
+        if (error) throw error;
+        console.log('✅ Message edited:', messageId);
+        return true;
+      } catch (err) {
+        console.error('Error editing message:', err);
+        alert('Failed to edit message: ' + (err.message || err));
+        return false;
+      }
+    }
+
+    // Notification system functions
+    async function getUnreadCount(chatId) {
+      try {
+        const { data, error } = await supabase
+          .from('users')
+          .select('unread_messages')
+          .eq('uid', currentUserUid)
+          .single();
+        
+        if (error) throw error;
+        
+        if (data && data.unread_messages) {
+          return data.unread_messages[chatId] || 0;
+        }
+        return 0;
+      } catch (err) {
+        console.error('Error getting unread count:', err);
+        return 0;
+      }
+    }
+
+    async function markChatAsRead(chatId) {
+      try {
+        const { data, error: fetchError } = await supabase
+          .from('users')
+          .select('unread_messages')
+          .eq('uid', currentUserUid)
+          .single();
+        
+        if (fetchError) throw fetchError;
+        
+        const unreadMessages = data?.unread_messages || {};
+        unreadCounts[chatId] = 0;
+      } catch (err) {
+        console.error('Error marking chat as read:', err);
+      }
+    }
+
+    async function incrementUnreadCount(chatId, senderUid) {
+      if (senderUid === currentUserUid || chatId === currentChatId) {
+        return;
+      }
+      
+      try {
+        const { data, error: fetchError } = await supabase
+          .from('users')
+          .select('unread_messages')
+          .eq('uid', currentUserUid)
+          .single();
+        
+        if (fetchError) throw fetchError;
+        
+        const unreadMessages = data?.unread_messages || {};
+        const currentCount = unreadMessages[chatId] || 0;
+        const newCount = currentCount + 1;
+        unreadMessages[chatId] = newCount;
+        
+        const { error } = await supabase
+          .from('users')
+          .update({ unread_messages: unreadMessages })
+          .eq('uid', currentUserUid);
+        
+        if (error) throw error;
+        
+        unreadCounts[chatId] = newCount;
+        console.log(`✅ Unread count for ${chatId}: ${newCount}`);
+        
+        await displayConversations();
+      } catch (err) {
+        console.error('Error incrementing unread count:', err);
+      }
+    }
+
+    function setupChatListener(chatId) {
+      const unsubscribe = subscribeToChat(
+        chatId,
+        async (messages) => {
+          const previousCount = lastMessageCounts[chatId] || 0;
+          const currentCount = messages.length;
+          
+          if (currentCount > previousCount && previousCount > 0) {
+            const newMessages = messages.slice(previousCount);
+            const lastMessage = newMessages[newMessages.length - 1];
+            
+            if (lastMessage.sender !== currentUserUid && chatId !== currentChatId) {
+              console.log(`📩 New message in ${chatId} from ${lastMessage.sender}`);
+              await incrementUnreadCount(chatId, lastMessage.sender);
+            }
+          }
+          
+          lastMessageCounts[chatId] = currentCount;
+        },
+        (error) => {
+          console.error(`Chat listener error for ${chatId}:`, error);
+        }
+      );
+      
+      allChatsListeners.push(unsubscribe);
+    }
+
+    async function displayConversations() {
+      if (!friendsList || friendsList.length === 0) {
+        chatList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">👥</div><div>Add friends to start messaging!</div></div>';
+        return;
+      }
+
+      chatList.innerHTML = '';
+      
+      const userChats = [];
+      
+      // Load all unread counts first
+      for (const friendUid of friendsList) {
+        const chatId = generateDMChatId(currentUserUid, friendUid);
+        unreadCounts[chatId] = await getUnreadCount(chatId);
+      }
+      
+      const groups = await getAllGroupChatsForUser(currentUserUid);
+      for (const group of groups) {
+        unreadCounts[group.id] = await getUnreadCount(group.id);
+      }
+      
+      for (const friendUid of friendsList) {
+        const chatId = generateDMChatId(currentUserUid, friendUid);
+        const profile = await fetchUserProfile(friendUid);
+        userChats.push({
+          id: chatId,
+          type: 'dm',
+          name: getDisplayName(profile),
+          username: profile.username || 'user',
+          pfp: profile.pfp || null,
+          otherUserId: friendUid,
+          lastMessage: 'Tap to start chatting',
+          unreadCount: unreadCounts[chatId] || 0
+        });
+      }
+      
+      for (const group of groups) {
+        userChats.push({
+          id: group.id,
+          type: 'group',
+          name: group.name || 'Group Chat',
+          participants: group.participants || [],
+          admin: group.admin || group.created_by,
+          lastMessage: 'Group chat',
+          unreadCount: unreadCounts[group.id] || 0
+        });
+      }
+      
+      conversationsList = userChats;
+      
+      userChats.forEach(chat => {
+        const chatItem = document.createElement('div');
+        chatItem.className = 'chat-item';
+        if (currentChatId === chat.id) {
+          chatItem.classList.add('active');
+        }
+        
+        const avatar = document.createElement('div');
+        avatar.className = 'chat-avatar';
+        
+        if (chat.type === 'dm' && chat.pfp && String(chat.pfp).startsWith('http')) {
+          const img = document.createElement('img');
+          img.src = chat.pfp;
+          img.alt = chat.name;
+          avatar.appendChild(img);
+        } else {
+          avatar.textContent = chat.name.charAt(0).toUpperCase();
+        }
+        
+        if (chat.type === 'group') {
+          const badge = document.createElement('div');
+          badge.className = 'group-badge';
+          badge.textContent = '👥';
+          avatar.appendChild(badge);
+        }
+        
+        const info = document.createElement('div');
+        info.className = 'chat-info';
+        
+        const name = document.createElement('div');
+        name.className = 'chat-name';
+        name.textContent = chat.name;
+        
+        const preview = document.createElement('div');
+        preview.className = 'chat-preview';
+        preview.textContent = chat.lastMessage || 'No messages yet';
+        
+        info.appendChild(name);
+        info.appendChild(preview);
+        
+        chatItem.appendChild(avatar);
+        chatItem.appendChild(info);
+        
+        // Add notification badge if there are unread messages
+        if (chat.unreadCount > 0) {
+          const notificationBadge = document.createElement('div');
+          notificationBadge.className = 'notification-badge';
+          notificationBadge.textContent = chat.unreadCount > 99 ? '99+' : chat.unreadCount;
+          chatItem.appendChild(notificationBadge);
+        }
+        
+        if (chat.type === 'dm') {
+          const indicator = document.createElement('div');
+          indicator.className = 'online-indicator';
+          chatItem.appendChild(indicator);
+        }
+        
+        chatItem.addEventListener('click', (e) => openChat(chat, e.target));
+        
+        chatList.appendChild(chatItem);
+      });
+    }
+
+    async function displayGroupMembers(participants, adminUid) {
+      membersList.innerHTML = '';
+      
+      const isCurrentUserAdmin = adminUid === currentUserUid;
+      
+      for (const uid of participants) {
+        const profile = await fetchUserProfile(uid);
+        
+        const memberItem = document.createElement('div');
+        memberItem.className = 'member-item';
+        
+        const headerDiv = document.createElement('div');
+        headerDiv.className = 'member-item-header';
+        
+        const avatar = document.createElement('div');
+        avatar.className = 'member-avatar';
+        
+        if (profile.pfp && String(profile.pfp).startsWith('http')) {
+          const img = document.createElement('img');
+          img.src = profile.pfp;
+          img.alt = getDisplayName(profile);
+          avatar.appendChild(img);
+        } else {
+          avatar.textContent = getAvatarLetter(profile);
+        }
+        
+        const nameWrapper = document.createElement('div');
+        nameWrapper.className = 'member-name-wrapper';
+        
+        const name = document.createElement('div');
+        name.className = 'member-name';
+        name.textContent = getDisplayName(profile);
+        
+        nameWrapper.appendChild(name);
+        
+        if (uid === adminUid) {
+          const adminBadge = document.createElement('span');
+          adminBadge.className = 'admin-badge';
+          adminBadge.textContent = '👑 Admin';
+          nameWrapper.appendChild(adminBadge);
+        }
+        
+        headerDiv.appendChild(avatar);
+        headerDiv.appendChild(nameWrapper);
+        memberItem.appendChild(headerDiv);
+        
+        const actions = document.createElement('div');
+        actions.className = 'member-actions';
+        
+        const profileBtn = document.createElement('button');
+        profileBtn.className = 'member-action-btn profile-btn';
+        profileBtn.textContent = '👤 View Profile';
+        profileBtn.onclick = () => {
+          location.href = `/pages/profileblacknote.html?user=${encodeURIComponent(getDisplayName(profile))}`;
+        };
+        actions.appendChild(profileBtn);
+        
+        if (isCurrentUserAdmin && uid !== currentUserUid) {
+          const assignBtn = document.createElement('button');
+          assignBtn.className = 'member-action-btn';
+          assignBtn.textContent = '👑 Make Admin';
+          assignBtn.onclick = async () => {
+            const confirm = window.confirm(`Make ${getDisplayName(profile)} the new admin?`);
+            if (confirm) {
+              const success = await assignNewAdmin(currentChatId, uid);
+              if (success) {
+                const updatedChat = await getChatInfo(currentChatId);
+                currentChatData.admin = updatedChat.admin;
+                await displayGroupMembers(participants, updatedChat.admin);
+                alert('Admin transferred successfully!');
+              }
+            }
+          };
+          
+          const kickBtn = document.createElement('button');
+          kickBtn.className = 'member-action-btn kick-btn';
+          kickBtn.textContent = '🚪 Kick';
+          kickBtn.onclick = async () => {
+            const confirm = window.confirm(`Kick ${getDisplayName(profile)} from the group?`);
+            if (confirm) {
+              const success = await kickUserFromGroup(currentChatId, uid);
+              if (success) {
+                const updatedChat = await getChatInfo(currentChatId);
+                currentChatData.participants = updatedChat.participants;
+                await displayGroupMembers(updatedChat.participants, currentChatData.admin);
+                
+                const headerStatus = chatHeader.querySelector('.chat-header-status');
+                headerStatus.textContent = `${currentChatData.participants.length} members`;
+                
+                await loadConversations();
+                alert('User kicked successfully!');
+              }
+            }
+          };
+          
+          actions.appendChild(assignBtn);
+          actions.appendChild(kickBtn);
+        }
+        
+        memberItem.appendChild(actions);
+        membersList.appendChild(memberItem);
+      }
+    }
+
+    async function openChat(chatData, clickedElement) {
+      currentChatId = chatData.id;
+      currentChatData = chatData;
+      
+      // Mark chat as read when opening
+      await markChatAsRead(chatData.id);
+      
+      // Remove badge from the clicked chat item only
+      if (clickedElement) {
+        const chatItem = clickedElement.closest('.chat-item');
+        if (chatItem) {
+          const badge = chatItem.querySelector('.notification-badge');
+          if (badge) badge.remove();
+        }
+      }
+      
+      editingMessageId = null;
+      messageInput.value = '';
+      sendBtn.textContent = 'Send';
+      
+      // Update active state
+      document.querySelectorAll('.chat-item').forEach(item => item.classList.remove('active'));
+      if (clickedElement) {
+        const chatItem = clickedElement.closest('.chat-item');
+        if (chatItem) chatItem.classList.add('active');
+      }
+      
+      const headerAvatar = chatHeader.querySelector('.chat-header-avatar');
+      const headerTitle = chatHeader.querySelector('h3');
+      const headerStatus = chatHeader.querySelector('.chat-header-status');
+      
+      headerAvatar.innerHTML = '';
+      if (chatData.type === 'dm' && chatData.pfp && String(chatData.pfp).startsWith('http')) {
+        const img = document.createElement('img');
+        img.src = chatData.pfp;
+        img.alt = chatData.name;
+        headerAvatar.appendChild(img);
+      } else {
+        headerAvatar.textContent = chatData.name.charAt(0).toUpperCase();
+      }
+      
+      headerTitle.textContent = chatData.name;
+      headerStatus.textContent = chatData.type === 'group' ? `${chatData.participants?.length || 0} members` : 'Active now';
+      
+      if (chatData.type === 'group') {
+        chatHeaderActions.style.display = 'flex';
+      } else {
+        chatHeaderActions.style.display = 'none';
+      }
+      
+      const profileAvatar = profilePanel.querySelector('.profile-avatar');
+      const profileName = profilePanel.querySelector('.profile-name');
+      const profileStatus = profilePanel.querySelector('.profile-status');
+      const profileBio = profilePanel.querySelector('.profile-bio');
+      
+      profileAvatar.innerHTML = '';
+      if (chatData.type === 'dm' && chatData.pfp && String(chatData.pfp).startsWith('http')) {
+        const img = document.createElement('img');
+        img.src = chatData.pfp;
+        img.alt = chatData.name;
+        profileAvatar.appendChild(img);
+      } else {
+        profileAvatar.textContent = chatData.name.charAt(0).toUpperCase();
+      }
+      
+      profileName.textContent = chatData.name;
+      profileStatus.textContent = chatData.type === 'group' ? 'Group Chat' : 'Direct Message';
+      profileBio.textContent = chatData.type === 'group' 
+        ? `Group chat with ${chatData.participants?.length || 0} members.`
+        : `Direct message with ${chatData.name}`;
+      
+      if (chatData.type === 'group' && chatData.participants) {
+        profileMembers.style.display = 'block';
+        await displayGroupMembers(chatData.participants, chatData.admin || chatData.created_by);
+      } else {
+        profileMembers.style.display = 'none';
+      }
+      
+      startChatSubscription(chatData.id);
+    }
+
+    chatSearch.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const items = chatList.querySelectorAll('.chat-item');
+      
+      items.forEach(item => {
+        const name = item.querySelector('.chat-name').textContent.toLowerCase();
+        item.style.display = name.includes(searchTerm) ? 'flex' : 'none';
+      });
+    });
+
+    function showAttachedFile(file) {
+      if (!file) {
+        imageNameEl.classList.remove('show');
+        imageNameText.textContent = '';
+        return;
+      }
+      const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+      let name = file.name;
+      if (name.length > 40) {
+        name = name.slice(0, 20) + "..." + name.slice(-15);
+      }
+      imageNameText.textContent = `📎 ${name} (${sizeMB} MB)`;
+      imageNameEl.classList.add('show');
+    }
+
+    imageInput.addEventListener('change', (event) => {
+      const file = event.target.files && event.target.files[0];
+      if (!file) {
+        selectedImage = null;
+        showAttachedFile(null);
+        return;
+      }
+
+      if (file.size > MAX_IMAGE_SIZE) {
+        alert("❌ Image is too large! Please choose one under 10 MB.");
+        imageInput.value = "";
+        selectedImage = null;
+        showAttachedFile(null);
+        return;
+      }
+
+      selectedImage = file;
+      showAttachedFile(selectedImage);
+    });
+
+    removeAttachmentBtn.addEventListener('click', () => {
+      selectedImage = null;
+      imageInput.value = "";
+      showAttachedFile(null);
+    });
+
+    function scrollToBottom(smooth = true) {
+      if (smooth) {
+        chatMessages.scrollTo({
+          top: chatMessages.scrollHeight,
+          behavior: 'smooth'
+        });
+      } else {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+    }
+
+    async function renderMessages(messages) {
+      if (!messages || messages.length === 0) {
+        chatMessages.innerHTML = '<div class="empty-state"><div class="empty-state-icon">👋</div><div>No messages yet. Start the conversation!</div></div>';
+        return;
+      }
+
+      const wasAtBottom = chatMessages.scrollHeight - chatMessages.scrollTop <= chatMessages.clientHeight + 100;
+
+      chatMessages.innerHTML = '';
+      
+      for (const msg of messages) {
+        const profile = await fetchUserProfile(msg.sender);
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message ' + (msg.sender === currentUserUid ? 'sent' : 'received');
+        messageDiv.dataset.messageId = msg.id;
+        
+        const avatarDiv = document.createElement('div');
+        avatarDiv.className = 'message-avatar';
+        
+        if (profile.pfp && String(profile.pfp).startsWith('http')) {
+          const img = document.createElement('img');
+          img.src = profile.pfp;
+          img.alt = getDisplayName(profile);
+          avatarDiv.appendChild(img);
+        } else {
+          avatarDiv.textContent = getAvatarLetter(profile);
+        }
+        
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'message-content';
+        
+        if (msg.sender !== currentUserUid) {
+          const senderDiv = document.createElement('div');
+          senderDiv.className = 'message-sender';
+          senderDiv.textContent = getDisplayName(profile);
+          contentDiv.appendChild(senderDiv);
+        }
+        
+        if (msg.text || msg.image_url) {
+          const bubbleDiv = document.createElement('div');
+          bubbleDiv.className = 'message-bubble';
+          
+          if (msg.text) {
+            const textDiv = document.createElement('div');
+            textDiv.textContent = msg.text;
+            bubbleDiv.appendChild(textDiv);
+            
+            if (msg.edited) {
+              const editedSpan = document.createElement('span');
+              editedSpan.className = 'edited-label';
+              editedSpan.textContent = ' (edited)';
+              textDiv.appendChild(editedSpan);
+            }
+          }
+          
+          if (msg.image_url) {
+            const img = document.createElement('img');
+            img.src = msg.image_url;
+            img.alt = 'Shared image';
+            bubbleDiv.appendChild(img);
+          }
+          
+          contentDiv.appendChild(bubbleDiv);
+        }
+        
+        if (msg.sender === currentUserUid) {
+          const actionsDiv = document.createElement('div');
+          actionsDiv.className = 'message-actions';
+          
+          const editBtn = document.createElement('button');
+          editBtn.className = 'message-action-btn';
+          editBtn.textContent = '✏️';
+          editBtn.title = 'Edit';
+          editBtn.onclick = () => {
+            if (!msg.text) {
+              alert('Cannot edit image-only messages');
+              return;
+            }
+            editingMessageId = msg.id;
+            messageInput.value = msg.text;
+            messageInput.focus();
+            sendBtn.textContent = 'Update';
+          };
+          
+          const deleteBtn = document.createElement('button');
+          deleteBtn.className = 'message-action-btn';
+          deleteBtn.textContent = '🗑️';
+          deleteBtn.title = 'Delete';
+          deleteBtn.onclick = async () => {
+            const confirm = window.confirm('Delete this message?');
+            if (confirm) {
+              await deleteMessage(currentChatId, msg.id);
+            }
+          };
+          
+          actionsDiv.appendChild(editBtn);
+          actionsDiv.appendChild(deleteBtn);
+          contentDiv.appendChild(actionsDiv);
+        }
+        
+        messageDiv.appendChild(avatarDiv);
+        messageDiv.appendChild(contentDiv);
+        chatMessages.appendChild(messageDiv);
+      }
+      
+      if (wasAtBottom || messages.length === 1) {
+        scrollToBottom(false);
+      }
+    }
+
+    function startChatSubscription(chatId) {
+      if (unsubscribeChat) {
+        unsubscribeChat();
+      }
+
+      unsubscribeChat = subscribeToChat(
+        chatId,
+        (messages) => renderMessages(messages),
+        (error) => {
+          console.error('Chat subscription error:', error);
+          chatMessages.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div><div>Error loading messages</div></div>';
+        }
+      );
+    }
+
+    async function handleSend() {
+      const text = messageInput.value.trim();
+      
+      if (editingMessageId) {
+        if (!text) {
+          alert('Message cannot be empty');
+          return;
+        }
+        
+        sendBtn.disabled = true;
+        sendBtn.textContent = 'Updating...';
+        
+        try {
+          await editMessage(currentChatId, editingMessageId, text);
+          
+          messageInput.value = '';
+          editingMessageId = null;
+          sendBtn.textContent = 'Send';
+        } catch (err) {
+          console.error('Edit failed:', err);
+          alert('Failed to edit message: ' + (err.message || err));
+        } finally {
+          sendBtn.disabled = false;
+        }
+        return;
+      }
+      
+      if (!text && !selectedImage) return;
+      
+      if (!currentUserUid) {
+        alert('You must be signed in to send messages');
+        return;
+      }
+
+      if (!currentChatId) {
+        alert('Please select a conversation first');
+        return;
+      }
+
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Sending...';
+
+      try {
+        let imageUrl = null;
+        
+        if (selectedImage) {
+          imageUrl = await uploadImageForUser(selectedImage, currentUserUid);
+        }
+        
+        await sendMessageToChat(currentChatId, currentUserUid, text, imageUrl);
+        
+        messageInput.value = '';
+        selectedImage = null;
+        imageInput.value = '';
+        showAttachedFile(null);
+        
+        setTimeout(() => scrollToBottom(true), 100);
+        
+      } catch (err) {
+        console.error('Send failed:', err);
+        alert('Failed to send message: ' + (err.message || err));
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Send';
+      }
+    }
+
+    sendBtn.addEventListener('click', handleSend);
+    messageInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        handleSend();
+      }
+      if (e.key === 'Escape' && editingMessageId) {
+        editingMessageId = null;
+        messageInput.value = '';
+        sendBtn.textContent = 'Send';
+      }
+    });
+
+    createGroupBtn.addEventListener('click', () => {
+      groupModal.classList.add('show');
+      displayFriendsForGroupModal();
+    });
+
+    cancelGroupBtn.addEventListener('click', () => {
+      groupModal.classList.remove('show');
+      groupNameInput.value = '';
+    });
+
+    groupModal.addEventListener('click', (e) => {
+      if (e.target === groupModal) {
+        groupModal.classList.remove('show');
+        groupNameInput.value = '';
+      }
+    });
+
+    async function displayFriendsForGroupModal() {
+      if (!friendsList || friendsList.length === 0) {
+        friendsListModal.innerHTML = '<div class="empty-state"><div class="empty-state-icon">👥</div><div>No friends to add</div></div>';
+        return;
+      }
+
+      friendsListModal.innerHTML = '';
+      
+      for (const friendUid of friendsList) {
+        const profile = await fetchUserProfile(friendUid);
+        
+        const item = document.createElement('label');
+        item.className = 'friend-checkbox-item';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = friendUid;
+        
+        const avatar = document.createElement('div');
+        avatar.className = 'friend-checkbox-avatar';
+        
+        if (profile.pfp && String(profile.pfp).startsWith('http')) {
+          const img = document.createElement('img');
+          img.src = profile.pfp;
+          img.alt = getDisplayName(profile);
+          avatar.appendChild(img);
+        } else {
+          avatar.textContent = getAvatarLetter(profile);
+        }
+        
+        const name = document.createElement('div');
+        name.className = 'friend-checkbox-name';
+        name.textContent = getDisplayName(profile);
+        
+        item.appendChild(checkbox);
+        item.appendChild(avatar);
+        item.appendChild(name);
+        
+        friendsListModal.appendChild(item);
+      }
+    }
+
+    confirmGroupBtn.addEventListener('click', async () => {
+      const groupName = groupNameInput.value.trim();
+      if (!groupName) {
+        alert('Please enter a group name');
+        return;
+      }
+
+      const checkboxes = friendsListModal.querySelectorAll('input[type="checkbox"]:checked');
+      if (checkboxes.length === 0) {
+        alert('Please select at least one friend');
+        return;
+      }
+
+      const selectedFriends = Array.from(checkboxes).map(cb => cb.value);
+      
+      confirmGroupBtn.disabled = true;
+      confirmGroupBtn.textContent = 'Creating...';
+
+      try {
+        const groupId = await createGroupChat(groupName, selectedFriends);
+        console.log('✅ Group created:', groupId);
+        
+        groupModal.classList.remove('show');
+        groupNameInput.value = '';
+        
+        await loadConversations();
+        
+        alert('Group chat created successfully!');
+      } catch (err) {
+        console.error('Failed to create group:', err);
+        alert('Failed to create group: ' + (err.message || err));
+      } finally {
+        confirmGroupBtn.disabled = false;
+        confirmGroupBtn.textContent = 'Create';
+      }
+    });
+
+    addUserBtn.addEventListener('click', () => {
+      addUserModal.classList.add('show');
+      addUserInput.value = '';
+      addUserInput.placeholder = 'Enter friend\'s name or email...';
+    });
+
+    cancelAddUserBtn.addEventListener('click', () => {
+      addUserModal.classList.remove('show');
+      addUserInput.value = '';
+    });
+
+    addUserModal.addEventListener('click', (e) => {
+      if (e.target === addUserModal) {
+        addUserModal.classList.remove('show');
+        addUserInput.value = '';
+      }
+    });
+
+    confirmAddUserBtn.addEventListener('click', async () => {
+      const nameOrEmail = addUserInput.value.trim();
+      if (!nameOrEmail) {
+        alert('Please enter a friend\'s name or email');
+        return;
+      }
+
+      if (!currentChatId || !currentChatData || currentChatData.type !== 'group') {
+        alert('Please select a group chat first');
+        return;
+      }
+
+      confirmAddUserBtn.disabled = true;
+      confirmAddUserBtn.textContent = 'Adding...';
+
+      try {
+        const success = await addUserToGroup(currentChatId, nameOrEmail);
+        
+        if (success) {
+          addUserModal.classList.remove('show');
+          addUserInput.value = '';
+          
+          const updatedChatData = await getChatInfo(currentChatId);
+          if (updatedChatData) {
+            currentChatData.participants = updatedChatData.participants;
+            await displayGroupMembers(currentChatData.participants, currentChatData.admin);
+            
+            const headerStatus = chatHeader.querySelector('.chat-header-status');
+            headerStatus.textContent = `${currentChatData.participants.length} members`;
+          }
+          
+          await loadConversations();
+          
+          alert('Friend added successfully!');
+        }
+      } catch (err) {
+        console.error('Failed to add user:', err);
+        alert('Failed to add friend: ' + (err.message || err));
+      } finally {
+        confirmAddUserBtn.disabled = false;
+        confirmAddUserBtn.textContent = 'Add User';
+      }
+    });
+
+    leaveChatBtn.addEventListener('click', async () => {
+      if (!currentChatId || !currentChatData || currentChatData.type !== 'group') {
+        alert('Please select a group chat first');
+        return;
+      }
+
+      const confirmLeave = confirm(`Are you sure you want to leave "${currentChatData.name}"?`);
+      if (!confirmLeave) return;
+
+      leaveChatBtn.disabled = true;
+      leaveChatBtn.textContent = 'Leaving...';
+
+      try {
+        const success = await leaveGroup(currentChatId);
+        
+        if (success) {
+          currentChatId = null;
+          currentChatData = null;
+          
+          if (unsubscribeChat) {
+            unsubscribeChat();
+            unsubscribeChat = null;
+          }
+          
+          chatMessages.innerHTML = '<div class="empty-state"><div class="empty-state-icon">👋</div><div>You left the group</div></div>';
+          chatHeaderActions.style.display = 'none';
+          
+          const headerAvatar = chatHeader.querySelector('.chat-header-avatar');
+          const headerTitle = chatHeader.querySelector('h3');
+          const headerStatus = chatHeader.querySelector('.chat-header-status');
+          
+          headerAvatar.innerHTML = '';
+          headerAvatar.textContent = '💬';
+          headerTitle.textContent = 'Select a conversation';
+          headerStatus.textContent = 'Choose a friend to start messaging';
+          
+          await loadConversations();
+          
+          alert('You have left the group');
+        }
+      } catch (err) {
+        console.error('Failed to leave group:', err);
+        alert('Failed to leave group: ' + (err.message || err));
+      } finally {
+        leaveChatBtn.disabled = false;
+        leaveChatBtn.textContent = 'Leave Chat';
+      }
+    });
+
+    async function loadConversations() {
+      try {
+        const friends = await getUserFriendsList(currentUserUid);
+        friendsList = friends;
+        
+        // Clean up old listeners
+        allChatsListeners.forEach(unsub => unsub());
+        allChatsListeners = [];
+        
+        // Set up listeners for all DM chats
+        for (const friendUid of friendsList) {
+          const chatId = generateDMChatId(currentUserUid, friendUid);
+          setupChatListener(chatId);
+        }
+        
+        // Set up listeners for all group chats
+        const groups = await getAllGroupChatsForUser(currentUserUid);
+        for (const group of groups) {
+          setupChatListener(group.id);
+        }
+        
+        await displayConversations();
+        
+      } catch (err) {
+        console.error('Failed to load conversations:', err);
+        chatList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div><div>Error loading conversations</div></div>';
+      }
+    }
+
+    // Test function for unread badges
+    window.testUnreadBadge = async function() {
+      try {
+        const firstChat = conversationsList[0];
+        if (!firstChat) {
+          console.log('No chats available to test');
+          return;
+        }
+        
+        const chatId = firstChat.id;
+        console.log('Testing unread badge for chat:', chatId);
+        
+        const { data, error: fetchError } = await supabase
+          .from('users')
+          .select('unread_messages')
+          .eq('uid', currentUserUid)
+          .single();
+        
+        if (fetchError) throw fetchError;
+        
+        const unreadMessages = data?.unread_messages || {};
+        unreadMessages[chatId] = 5;
+        
+        const { error } = await supabase
+          .from('users')
+          .update({ unread_messages: unreadMessages })
+          .eq('uid', currentUserUid);
+        
+        if (error) throw error;
+        
+        console.log('✅ Unread count set to 5');
+        
+        await displayConversations();
+        
+        console.log('✅ Badge should now appear with number 5');
+      } catch (err) {
+        console.error('Test failed:', err);
+      }
+    };
+
+    onAuthStateChanged((user) => {
+      if (user) {
+        currentUserUid = user.id;
+        console.log('✅ Signed in as:', currentUserUid);
+        loadConversations();
+        startGlobalNotifications(currentUserUid);
+      } else {
+        currentUserUid = null;
+        console.log('❌ Not signed in');
+        chatMessages.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔒</div><div>Please sign in to view messages</div></div>';
+        chatList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔒</div><div>Sign in required</div></div>';
+        if (unsubscribeChat) {
+          unsubscribeChat();
+          unsubscribeChat = null;
+        }
+      }
+    });
+
+    console.log('💬 Notification system loaded! Run testUnreadBadge() in console to test.');
+  </script>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const slideMenu = document.getElementById('slideMenu');
+    const overlay = document.getElementById('menuOverlay');
+    const contactBtn = document.getElementById('contactBtn');
+    const aboutBtn = document.getElementById('aboutBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    function openMenu() {
+      slideMenu.classList.add('open');
+      overlay.classList.add('visible');
+      slideMenu.setAttribute('aria-hidden', 'false');
+      menuToggle.setAttribute('aria-expanded', 'true');
+    }
+    
+    function closeMenu() {
+      slideMenu.classList.remove('open');
+      overlay.classList.remove('visible');
+      slideMenu.setAttribute('aria-hidden', 'true');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    }
+    
+    function toggleMenu() {
+      slideMenu.classList.contains('open') ? closeMenu() : openMenu();
+    }
+
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMenu();
+    });
+    
+    overlay.addEventListener('click', closeMenu);
+
+    contactBtn.addEventListener('click', () => {
+      closeMenu();
+      window.open('https://mail.google.com/mail/?view=cm&fs=1&to=hamdiglennurdaneta@gmail.com&su=Contact%20BlackNote', '_blank');
+    });
+
+    aboutBtn.addEventListener('click', () => {
+      closeMenu();
+      location.href = '/pages/aboutblacknote.html';
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        const { logout } = await import('/javascript/supabase.js');
+        await logout();
+        location.href = '/index.html';
+      } catch (err) {
+        console.error('Logout error:', err);
+        location.href = '/index.html';
+      }
+    });
+  </script>
+
+</body>
+</html>

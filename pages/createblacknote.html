@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="/assets/BN.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account - BlackNote</title>
+  <link rel="stylesheet" href="../css/blacknote.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+    }
+    
+    .background-gif {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+    
+    .main-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding-top: 60px;
+      z-index: 1;
+      overflow-y: auto;
+    }
+    
+    .login-container {
+      background: rgba(36, 35, 35, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 50px 40px;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      margin: 20px;
+    }
+    
+    .login-container h1 {
+      color: white;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 48px;
+      font-weight: 700;
+      text-shadow: 
+        0 0 10px rgba(0, 168, 232, 0.8),
+        0 0 20px rgba(0, 168, 232, 0.6),
+        0 0 30px rgba(0, 168, 232, 0.4),
+        0 0 40px rgba(0, 168, 232, 0.2);
+      animation: glow 2s ease-in-out infinite alternate;
+      letter-spacing: 2px;
+    }
+    
+    @keyframes glow {
+      from {
+        text-shadow: 
+          0 0 10px rgba(0, 168, 232, 0.8),
+          0 0 20px rgba(0, 168, 232, 0.6),
+          0 0 30px rgba(0, 168, 232, 0.4),
+          0 0 40px rgba(0, 168, 232, 0.2);
+      }
+      to {
+        text-shadow: 
+          0 0 20px rgba(0, 168, 232, 1),
+          0 0 30px rgba(0, 168, 232, 0.8),
+          0 0 40px rgba(0, 168, 232, 0.6),
+          0 0 50px rgba(0, 168, 232, 0.4),
+          0 0 60px rgba(0, 168, 232, 0.2);
+      }
+    }
+    
+    .login-form input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 14px;
+      margin: 10px 0;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      font-size: 15px;
+    }
+    
+    .login-form input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .login-form input:focus {
+      outline: none;
+      border-color: #00A8E8;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    
+    .login-btn, .create-btn {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .login-btn {
+      background: #00A8E8;
+      color: white;
+    }
+    
+    .login-btn:hover {
+      background: #00bfff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 168, 232, 0.6);
+    }
+    
+    .login-btn:disabled {
+      background: #666;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .create-btn {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+    
+    .create-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .error-message, .success-message {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: none;
+      font-size: 14px;
+      text-align: center;
+    }
+    .error-message {
+      color: #ff4444;
+      background: rgba(255, 68, 68, 0.15);
+      border: 1px solid rgba(255, 68, 68, 0.4);
+    }
+    .success-message {
+      color: #44ff44;
+      background: rgba(68, 255, 68, 0.15);
+      border: 1px solid rgba(68, 255, 68, 0.4);
+    }
+    .error-message.show, .success-message.show {
+      display: block;
+    }
+    
+    .password-requirements {
+      font-size: 12px;
+      color: #aaa;
+      margin: 10px 0 15px 0;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .password-requirements strong {
+      color: white;
+    }
+    .password-requirements ul {
+      margin: 10px 0 0 0;
+      padding-left: 20px;
+    }
+    .password-requirements li {
+      margin: 5px 0;
+      color: #888;
+    }
+    .password-requirements li.met {
+      color: #00A8E8;
+    }
+    
+    @media (max-width: 768px) {
+      .login-container {
+        padding: 40px 30px;
+        max-width: 400px;
+      }
+      
+      .login-container h1 {
+        font-size: 38px;
+      }
+    }
+  </style>
+</head>
+<body bgcolor="#242323">
+  
+  <header class="topbar">
+    <img src="../assets/blacknotetrans.png" alt="Logo" class="logo" />
+  </header>
+
+  <img id="signupGif" class="background-gif" src="" alt="BlackNote Animation" />
+
+  <div class="main-container">
+    <div class="login-container">
+      <h1>JOIN US</h1>
+      <div class="error-message" id="errorMessage"></div>
+      <div class="success-message" id="successMessage"></div>
+      
+      <form class="login-form" id="signupForm">
+        <input type="text" id="nameInput" placeholder="Full Name" required autocomplete="name">
+        <input type="email" id="emailInput" placeholder="Email" required autocomplete="email">
+        <input type="password" id="passInput" placeholder="Password" required autocomplete="new-password">
+        <input type="password" id="confirmInput" placeholder="Confirm Password" required autocomplete="new-password">
+        
+        <div class="password-requirements">
+          <strong>Password must have:</strong>
+          <ul id="passwordReqs">
+            <li id="req-length">At least 8 characters</li>
+            <li id="req-upper">One uppercase letter</li>
+            <li id="req-lower">One lowercase letter</li>
+            <li id="req-number">One number</li>
+          </ul>
+        </div>
+
+        <button type="submit" class="login-btn" id="signupBtn">Sign Up</button>
+        <button type="button" class="create-btn" onclick="window.location.href='/index.html'">Back to Login</button>
+      </form>
+    </div>
+  </div>
+
+<script type="module">
+  import { signup, login, startGlobalNotifications } from '/javascript/supabase.js';
+
+  // Set random GIF on page load
+  const randomGifNumber = Math.floor(Math.random() * 10) + 1;
+  document.getElementById('signupGif').src = `/assets/lo${randomGifNumber}.gif`;
+
+  const form = document.getElementById('signupForm');
+  const nameInput = document.getElementById('nameInput');
+  const emailInput = document.getElementById('emailInput');
+  const passInput = document.getElementById('passInput');
+  const confirmInput = document.getElementById('confirmInput');
+  const signupBtn = document.getElementById('signupBtn');
+  const errorMessage = document.getElementById('errorMessage');
+  const successMessage = document.getElementById('successMessage');
+
+  // Password validation
+  const requirements = {
+    length: { regex: /.{8,}/, element: document.getElementById('req-length') },
+    upper: { regex: /[A-Z]/, element: document.getElementById('req-upper') },
+    lower: { regex: /[a-z]/, element: document.getElementById('req-lower') },
+    number: { regex: /[0-9]/, element: document.getElementById('req-number') }
+  };
+
+  passInput.addEventListener('input', () => {
+    const password = passInput.value;
+    for (const key in requirements) {
+      const req = requirements[key];
+      if (req.regex.test(password)) {
+        req.element.classList.add('met');
+      } else {
+        req.element.classList.remove('met');
+      }
+    }
+  });
+
+  function showError(message) {
+    console.error('❌ Error:', message);
+    errorMessage.textContent = message;
+    errorMessage.classList.add('show');
+    successMessage.classList.remove('show');
+    setTimeout(() => errorMessage.classList.remove('show'), 6000);
+  }
+
+  function showSuccess(message) {
+    console.log('✅ Success:', message);
+    successMessage.textContent = message;
+    successMessage.classList.add('show');
+    errorMessage.classList.remove('show');
+  }
+
+  function validatePassword(password) {
+    for (const key in requirements) {
+      if (!requirements[key].regex.test(password)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const password = passInput.value;
+    const confirm = confirmInput.value;
+
+    // Validation
+    if (!name || !email || !password || !confirm) {
+      showError('Please fill in all fields.');
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      showError('Password does not meet requirements.');
+      return;
+    }
+
+    if (password !== confirm) {
+      showError('Passwords do not match.');
+      return;
+    }
+
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showError('Please enter a valid email address.');
+      return;
+    }
+
+    console.log('🔄 Starting signup process...');
+    signupBtn.disabled = true;
+    const prevText = signupBtn.textContent;
+    signupBtn.textContent = 'Creating Account...';
+
+    try {
+      // Create the account
+      const user = await signup(email, password, name);
+      
+      console.log('✅ Signup successful:', {
+        id: user.id,
+        email: user.email
+      });
+      
+      // Show success message
+      showSuccess('Account created successfully! Logging you in...');
+
+      // Wait a moment for the user to see the success message
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Auto-login the user
+      console.log('🔄 Auto-logging in...');
+      const loginData = await login(email, password);
+      
+      console.log('✅ Auto-login successful');
+      
+      // Start global notifications
+      startGlobalNotifications(loginData.user.id);
+      
+      // Redirect to main app
+      window.location.href = '/pages/blacknote.html';
+
+    } catch (err) {
+      console.error('❌ Signup error:', err);
+      
+      // Handle specific Supabase errors
+      let errorMsg = 'Signup failed. Please try again.';
+      
+      if (err.message?.includes('already registered') || 
+          err.message?.includes('already been registered') ||
+          err.message?.includes('User already registered')) {
+        errorMsg = 'This email is already registered. Please login instead.';
+      } else if (err.message?.includes('Invalid email')) {
+        errorMsg = 'Invalid email address.';
+      } else if (err.message?.includes('Password should be at least')) {
+        errorMsg = 'Password is too weak. Must be at least 6 characters.';
+      } else if (err.message?.includes('duplicate key')) {
+        errorMsg = 'This email is already in use.';
+      } else if (err.message?.includes('rate limit')) {
+        errorMsg = 'Too many signup attempts. Please wait and try again.';
+      }
+      
+      showError(errorMsg);
+      signupBtn.disabled = false;
+      signupBtn.textContent = prevText;
+    }
+  });
+</script>
+
+</body>
+</html>

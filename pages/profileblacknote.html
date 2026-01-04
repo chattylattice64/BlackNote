@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>blackNote - Profile</title>
+  <link rel="icon" type="image/png" href="/assets/BN.png" id="favicon">
+  <link rel="stylesheet" href="/css/blacknote.css">
+  <style>
+    .profile-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; border-bottom: 1px solid var(--border-color); position: relative; }
+    .profile-main { display: flex; max-width: 1200px; margin: 2rem auto; gap: 2rem; }
+    .profile-left, .profile-center, .profile-right { display: flex; flex-direction: column; gap: 1rem; }
+    .profile-left { flex: 1; align-items: center; }
+    .profile-center { flex: 2; }
+    .profile-right { flex: 1; }
+    .profile-pic-large { width: 180px; height: 180px; border-radius: 50%; border: 3px solid var(--accent); background: var(--friend-avatar-bg); display: flex; justify-content: center; align-items: center; font-size: 64px; font-weight: 800; color: var(--accent); margin-bottom: 1rem; }
+    .add-friend-btn { background: var(--primary-action); color: var(--accent); border: none; border-radius: 12px; padding: 0.6rem 1rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .friend-actions-menu-container { position: relative; display: inline-block; }
+    .friend-action-menu { position: absolute; right: 0; top: calc(100% + 8px); background: var(--panel); border-radius: 12px; border: 1px solid var(--border-color); padding: 0.5rem 0; min-width: 160px; opacity: 0; transform: translateY(-8px) scale(.98); pointer-events: none; transition: all 0.2s ease; z-index: 200; }
+    .friend-action-menu.visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+    .friend-action-menu a { display: block; padding: 8px 12px; font-weight: 700; text-decoration: none; color: var(--accent); transition: background 0.15s; }
+    .friend-action-menu a:hover { background: rgba(255,255,255,0.05); }
+    .profile-bio { text-align: center; color: var(--muted); margin-bottom: 1rem; }
+    .profile-section { background: var(--panel); padding: 1rem; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+
+    .post-card { padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); margin-bottom: 1rem; }
+    .post-meta { display:flex; gap:1rem; align-items:center; margin-bottom:.5rem; }
+    .post-body { white-space:pre-wrap; color:var(--text-color); }
+    .post-actions { margin-top:.75rem; display:flex; gap:.5rem; align-items:center; }
+    .action-btn { padding:.4rem .6rem; border-radius:8px; border:1px solid rgba(255,255,255,0.04); cursor:pointer; background:transparent; color:var(--muted); font-weight:700; }
+    .action-count { margin-left:6px; font-weight:700; }
+    .action-btn.is-active { background:var(--accent); color:var(--panel); border:none; }
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <div class="left-section">
+    <button id="menuToggle" class="hamburger" aria-label="Open menu" aria-expanded="false" title="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="/pages/blacknote.html">
+      <img src="/assets/blacknotetrans.png" alt="Logo" class="logo" />
+    </a>
+  </div>
+
+  <div class="center-section">
+    <div class="search-container">
+      <input type="text" class="search-box" placeholder="Search..." />
+    </div>
+  </div>
+
+  <div class="right-section">
+    <a href="/pages/noteai.html" class="icon-btn" title="Ai Assistant">
+      <img src="/assets/gem.png" alt="Gemini" class="custom-emoji">
+    </a>
+    <a href="/pages/blacknote.html" class="icon-btn" title="home">
+      <img src="/assets/home.png" alt="home" class="custom-emoji">
+    </a>
+    <a href="/pages/friendsblacknote.html" class="icon-btn" title="Add">
+      <img src="/assets/add.png" alt="Add" class="custom-emoji">
+    </a>
+    <a href="/pages/mapblacknote.html" class="icon-btn" title="Basketball">
+      <img src="/assets/ball.png" alt="Basketball" class="custom-emoji">
+    </a>
+    <a href="/pages/dripblacknote.html" class="icon-btn" title="Black Market">
+      <img src="/assets/shop.png" alt="Money" class="custom-emoji">
+    </a>
+    <a href="/pages/hollablacknote.html" class="icon-btn" title="Holla">
+      <img src="/assets/hol.png" alt="Holla" class="custom-emoji">
+    </a>
+  </div>
+</header>
+
+  <nav class="slide-menu" id="slideMenu" aria-hidden="true">
+    <div class="slide-menu-inner">
+      <button class="menu-item" id="aboutBtn">About</button>
+      <button class="menu-item" id="contactBtn">Contact</button>
+      <button class="menu-item login-btn" id="logoutBtn">Logout</button>
+    </div>
+  </nav>
+  <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
+
+  <div id="offline-banner" class="offline-banner">You are offline — some features may be unavailable.</div>
+
+  <div class="profile-header">
+    <div style="display:flex; align-items:center; gap:1rem;">
+      <div class="profile-pic-large" id="profilePicLarge">B</div>
+      <div>
+        <h2 id="profileName">Black Note</h2>
+        <p class="profile-bio" id="profileBio">Creative, coffee lover, building BlackNote.</p>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:0.5rem;">
+      <button id="add-friend-btn" class="add-friend-btn">Add Friend</button>
+      <div class="friend-actions-menu-container">
+        <button id="friend-menu-btn" class="add-friend-btn">•••</button>
+        <div id="friend-action-menu" class="friend-action-menu">
+          <a href="#" id="unfriend-btn">Unfriend</a>
+          <a href="#" id="report-user">Report</a>
+          <a href="/pages/hollablacknote.html">Holla</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-main">
+    <aside class="profile-left profile-section">
+      <h3>Friends</h3>
+      <div id="profileFriendsList">Loading…</div>
+    </aside>
+
+    <main class="profile-center profile-section">
+      <h3>Posts</h3>
+      <div class="posts-feed" id="postsFeed">
+        <!-- Posts will be dynamically loaded here -->
+      </div>
+    </main>
+
+    <aside class="profile-right profile-section" id="aboutColumn">
+      <h3>About</h3>
+      <div id="aboutContent">
+        <!-- About content gets injected -->
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById('friend-menu-btn');
+    const actionMenu = document.getElementById('friend-action-menu');
+    menuBtn && menuBtn.addEventListener('click', (e) => { e.stopPropagation(); actionMenu.classList.toggle('visible'); });
+    document.body.addEventListener('click', () => actionMenu.classList.remove('visible'));
+  </script>
+
+  <script type="module">
+    import { supabase, onAuthStateChanged, startGlobalNotifications } from '/javascript/supabase.js';
+
+    const profilePicLarge = document.getElementById('profilePicLarge');
+    const profileName = document.getElementById('profileName');
+    const profileBio = document.getElementById('profileBio');
+    const postsFeed = document.getElementById('postsFeed');
+    const addFriendBtn = document.getElementById('add-friend-btn');
+    const profileFriendsList = document.getElementById('profileFriendsList');
+    const aboutContent = document.getElementById('aboutContent');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const rawParam = (urlParams.get('uid') || urlParams.get('user') || '').trim() || null;
+
+    let currentUser = null;
+    let viewingUid = null;
+    let profileSubscription = null;
+    let postsSubscription = null;
+
+    function renderAvatarInto(el, name, pfpUrl) {
+      el.innerHTML = '';
+      if (pfpUrl && String(pfpUrl).startsWith('http')) {
+        const img = document.createElement('img');
+        img.src = pfpUrl;
+        img.alt = name || '';
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        img.style.borderRadius = '50%';
+        el.appendChild(img);
+      } else {
+        el.textContent = (name && name[0]) ? name[0].toUpperCase() : '?';
+      }
+    }
+
+    async function resolveUidFromParam(raw) {
+      if (!raw) return null;
+      try {
+        const { data: userById } = await supabase
+          .from('users')
+          .select('uid')
+          .eq('uid', raw)
+          .single();
+        
+        if (userById) return raw;
+
+        const { data: userByName } = await supabase
+          .from('users')
+          .select('uid')
+          .eq('name', raw)
+          .limit(1)
+          .single();
+        
+        return userByName?.uid || null;
+      } catch (err) {
+        console.error('resolveUidFromParam error', err);
+        return null;
+      }
+    }
+
+    async function loadProfile(uid) {
+      if (!uid) {
+        profileName.textContent = 'Unknown User';
+        profileBio.textContent = '';
+        renderAvatarInto(profilePicLarge, 'U', null);
+        profileFriendsList.textContent = '';
+        aboutContent.innerHTML = '';
+        return;
+      }
+
+      if (profileSubscription) {
+        profileSubscription.unsubscribe();
+        profileSubscription = null;
+      }
+
+      // Initial load
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('uid', uid)
+        .single();
+
+      if (userError || !userData) {
+        profileName.textContent = 'Unknown User';
+        profileBio.textContent = '';
+        renderAvatarInto(profilePicLarge, 'U', null);
+        profileFriendsList.textContent = 'No data';
+        aboutContent.innerHTML = '';
+        return;
+      }
+
+      updateProfileUI(userData);
+
+      // Subscribe to real-time updates
+      profileSubscription = supabase
+        .channel(`profile-${uid}`)
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'users',
+            filter: `uid=eq.${uid}`
+          },
+          (payload) => {
+            updateProfileUI(payload.new);
+          }
+        )
+        .subscribe();
+    }
+
+    async function updateProfileUI(data) {
+      profileName.textContent = data.name || 'Unnamed';
+      profileBio.textContent = data.bio || '';
+      renderAvatarInto(profilePicLarge, data.name || '', data.pfp || null);
+
+      // Friends list
+      profileFriendsList.innerHTML = '';
+      const friendsArray = Array.isArray(data.friends) ? data.friends : [];
+
+      if (friendsArray.length === 0) {
+        profileFriendsList.textContent = 'No friends yet';
+      } else {
+        for (const fid of friendsArray) {
+          try {
+            const { data: fData } = await supabase
+              .from('users')
+              .select('name, pfp')
+              .eq('uid', fid)
+              .single();
+
+            const displayName = fData?.name || 'Unknown';
+            const avatarInitial = displayName[0] ? displayName[0].toUpperCase() : '?';
+
+            const link = document.createElement('a');
+            link.href = `/pages/profileblacknote.html?uid=${fid}`;
+            link.style.textDecoration = 'none';
+            link.style.color = 'inherit';
+            link.title = `View ${displayName}'s profile`;
+
+            const el = document.createElement('div');
+            el.className = 'friend-item';
+            el.style.display = 'flex';
+            el.style.alignItems = 'center';
+            el.style.gap = '0.75rem';
+            el.style.cursor = 'pointer';
+            el.innerHTML = `
+              <div class="f-avatar"
+                   style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--friend-avatar-bg);font-weight:700;">
+                ${avatarInitial}
+              </div>
+              <div style="font-weight:600;color:var(--accent)">${displayName}</div>
+            `;
+
+            link.appendChild(el);
+            profileFriendsList.appendChild(link);
+          } catch (e) {
+            console.error('friend fetch fail', e);
+          }
+        }
+      }
+
+      // About column
+      aboutContent.innerHTML = `
+        <div class="profile-bio">Username: ${data.name || '—'}</div>
+        <div class="profile-bio">Joined: ${data.created_at ? new Date(data.created_at).toLocaleDateString() : '—'}</div>
+      `;
+    }
+
+    async function loadPostsFor(uid) {
+      if (!uid) { 
+        postsFeed.innerHTML = '<div style="color:var(--muted)">No posts</div>'; 
+        return; 
+      }
+      
+      if (postsSubscription) {
+        postsSubscription.unsubscribe();
+        postsSubscription = null;
+      }
+      
+      postsFeed.innerHTML = '<div style="color:var(--muted)">Loading posts…</div>';
+
+      // Initial load
+      const { data: posts, error } = await supabase
+        .from('posts')
+        .select('*')
+        .eq('author_uid', uid)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error loading posts:', error);
+        postsFeed.innerHTML = '<div style="color:var(--muted)">Failed to load posts</div>';
+        return;
+      }
+
+      renderPosts(posts || []);
+
+      // Subscribe to real-time updates
+      postsSubscription = supabase
+        .channel(`posts-${uid}`)
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'posts',
+            filter: `author_uid=eq.${uid}`
+          },
+          async () => {
+            const { data: updatedPosts } = await supabase
+              .from('posts')
+              .select('*')
+              .eq('author_uid', uid)
+              .order('created_at', { ascending: false });
+            
+            renderPosts(updatedPosts || []);
+          }
+        )
+        .subscribe();
+    }
+
+    function renderPosts(posts) {
+      postsFeed.innerHTML = '';
+      if (posts.length === 0) {
+        postsFeed.innerHTML = '<div class="empty-feed-message">No posts yet</div>';
+        return;
+      }
+      posts.forEach(post => renderPostCard(post));
+    }
+
+    function renderPostCard(p) {
+      const card = document.createElement('div');
+      card.className = 'post-card';
+      
+      const meta = document.createElement('div');
+      meta.className = 'post-meta';
+      meta.innerHTML = `
+        <div style="width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--friend-avatar-bg);font-weight:700;">
+          ${(p.author_name && p.author_name[0]) ? p.author_name[0].toUpperCase() : '?'}
+        </div>
+        <div>
+          <div style="font-weight:700">${p.author_name || ''}</div>
+          <div style="font-size:.85rem;color:var(--muted)">${p.created_at ? new Date(p.created_at).toLocaleString() : ''}</div>
+        </div>
+      `;
+      
+      const body = document.createElement('div');
+      body.className = 'post-body';
+      body.textContent = p.body || '';
+      
+      const actions = document.createElement('div');
+      actions.className = 'post-actions';
+
+      const likeBtn = document.createElement('button');
+      likeBtn.className = 'action-btn like-btn';
+      likeBtn.type = 'button';
+
+      const dislikeBtn = document.createElement('button');
+      dislikeBtn.className = 'action-btn dislike-btn';
+      dislikeBtn.type = 'button';
+
+      const likeCount = Array.isArray(p.liked_by) ? p.liked_by.length : 0;
+      const dislikeCount = Array.isArray(p.disliked_by) ? p.disliked_by.length : 0;
+
+      likeBtn.innerHTML = `👍 <span class="action-count">${likeCount}</span>`;
+      dislikeBtn.innerHTML = `👎 <span class="action-count">${dislikeCount}</span>`;
+
+      actions.appendChild(likeBtn);
+      actions.appendChild(dislikeBtn);
+
+      if (currentUser) {
+        const uid = currentUser.id;
+        if (Array.isArray(p.liked_by) && p.liked_by.includes(uid)) {
+          likeBtn.classList.add('is-active');
+        }
+        if (Array.isArray(p.disliked_by) && p.disliked_by.includes(uid)) {
+          dislikeBtn.classList.add('is-active');
+        }
+      }
+
+      likeBtn.addEventListener('click', async () => {
+        if (!currentUser) {
+          alert('You must be signed in to like posts.');
+          return;
+        }
+
+        const uid = currentUser.id;
+        const { data: postData } = await supabase
+          .from('posts')
+          .select('liked_by, disliked_by')
+          .eq('id', p.id)
+          .single();
+
+        if (!postData) return;
+
+        const likedBy = new Set(postData.liked_by || []);
+        const dislikedBy = new Set(postData.disliked_by || []);
+
+        if (likedBy.has(uid)) {
+          likedBy.delete(uid);
+        } else {
+          likedBy.add(uid);
+          dislikedBy.delete(uid);
+        }
+
+        await supabase
+          .from('posts')
+          .update({
+            liked_by: Array.from(likedBy),
+            disliked_by: Array.from(dislikedBy)
+          })
+          .eq('id', p.id);
+      });
+
+      dislikeBtn.addEventListener('click', async () => {
+        if (!currentUser) {
+          alert('You must be signed in to dislike posts.');
+          return;
+        }
+
+        const uid = currentUser.id;
+        const { data: postData } = await supabase
+          .from('posts')
+          .select('liked_by, disliked_by')
+          .eq('id', p.id)
+          .single();
+
+        if (!postData) return;
+
+        const likedBy = new Set(postData.liked_by || []);
+        const dislikedBy = new Set(postData.disliked_by || []);
+
+        if (dislikedBy.has(uid)) {
+          dislikedBy.delete(uid);
+        } else {
+          dislikedBy.add(uid);
+          likedBy.delete(uid);
+        }
+
+        await supabase
+          .from('posts')
+          .update({
+            liked_by: Array.from(likedBy),
+            disliked_by: Array.from(dislikedBy)
+          })
+          .eq('id', p.id);
+      });
+
+      card.appendChild(meta);
+      card.appendChild(body);
+      card.appendChild(actions);
+      postsFeed.appendChild(card);
+    }
+
+    async function setupAddFriendButton(viewUid, viewerUser) {
+      if (!addFriendBtn) return;
+      addFriendBtn.disabled = true;
+      addFriendBtn.textContent = 'Loading…';
+
+      if (!viewerUser) {
+        addFriendBtn.disabled = true;
+        addFriendBtn.textContent = 'Sign in to add';
+        return;
+      }
+
+      if (!viewUid) {
+        addFriendBtn.disabled = true;
+        addFriendBtn.textContent = 'User not found';
+        return;
+      }
+
+      if (viewUid === viewerUser.id) {
+        addFriendBtn.disabled = true;
+        addFriendBtn.textContent = 'This is you';
+        return;
+      }
+
+      try {
+        const [{ data: targetData }, { data: myData }] = await Promise.all([
+          supabase.from('users').select('*').eq('uid', viewUid).single(),
+          supabase.from('users').select('*').eq('uid', viewerUser.id).single()
+        ]);
+
+        if (!targetData) {
+          addFriendBtn.disabled = true;
+          addFriendBtn.textContent = 'User not found';
+          return;
+        }
+
+        const alreadyFriends = Array.isArray(myData?.friends) && myData.friends.includes(viewUid);
+        const requestAlreadySent = Array.isArray(targetData.friend_requests) && targetData.friend_requests.includes(viewerUser.id);
+
+        if (alreadyFriends) {
+          addFriendBtn.disabled = true;
+          addFriendBtn.textContent = 'Friends';
+          return;
+        }
+        if (requestAlreadySent) {
+          addFriendBtn.disabled = true;
+          addFriendBtn.textContent = 'Request Sent';
+          return;
+        }
+
+        addFriendBtn.disabled = false;
+        addFriendBtn.textContent = 'Add Friend';
+
+        addFriendBtn.replaceWith(addFriendBtn.cloneNode(true));
+        const freshBtn = document.getElementById('add-friend-btn');
+
+        freshBtn.addEventListener('click', async () => {
+          freshBtn.disabled = true;
+          freshBtn.textContent = 'Sending…';
+          try {
+            const currentRequests = targetData.friend_requests || [];
+            await supabase
+              .from('users')
+              .update({ friend_requests: [...currentRequests, viewerUser.id] })
+              .eq('uid', viewUid);
+            
+            freshBtn.textContent = 'Request Sent';
+            alert('Friend request sent.');
+          } catch (err) {
+            console.error('send friend request error', err);
+            freshBtn.disabled = false;
+            freshBtn.textContent = 'Add Friend';
+            alert('Failed to send friend request. See console.');
+          }
+        }, { once: true });
+
+      } catch (err) {
+        console.error('setup add friend error', err);
+        addFriendBtn.disabled = true;
+        addFriendBtn.textContent = 'Error';
+      }
+    }
+
+    async function ensureMyUserDoc(user) {
+      if (!user) return;
+      
+      const { data: existing } = await supabase
+        .from('users')
+        .select('uid')
+        .eq('uid', user.id)
+        .single();
+
+      if (!existing) {
+        await supabase.from('users').insert({
+          uid: user.id,
+          email: user.email,
+          name: user.user_metadata?.display_name || user.email?.split('@')[0] || 'Unnamed',
+          pfp: user.user_metadata?.avatar_url || null,
+          bio: '',
+          friends: [],
+          friend_requests: [],
+          created_at: new Date().toISOString()
+        });
+      }
+    }
+
+    onAuthStateChanged(async (user) => {
+      currentUser = user || null;
+
+      let resolved = null;
+      if (rawParam) {
+        resolved = await resolveUidFromParam(rawParam);
+        if (!resolved) {
+          console.warn('Could not resolve URL param to a user. rawParam=', rawParam);
+        }
+      }
+
+      if (resolved) {
+        viewingUid = resolved;
+      } else if (currentUser) {
+        viewingUid = currentUser.id;
+      } else {
+        viewingUid = null;
+      }
+
+      if (currentUser) await ensureMyUserDoc(currentUser);
+
+      if (!viewingUid) {
+        profileName.textContent = 'Profile';
+        profileBio.textContent = 'Sign in to view profiles';
+        postsFeed.innerHTML = '<div style="color:var(--muted)">Sign in to view posts</div>';
+        addFriendBtn.disabled = true;
+        addFriendBtn.textContent = 'Sign in to add';
+        profileFriendsList.textContent = '';
+        aboutContent.innerHTML = '';
+        return;
+      }
+
+      console.log('Viewing profile uid =', viewingUid, 'currentUser=', currentUser ? currentUser.id : null);
+      
+      if (currentUser && currentUser.email_confirmed_at) {
+        startGlobalNotifications(currentUser.id);
+      }
+      
+      loadProfile(viewingUid);
+      loadPostsFor(viewingUid);
+      setupAddFriendButton(viewingUid, currentUser);
+      setupUnfriendButton(viewingUid, currentUser);
+    });
+
+    window.addEventListener('beforeunload', () => {
+      if (profileSubscription) profileSubscription.unsubscribe();
+      if (postsSubscription) postsSubscription.unsubscribe();
+    });
+
+    async function setupUnfriendButton(viewUid, viewerUser) {
+      const unfriendBtn = document.getElementById('unfriend-btn');
+      if (!unfriendBtn) return;
+
+      unfriendBtn.style.display = 'none';
+
+      if (!viewerUser || !viewUid || viewUid === viewerUser.id) {
+        return;
+      }
+
+      try {
+        const [{ data: myData }, { data: viewData }] = await Promise.all([
+          supabase.from('users').select('friends').eq('uid', viewerUser.id).single(),
+          supabase.from('users').select('friends').eq('uid', viewUid).single()
+        ]);
+
+        if (!myData || !viewData) return;
+
+        const alreadyFriends = Array.isArray(myData.friends) && myData.friends.includes(viewUid);
+
+        if (alreadyFriends) {
+          unfriendBtn.style.display = 'inline-block';
+          unfriendBtn.textContent = 'Unfriend';
+
+          const newBtn = unfriendBtn.cloneNode(true);
+          unfriendBtn.replaceWith(newBtn);
+
+          newBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            newBtn.disabled = true;
+            newBtn.textContent = 'Removing...';
+            try {
+              const myFriends = (myData.friends || []).filter(id => id !== viewUid);
+              const theirFriends = (viewData.friends || []).filter(id => id !== viewerUser.id);
+
+              await Promise.all([
+                supabase.from('users').update({ friends: myFriends }).eq('uid', viewerUser.id),
+                supabase.from('users').update({ friends: theirFriends }).eq('uid', viewUid)
+              ]);
+              
+              newBtn.textContent = 'Unfriended';
+              newBtn.disabled = true;
+              alert('You have unfriended this user.');
+            } catch (err) {
+              console.error('Unfriend error:', err);
+              newBtn.textContent = 'Unfriend';
+              newBtn.disabled = false;
+              alert('Failed to unfriend user. See console for details.');
+            }
+          });
+        }
+      } catch (err) {
+        console.error('setupUnfriendButton error:', err);
+      }
+    }
+  </script>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const slideMenu = document.getElementById('slideMenu');
+    const overlay = document.getElementById('menuOverlay');
+    const contactBtn = document.getElementById('contactBtn');
+    const aboutBtn = document.getElementById('aboutBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    function openMenu() {
+      slideMenu.classList.add('open');
+      overlay.classList.add('visible');
+      menuToggle.classList.add('active');
+      slideMenu.setAttribute('aria-hidden', 'false');
+      overlay.removeAttribute('aria-hidden');
+      menuToggle.setAttribute('aria-expanded', 'true');
+      logoutBtn.focus();
+    }
+    
+    function closeMenu() {
+      slideMenu.classList.remove('open');
+      overlay.classList.remove('visible');
+      menuToggle.classList.remove('active');
+      slideMenu.setAttribute('aria-hidden', 'true');
+      overlay.setAttribute('aria-hidden', 'true');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.focus();
+    }
+    
+    function toggleMenu() { 
+      slideMenu.classList.contains('open') ? closeMenu() : openMenu(); 
+    }
+
+    menuToggle.addEventListener('click', (e) => { 
+      e.stopPropagation(); 
+      toggleMenu(); 
+    });
+    
+    overlay.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', (e) => { 
+      if (e.key === 'Escape') closeMenu(); 
+    });
+
+    contactBtn.addEventListener('click', () => {
+      closeMenu();
+      const gmailComposeURL = 'https://mail.google.com/mail/?view=cm&fs=1&to=hamdiglennurdaneta@gmail.com&su=Contact%20BlackNote';
+      window.open(gmailComposeURL, '_blank');
+    });
+
+    aboutBtn.addEventListener('click', () => {
+      closeMenu();
+      location.href = '/pages/aboutblacknote.html';
+    });
+    
+    logoutBtn.addEventListener('click', () => {
+      if (window.logout && typeof window.logout === 'function') {
+        Promise.resolve(window.logout()).finally(() => location.href = '/index.html');
+      } else {
+        location.href = '/index.html';
+      }
+    });
+  </script>
+</body>
+</html>

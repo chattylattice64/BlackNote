@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlackNote</title>
+  <!-- Assuming this is your main stylesheet -->
+  <link rel="stylesheet" href="/css/blacknote.css"> 
+  <link rel="icon" type="image/png" href="/assets/BN.png" />
+  <style>
+
+    body {
+      background-color: #232424;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+    }
+
+    .placeholder-box { min-height: 150px; border-radius: 12px; border: 2px dashed var(--border-color); background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 1.2rem; text-align: center; padding: 1rem; }
+    
+    /* Search Bar Styles */
+    .search-section { padding: 1rem 2rem; background-color: #000000; border-bottom: 1px solid var(--border-color); }
+    .search-wrapper { max-width: 800px; margin: 0 auto; position: relative; display: flex; align-items: center; }
+    #profileSearchInput { width: 100%; padding: 0.75rem 1rem 0.75rem 3rem; border-radius: 12px; border: 1px solid var(--border-color); background-color: var(--panel); color: var(--text-primary); font-size: 1rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+    #profileSearchInput::placeholder { color: var(--muted); }
+    #profileSearchInput:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(137, 180, 250, 0.25); }
+    .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+    .search-results-container { max-width: 800px; margin: 1rem auto; padding: 0 2rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .search-result-item { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; border-radius: 12px; background: var(--panel); border: 1px solid var(--border-color); transition: background-color 0.2s, border-color 0.2s; }
+    .search-result-item:hover { background: rgba(255,255,255,0.05); border-color: var(--accent); }
+    .search-info { display: flex; align-items: center; gap: 1rem; }
+    .search-avatar { width: 48px; height: 48px; border-radius: 50%; background: #313244; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; color: var(--accent); text-transform: uppercase; }
+    .search-name { color: var(--text-primary); font-weight: 600; }
+    .no-results-message { text-align: center; color: var(--muted); padding: 2rem; font-size: 1.1rem; border: 2px dashed var(--border-color); border-radius: 12px; background: rgba(255,255,255,0.03); margin-top: 1rem; }
+    .add-friend-btn { padding: 6px 14px; border: 1px solid var(--accent); background-color: transparent; color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+    .add-friend-btn:hover { background-color: var(--accent); color: var(--panel); }
+    .add-friend-btn:disabled { background-color: var(--success-bg); border-color: var(--success); color: var(--success); cursor: not-allowed; }
+  </style>
+</head>
+<body>
+  <!-- Your header and navigation HTML remains unchanged -->
+ <header class="topbar">
+  <div class="left-section">
+    <button id="menuToggle" class="hamburger" aria-label="Open menu" aria-expanded="false" title="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="/pages/blacknote.html">
+      <img src="/assets/blacknotetrans.png" alt="Logo" class="logo" />
+    </a>
+  </div>
+
+  <div class="center-section">
+  <div class="search-container" style="display: none;">
+    <input type="text" class="search-box" placeholder="Search..." />
+  </div>
+</div>
+
+<div class="right-section">
+  <a href="/pages/noteai.html" class="icon-btn" title="Ai Assistant">
+    <img src="/assets/gem.png" alt="Gemini" class="custom-emoji">
+  </a>
+
+<a href="/pages/blacknote.html" class="icon-btn" title="home">
+    <img src="/assets/home.png" alt="home" class="custom-emoji">
+  </a>
+  <a href="/pages/friendsblacknote.html" class="icon-btn" title="Add">
+    <img src="/assets/add.png" alt="Add" class="custom-emoji">
+  </a>
+  <a href="/pages/mapblacknote.html" class="icon-btn" title="Basketball">
+    <img src="/assets/ball.png" alt="Basketball" class="custom-emoji">
+  </a>
+  <a href="/pages/dripblacknote.html" class="icon-btn" title="Black Market">
+    <img src="/assets/shop.png" alt="Money" class="custom-emoji">
+  </a>
+  <a href="/pages/hollablacknote.html" class="icon-btn" title="Holla">
+    <img src="/assets/hol.png" alt="Holla" class="custom-emoji">
+  </a>
+</div>
+
+</header>
+
+<nav id="slideMenu" class="slide-menu" aria-hidden="true" role="navigation">
+  <div class="slide-menu-inner" role="menu" aria-label="Site menu">
+    <button id="contactBtn" class="menu-item" role="menuitem">Contact Us!</button>
+    <button id="aboutBtn" class="menu-item" role="menuitem">About</button>
+    <button id="logoutBtn" class="menu-item login-btn" role="menuitem">Logout</button>
+  </div>
+</nav>
+<div id="menuOverlay" class="menu-overlay" aria-hidden="true"></div>
+
+
+  <!-- Search Bar Section -->
+  <div class="search-section">
+    <div class="search-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="profileSearchInput" placeholder="Search for user profiles and press Enter">
+    </div>
+  </div>
+
+  <!-- Container to display search results -->
+  <div id="searchResults" class="search-results-container">
+      <div class="placeholder-box">
+          <p>Find your Friend!</p>
+      </div>
+  </div>
+
+ <script type="module">
+    // --- Supabase & Auth Imports ---
+    import { supabase, onAuthStateChanged, startGlobalNotifications } from "/javascript/supabase.js";
+
+    // --- DOM Elements ---
+    const searchInput = document.getElementById('profileSearchInput');
+    const resultsContainer = document.getElementById('searchResults');
+
+    // --- Add Friend Functionality ---
+    const addFriend = async (friendUid, friendName) => {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        console.error("You must be logged in to add friends.");
+        return false;
+      }
+      
+      if (user.id === friendUid) {
+        console.warn("You cannot add yourself as a friend.");
+        return false;
+      }
+
+      try {
+        // Get current user's friends list
+        const { data: userData, error: fetchError } = await supabase
+          .from('users')
+          .select('friends')
+          .eq('uid', user.id)
+          .single();
+
+        if (fetchError) throw fetchError;
+
+        const currentFriends = userData?.friends || [];
+        
+        // Check if already friends
+        if (currentFriends.includes(friendUid)) {
+          console.log(`Already friends with ${friendName}`);
+          return false;
+        }
+
+        // Add friend to array
+        const { error: updateError } = await supabase
+          .from('users')
+          .update({
+            friends: [...currentFriends, friendUid]
+          })
+          .eq('uid', user.id);
+
+        if (updateError) throw updateError;
+
+        console.log(`✅ Added ${friendName} as friend.`);
+        return true;
+      } catch (error) {
+        console.error("Error adding friend:", error);
+        return false;
+      }
+    };
+
+    // --- Search Functionality (CASE-INSENSITIVE) ---
+    const performSearch = async () => {
+      const searchTerm = searchInput.value.trim();
+      if (searchTerm.length === 0) {
+        resultsContainer.innerHTML = `<div class="placeholder-box"><p>Use the search bar to find and add Homies.</p></div>`;
+        return;
+      }
+
+      resultsContainer.innerHTML = `<div class="no-results-message">Searching...</div>`;
+
+      try {
+        // Get current user
+        const { data: { user } } = await supabase.auth.getUser();
+        const currentUserId = user?.id || null;
+        
+        // Get all users from Supabase
+        const { data: allUsers, error } = await supabase
+          .from('users')
+          .select('*');
+
+        if (error) throw error;
+        
+        // Convert search term to lowercase for comparison
+        const searchLower = searchTerm.toLowerCase();
+        
+        // Filter results case-insensitively with partial matching
+        const matchingUsers = allUsers.filter(userData => {
+          const userName = userData.name || '';
+          // Case-insensitive partial match using includes()
+          return userName.toLowerCase().includes(searchLower);
+        });
+
+        if (matchingUsers.length === 0) {
+          resultsContainer.innerHTML = `<div class="no-results-message">User does not exist.</div>`;
+        } else {
+          resultsContainer.innerHTML = '';
+          matchingUsers.forEach(data => {
+            const displayName = data.name || 'Unnamed User';
+            const avatarInitials = displayName.substring(0, 2).toUpperCase();
+            const userUid = data.uid;
+
+            let actionButton = '';
+            if (currentUserId && userUid !== currentUserId) {
+              actionButton = `<button class="add-friend-btn" data-uid="${userUid}" data-name="${displayName}">Add Friend</button>`;
+            }
+
+            const userElement = document.createElement('div');
+            userElement.className = 'search-result-item';
+            userElement.innerHTML = `
+              <a href="/pages/profileblacknote.html?uid=${userUid}" class="search-info" style="text-decoration: none; color: inherit;">
+                <div class="search-avatar">${avatarInitials}</div>
+                <span class="search-name">${displayName}</span>
+              </a>
+              <div class="search-actions">${actionButton}</div>
+            `;
+            resultsContainer.appendChild(userElement);
+          });
+        }
+      } catch (error) {
+        console.error("Error searching for users: ", error);
+        resultsContainer.innerHTML = `<div class="no-results-message">An error occurred during search.</div>`;
+      }
+    };
+
+    // --- Main Auth Listener ---
+    onAuthStateChanged((user) => {
+      if (user) {
+        console.log("✅ User authenticated:", user.id);
+        startGlobalNotifications(user.id);
+      } else {
+        console.warn("No user logged in.");
+      }
+    });
+
+    // --- Event Listeners ---
+    searchInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        performSearch();
+      }
+    });
+
+    resultsContainer.addEventListener('click', async (event) => {
+      if (event.target.matches('.add-friend-btn')) {
+        const button = event.target;
+        button.disabled = true;
+        button.textContent = 'Adding...';
+
+        const success = await addFriend(button.dataset.uid, button.dataset.name);
+
+        if (success) {
+          button.textContent = 'Added';
+        } else {
+          button.textContent = 'Failed';
+          setTimeout(() => {
+            button.disabled = false;
+            button.textContent = 'Add Friend';
+          }, 2000);
+        }
+      }
+    });
+  </script>
+
+  <script type="module">
+    import { logout } from '/javascript/supabase.js';
+
+    const menuToggle = document.getElementById('menuToggle');
+    const slideMenu = document.getElementById('slideMenu');
+    const overlay = document.getElementById('menuOverlay');
+    const contactBtn = document.getElementById('contactBtn');
+    const aboutBtn = document.getElementById('aboutBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    function openMenu() {
+      slideMenu.classList.add('open');
+      overlay.classList.add('visible');
+      slideMenu.setAttribute('aria-hidden', 'false');
+      overlay.removeAttribute('aria-hidden');
+      menuToggle.setAttribute('aria-expanded', 'true');
+      logoutBtn.focus();
+    }
+    function closeMenu() {
+      slideMenu.classList.remove('open');
+      overlay.classList.remove('visible');
+      slideMenu.setAttribute('aria-hidden', 'true');
+      overlay.setAttribute('aria-hidden', 'true');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.focus();
+    }
+    function toggleMenu() { slideMenu.classList.contains('open') ? closeMenu() : openMenu(); }
+
+    menuToggle.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+    overlay.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+
+    contactBtn.addEventListener('click', () => {
+      closeMenu();
+      const gmailComposeURL = 'https://mail.google.com/mail/?view=cm&fs=1&to=hamdiglennurdaneta@gmail.com&su=Contact%20BlackNote';
+      window.open(gmailComposeURL, '_blank');
+    });
+
+    aboutBtn.addEventListener('click', () => {
+      closeMenu();
+      location.href = '/pages/aboutblacknote.html';
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        await logout();
+        location.href = '/index.html';
+      } catch (err) {
+        console.error('Logout error:', err);
+        location.href = '/index.html';
+      }
+    });
+  </script>
+</body>
+</html>
