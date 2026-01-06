@@ -9,63 +9,6 @@
   <link rel="stylesheet" href="/css/blacknote.css">
   
   <style>
-    /* Background and body styling */
-    body {
-      background-color: #0a0a0a;
-      background-image: url('/assets/background.gif'); /* Add your background gif path here */
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-    }
-    
-    /* Profile picture styling */
-    .profile-pic {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background-color: #2a2a2a;
-      background-size: cover;
-      background-position: center;
-      border: 4px solid #1DA1F2;
-      margin: 0 auto 1rem;
-      cursor: pointer;
-      transition: transform 0.2s;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    }
-    
-    .profile-pic:hover {
-      transform: scale(1.05);
-    }
-    
-    /* Profile center styling */
-    .profile-center {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 2rem 1.5rem;
-    }
-    
-    .profile-name {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: white;
-      margin: 0.5rem 0;
-    }
-    
-    .profile-bio {
-      color: #888;
-      font-size: 0.9rem;
-      margin: 0.5rem 0 1rem;
-      line-height: 1.4;
-    }
-    
-    .edit-profile-btn {
-      width: 100%;
-      margin-top: 1rem;
-    }
-    
     /* Badge styles */
     .badge-container {
       margin-top: 1rem;
@@ -280,52 +223,6 @@
     
     .create-post-media {
       margin: 1.5rem 0;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    
-    .media-upload-btn {
-      padding: 0.75rem 1.5rem;
-      background: #2a2a2a;
-      border: 1px solid #444;
-      border-radius: 8px;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: inline-block;
-    }
-    
-    .media-upload-btn:hover {
-      background: #333;
-      border-color: #1DA1F2;
-    }
-    
-    .file-name {
-      color: #888;
-      font-size: 0.9rem;
-      flex: 1;
-    }
-    
-    .remove-media-btn {
-      padding: 0.5rem;
-      background: #ef4444;
-      border: none;
-      border-radius: 6px;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: none;
-      width: 32px;
-      height: 32px;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .remove-media-btn:hover {
-      background: #dc2626;
     }
     
     .create-post-actions {
@@ -373,29 +270,6 @@
     }
     
     /* Friends under profile */
-    .panel {
-      background: #1a1a1a;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      border: 1px solid #2a2a2a;
-      margin-bottom: 1rem;
-    }
-    
-    .avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 600;
-      font-size: 1.2rem;
-      flex-shrink: 0;
-      overflow: hidden;
-    }
-    
     .left .friends-section {
       flex: 1;
       overflow: hidden;
@@ -560,52 +434,6 @@
       overflow-y: auto;
       margin-bottom: 0;
       padding: 1.5rem;
-      position: relative;
-      background: #1a1a1a;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-    
-    .post-header {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-      position: relative;
-    }
-    
-    .post-header .avatar {
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    
-    .post-header .avatar:hover {
-      transform: scale(1.05);
-    }
-    
-    .post-header .meta {
-      flex: 1;
-    }
-    
-    .post-header .author {
-      font-weight: 600;
-      color: white;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    
-    .post-header .author:hover {
-      color: #1DA1F2;
-    }
-    
-    .post-header .time {
-      font-size: 0.85rem;
-      color: #888;
-      margin-top: 0.25rem;
-    }
-    
-    .post-menu-btn:hover {
-      background-color: rgba(255,255,255,0.1) !important;
     }
     
     .post-body {
@@ -761,74 +589,6 @@
     .comments-sidebar-submit:hover {
       background: #1a8cd8;
     }
-
-    /* Main Layout - NEW DESIGN */
-    .layout {
-      max-width: 100%;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      grid-template-columns: 320px 1fr 400px;
-      gap: 0;
-      align-items: start;
-      height: 100vh;
-      overflow: hidden;
-      position: fixed;
-      top: 80px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
-    
-    .left {
-      height: 100%;
-      overflow-y: auto;
-      border-right: 1px solid #333;
-    }
-    
-    .center {
-      height: 100%;
-      overflow: hidden;
-      position: relative;
-    }
-    
-    .right {
-      height: 100%;
-      overflow: hidden;
-    }
-    
-    @media (max-width: 1024px) {
-        .layout { 
-          grid-template-columns: 1fr; 
-        }
-        .left .friends-section, .right { 
-          display: none; 
-        }
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    /* Loading and end of feed states */
-    .loading-indicator,
-    .end-of-feed {
-      scroll-snap-align: none;
-      min-height: auto;
-      max-height: none;
-      padding: 1rem;
-    }
-    
-    .empty-feed-message {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: calc(100vh - 80px);
-      color: #888;
-      font-size: 1.1rem;
-      text-align: center;
-      padding: 2rem;
-    }
   </style>
 </head>
 
@@ -854,6 +614,9 @@
 <a href="#" id="notification-bell-link" class="icon-btn" title="Notifications" style="margin-left: 15px; margin-right: 30px;">
     <img src="/assets/notif.png" alt="Notifications" class="custom-emoji">
 </a>
+ <a href="/pages/noteai.html" class="icon-btn" title="Ai Assistant">
+    <img src="/assets/gem.png" alt="Gemini" class="custom-emoji">
+  </a>
 
 <a href="/pages/blacknote.html" class="icon-btn" title="home">
     <img src="/assets/home.png" alt="home" class="custom-emoji">
@@ -957,10 +720,6 @@
         <span id="file-name" class="file-name">No file chosen</span>
         <button id="remove-media" class="remove-media-btn" title="Remove file" type="button">✖</button>
       </div>
-      
-      <div style="font-size: 0.85rem; color: #666; margin-top: -0.5rem; margin-bottom: 1rem;">
-        📸 Images: Up to 50MB (auto-compressed) • 🎥 Videos: Max 10MB, 30sec
-      </div>
 
       <div class="create-post-actions">
         <button class="create-post-cancel-btn" id="cancel-create-post" type="button">Cancel</button>
@@ -969,6 +728,53 @@
     </div>
   </div>
 </div>
+
+<style>
+  /* Main Layout - NEW DESIGN */
+    .layout {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 320px 1fr 400px;
+      gap: 0;
+      align-items: start;
+      height: 100vh;
+      overflow: hidden;
+      position: fixed;
+      top: 80px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+    
+    .left {
+      height: 100%;
+      overflow-y: auto;
+      border-right: 1px solid #333;
+    }
+    
+    .center {
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .right {
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    @media (max-width: 1024px) {
+        .layout { 
+          grid-template-columns: 1fr; 
+        }
+        .left .friends-section, .right { 
+          display: none; 
+        }
+    }
+    
+</style>
 
   <div id="profile-editor-modal" class="modal-overlay" aria-hidden="true">
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
@@ -1005,18 +811,6 @@
     </div>
   </div>
 
-  <!-- Compression Progress Toast -->
-  <div id="compression-toast" style="position: fixed; bottom: 20px; right: 20px; background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 1rem 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.5); z-index: 10001; display: none;">
-    <div style="display: flex; align-items: center; gap: 0.75rem;">
-      <div class="spinner" style="width: 20px; height: 20px; border: 2px solid #333; border-top-color: #1DA1F2; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
-      <div>
-        <div style="font-weight: 600; color: white; margin-bottom: 0.25rem;" id="toast-title">Compressing media...</div>
-        <div style="font-size: 0.875rem; color: #888;" id="toast-message">Please wait</div>
-      </div>
-    </div>
-  </div>
-
-```html
 <script type="module">
   import { 
     supabase, 
@@ -1027,276 +821,23 @@
     updateUserProfile
   } from '/javascript/supabase.js';
 
-  // ---------------- Constants ----------------
   const COOLDOWN_HOURS = 24;
-  const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes (final uploaded file limit)
-  const MAX_VIDEO_SIZE = 10 * 1024 * 1024; // 10MB for videos (hard limit)
-  const MAX_VIDEO_DURATION = 30; // 30 seconds max
-  const MAX_IMAGE_SIZE_BEFORE_COMPRESSION = 50 * 1024 * 1024; // 50MB - will try to compress
-  const IMAGE_MAX_DIMENSION = 1920; // max width/height during compression
-
-  /*
-   * 📊 FILE UPLOAD GUARDRAILS
-   * - Images: originals up to 50MB will be accepted and compressed in-browser to <= 10MB.
-   * - Videos: browser compression is unreliable — reject >10MB, enforce duration limit.
-   * - Supabase counts only the bytes you upload, so compress BEFORE upload.
-   */
-
-  // ---------------- UI helpers (toast) ----------------
-  function showToast(title, message) {
-    const toast = document.getElementById('compression-toast');
-    if (!toast) return;
-    const toastTitle = document.getElementById('toast-title');
-    const toastMessage = document.getElementById('toast-message');
-
-    if (toastTitle) toastTitle.textContent = title;
-    if (toastMessage) toastMessage.textContent = message;
-    toast.style.display = 'block';
-  }
-
-  function hideToast() {
-    const toast = document.getElementById('compression-toast');
-    if (!toast) return;
-    toast.style.display = 'none';
-  }
-
-  // ---------------- Image compression (Canvas) ----------------
-  async function compressImage(file, maxSizeMB = 10) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        const img = new Image();
-
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          let width = img.width;
-          let height = img.height;
-
-          // Resize preserving aspect ratio with a max dimension
-          const maxDim = IMAGE_MAX_DIMENSION;
-          if (width > maxDim || height > maxDim) {
-            if (width > height) {
-              height = Math.round((height * maxDim) / width);
-              width = maxDim;
-            } else {
-              width = Math.round((width * maxDim) / height);
-              height = maxDim;
-            }
-          }
-
-          canvas.width = width;
-          canvas.height = height;
-
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-
-          let quality = 0.92;
-
-          const tryCompress = () => {
-            canvas.toBlob(
-              (blob) => {
-                if (!blob) {
-                  reject(new Error('Compression failed: blob is null'));
-                  return;
-                }
-
-                const sizeMB = blob.size / (1024 * 1024);
-                // console.log(`📏 Compressed to ${sizeMB.toFixed(2)}MB at quality ${quality}`);
-
-                if (sizeMB <= maxSizeMB || quality <= 0.10) {
-                  // Construct a File so upload functions can use it
-                  const compressedFile = new File([blob], sanitizeFileName(file.name, 'jpg'), {
-                    type: 'image/jpeg',
-                    lastModified: Date.now()
-                  });
-                  resolve(compressedFile);
-                } else {
-                  quality = Math.max(quality - 0.12, 0.10);
-                  // try again with slightly lower quality
-                  tryCompress();
-                }
-              },
-              'image/jpeg',
-              quality
-            );
-          };
-
-          tryCompress();
-        };
-
-        img.onerror = () => reject(new Error('Failed to load image during compression'));
-        img.src = e.target.result;
-      };
-
-      reader.onerror = () => reject(new Error('Failed to read file for compression'));
-      reader.readAsDataURL(file);
-    });
-  }
-
-  function sanitizeFileName(name, forcedExt = null) {
-    const base = name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
-    if (!forcedExt) return base;
-    const dotIndex = base.lastIndexOf('.');
-    const stem = dotIndex === -1 ? base : base.substring(0, dotIndex);
-    return `${stem}.${forcedExt.replace(/^\./, '')}`;
-  }
-
-  // ---------------- Video property check ----------------
-  async function checkVideoProperties(file) {
-    return new Promise((resolve, reject) => {
-      const video = document.createElement('video');
-      video.preload = 'metadata';
-
-      video.onloadedmetadata = () => {
-        window.URL.revokeObjectURL(video.src);
-        const duration = video.duration;
-        resolve({
-          duration: duration,
-          valid: duration <= MAX_VIDEO_DURATION
-        });
-      };
-
-      video.onerror = () => {
-        reject(new Error('Failed to load video metadata'));
-      };
-
-      video.src = URL.createObjectURL(file);
-    });
-  }
-
-  // ---------------- Process uploaded file (image/video) ----------------
-  async function processUploadedFile(file) {
-    console.log(`📁 Processing file: ${file.name} (${(file.size / (1024 * 1024)).toFixed(2)}MB)`);
-
-    // Supported types: image/* and video/*
-    if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
-      alert('Only images and videos are supported.');
-      return null;
-    }
-
-    const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
-
-    // ---------- VIDEO flow ----------
-    if (file.type.startsWith('video/')) {
-      console.log('🎥 Video detected - checking constraints...');
-
-      // 1) Block if original file already larger than allowed hard limit
-      if (file.size > MAX_VIDEO_SIZE) {
-        hideToast();
-        alert(
-          `❌ Video is too large (${sizeMB}MB)\n\n` +
-          `Maximum video size: ${(MAX_VIDEO_SIZE / (1024 * 1024)).toFixed(0)}MB\n\n` +
-          `💡 Tips:\n` +
-          `• Compress or trim the video before uploading\n` +
-          `• Keep duration ≤ ${MAX_VIDEO_DURATION} seconds`
-        );
-        return null;
-      }
-
-      // 2) Check duration (metadata)
-      showToast('Checking video...', 'Validating duration and size');
-      try {
-        const videoProps = await checkVideoProperties(file);
-        hideToast();
-        if (!videoProps.valid) {
-          alert(
-            `❌ Video is too long (${Math.round(videoProps.duration)}s)\n\n` +
-            `Maximum duration: ${MAX_VIDEO_DURATION} seconds\n\n` +
-            `Please trim your video and try again.`
-          );
-          return null;
-        }
-        // 3) Final size check (safety)
-        if (file.size > MAX_FILE_SIZE) {
-          alert(`❌ Video file is still too large (${sizeMB}MB). Maximum is ${MAX_FILE_SIZE / (1024 * 1024)}MB.`);
-          return null;
-        }
-        console.log(`✅ Video passed checks: ${videoProps.duration.toFixed(1)}s, ${sizeMB}MB`);
-        return file; // ready for upload
-      } catch (err) {
-        console.error('❌ Video validation failed:', err);
-        hideToast();
-        alert('Failed to validate video. Please try a different file.');
-        return null;
-      }
-    }
-
-    // ---------- IMAGE flow ----------
-    if (file.type.startsWith('image/')) {
-      console.log('🖼️ Image detected - processing...');
-
-      // Block absurdly large images
-      if (file.size > MAX_IMAGE_SIZE_BEFORE_COMPRESSION) {
-        hideToast();
-        alert(
-          `❌ Image is too large (${sizeMB}MB)\n\n` +
-          `Maximum allowed before compression: ${(MAX_IMAGE_SIZE_BEFORE_COMPRESSION / (1024 * 1024)).toFixed(0)}MB\n\n` +
-          `Please resize the image before uploading.`
-        );
-        return null;
-      }
-
-      // If the image is already <= MAX_FILE_SIZE, still run a quick optimization pass to reduce size
-      // If > MAX_FILE_SIZE, we must compress down to <= MAX_FILE_SIZE
-      try {
-        // Show a toast for UX
-        if (file.size > MAX_FILE_SIZE) {
-          showToast('Compressing image...', `Original size: ${sizeMB}MB`);
-        } else {
-          showToast('Optimizing image...', `Size: ${sizeMB}MB`);
-        }
-
-        const compressed = await compressImage(file, MAX_FILE_SIZE / (1024 * 1024));
-        hideToast();
-
-        const newSizeMB = (compressed.size / (1024 * 1024)).toFixed(2);
-        console.log(`✅ Image compressed/optimized: ${sizeMB}MB → ${newSizeMB}MB`);
-
-        if (compressed.size > MAX_FILE_SIZE) {
-          alert(
-            `❌ Image is still too large after compression (${newSizeMB}MB)\n\n` +
-            `Please choose a smaller image or reduce its resolution manually.`
-          );
-          return null;
-        }
-
-        return compressed;
-      } catch (err) {
-        console.error('❌ Compression failed:', err);
-        hideToast();
-        // As a fallback: if compression fails and original is <= limit, allow original; otherwise reject
-        if (file.size <= MAX_FILE_SIZE) {
-          console.warn('Using original image because compression failed but original is under limit.');
-          return file;
-        }
-        alert('Failed to compress image. Please choose a smaller image.');
-        return null;
-      }
-    }
-
-    // Default fallback
-    hideToast();
-    alert('Unsupported file type.');
-    return null;
-  }
-
-  // ---------------- Badge selection UI ----------------
+  
+  // Badge selection functionality
   const badgeSelector = document.getElementById('badge-selector');
   const badgeDisplay = document.getElementById('profile-badge-display');
   let selectedBadge = null;
   let currentPostId = null; // Track currently visible post
-
-  // ---------------- Create post modal refs ----------------
+  
+  // Wait for DOM to be ready before accessing elements
   let createPostBtn = null;
   let openCreatePostBtn = null;
   let createPostModal = null;
   let closeCreateModal = null;
   let cancelCreatePost = null;
   let createPostTextarea = null;
-  let selectedMediaFile = null; // will hold the processed file
-  let fileNameEl = null;
-
+  
+  // Initialize create post elements after DOM is loaded
   function initCreatePostModal() {
     openCreatePostBtn = document.getElementById('open-create-post');
     createPostModal = document.getElementById('create-post-modal');
@@ -1304,10 +845,7 @@
     cancelCreatePost = document.getElementById('cancel-create-post');
     createPostTextarea = document.getElementById('new-post-text');
     createPostBtn = document.getElementById('create-post-btn');
-    const mediaInput = document.getElementById('new-post-media');
-    const removeMediaBtn = document.getElementById('remove-media');
-    fileNameEl = document.getElementById('file-name');
-
+    
     console.log('🔧 Create post elements initialized:', {
       button: !!openCreatePostBtn,
       modal: !!createPostModal,
@@ -1316,61 +854,16 @@
       textarea: !!createPostTextarea,
       postBtn: !!createPostBtn
     });
-
-    // Media selection handling
-    if (mediaInput) {
-      mediaInput.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        console.log(`📎 File selected: ${file.name}`);
-        selectedMediaFile = null;
-        fileNameEl && (fileNameEl.textContent = 'Processing...');
-
-        const processedFile = await processUploadedFile(file);
-
-        if (processedFile) {
-          selectedMediaFile = processedFile;
-          const sizeMB = (processedFile.size / (1024 * 1024)).toFixed(2);
-          if (fileNameEl) {
-            fileNameEl.textContent = `${processedFile.name} (${sizeMB}MB)`;
-            fileNameEl.style.color = '#1DA1F2';
-          }
-          if (removeMediaBtn) removeMediaBtn.style.display = 'inline-block';
-        } else {
-          // Rejected
-          if (mediaInput) mediaInput.value = '';
-          selectedMediaFile = null;
-          if (fileNameEl) {
-            fileNameEl.textContent = 'No file chosen';
-            fileNameEl.style.color = '';
-          }
-          if (removeMediaBtn) removeMediaBtn.style.display = 'none';
-        }
-      });
-    }
-
-    if (removeMediaBtn) {
-      removeMediaBtn.addEventListener('click', () => {
-        selectedMediaFile = null;
-        const mediaInput = document.getElementById('new-post-media');
-        if (mediaInput) mediaInput.value = '';
-        if (fileNameEl) {
-          fileNameEl.textContent = 'No file chosen';
-          fileNameEl.style.color = '';
-        }
-        removeMediaBtn.style.display = 'none';
-      });
-    }
-
+    
     if (openCreatePostBtn) {
       openCreatePostBtn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
+        console.log('🖱️ Create post button clicked');
         openCreatePostModal();
       });
     }
-
+    
     if (closeCreateModal) {
       closeCreateModal.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1378,7 +871,7 @@
         closeCreatePostModal();
       });
     }
-
+    
     if (cancelCreatePost) {
       cancelCreatePost.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1386,7 +879,7 @@
         closeCreatePostModal();
       });
     }
-
+    
     if (createPostModal) {
       createPostModal.addEventListener('click', (e) => {
         if (e.target === createPostModal) {
@@ -1394,70 +887,27 @@
         }
       });
     }
-
+    
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && createPostModal && createPostModal.style.display === 'block') {
         closeCreatePostModal();
       }
     });
-
-    // Create post button handler (example implementation)
-    if (createPostBtn) {
-      createPostBtn.addEventListener('click', async () => {
-        const text = createPostTextarea ? createPostTextarea.value.trim() : '';
-        if (!text && !selectedMediaFile) {
-          alert('Please add text or media to create a post.');
-          return;
-        }
-        createPostBtn.disabled = true;
-        try {
-          let media_url = null;
-          let media_type = null;
-          if (selectedMediaFile) {
-            // uploadImageForUser expected to handle both images and videos (adjust as needed)
-            media_url = await uploadImageForUser(selectedMediaFile, fbUser.id);
-            media_type = selectedMediaFile.type.startsWith('video/') ? 'video' : 'image';
-          }
-
-          const postObj = {
-            author: fbProfile?.name || fbUser.email,
-            authorUid: fbUser.id,
-            text,
-            media_url,
-            media_type,
-            created_at: new Date().toISOString()
-          };
-
-          const { error } = await supabase.from('posts').insert(postObj);
-          if (error) {
-            console.error('Failed to create post:', error);
-            alert('Failed to create post.');
-          } else {
-            // Optionally reload posts or prepend optimistically
-            loadPosts();
-            closeCreatePostModal();
-          }
-        } catch (err) {
-          console.error('Error creating post:', err);
-          alert('Failed to create post.');
-        } finally {
-          createPostBtn.disabled = false;
-        }
-      });
-    }
   }
-
+  
   function openCreatePostModal() {
+    console.log('📝 Opening create post modal');
     if (createPostModal) {
       createPostModal.style.display = 'block';
       setTimeout(() => {
         createPostModal.classList.add('visible');
-        createPostTextarea && createPostTextarea.focus();
+        if (createPostTextarea) createPostTextarea.focus();
       }, 10);
     }
   }
-
+  
   function closeCreatePostModal() {
+    console.log('❌ Closing create post modal');
     if (createPostModal) {
       createPostModal.classList.remove('visible');
       setTimeout(() => {
@@ -1465,55 +915,56 @@
       }, 200);
     }
     if (createPostTextarea) createPostTextarea.value = '';
-    if (fileNameEl) fileNameEl.textContent = 'No file chosen';
+    const fileNameEl = document.getElementById('file-name');
     const mediaInput = document.getElementById('new-post-media');
+    if (fileNameEl) fileNameEl.textContent = 'No file chosen';
     if (mediaInput) mediaInput.value = '';
-    const removeMediaBtn = document.getElementById('remove-media');
-    if (removeMediaBtn) removeMediaBtn.style.display = 'none';
-    selectedMediaFile = null;
   }
-
-  // ---------------- Badge UI ----------------
-  if (badgeSelector) {
-    badgeSelector.addEventListener('click', (e) => {
-      const option = e.target.closest('.badge-option');
-      if (!option) return;
-
-      badgeSelector.querySelectorAll('.badge-option').forEach(b => b.classList.remove('selected'));
-      option.classList.add('selected');
-      selectedBadge = option.dataset.badge;
-    });
-  }
-
+  
+  badgeSelector.addEventListener('click', (e) => {
+    const option = e.target.closest('.badge-option');
+    if (!option) return;
+    
+    // Remove previous selection
+    badgeSelector.querySelectorAll('.badge-option').forEach(b => b.classList.remove('selected'));
+    
+    // Mark as selected
+    option.classList.add('selected');
+    selectedBadge = option.dataset.badge;
+  });
+  
   function displayBadge(badgeColor, targetElement = badgeDisplay) {
-    if (!targetElement) return;
     if (!badgeColor) {
       targetElement.innerHTML = '';
       return;
     }
+    
+    // Create badge image
     const badgeImg = document.createElement('img');
     badgeImg.className = 'profile-badge-small';
     badgeImg.src = `/assets/badges/${badgeColor}.png`;
     badgeImg.alt = `${badgeColor} badge`;
     badgeImg.onerror = () => {
+      // Fallback to colored div if image not found
       const fallback = document.createElement('div');
       fallback.className = 'profile-badge-small';
       fallback.style.backgroundColor = badgeColor === 'white' ? '#f3f4f6' : badgeColor;
       targetElement.innerHTML = '';
       targetElement.appendChild(fallback);
     };
+    
     targetElement.innerHTML = '';
     targetElement.appendChild(badgeImg);
   }
-
-  // ---------------- Feed scroll + intersection helpers ----------------
+  
+  // Scroll detection for posts
   function setupScrollSnap() {
     const feedEl = document.getElementById('feed-container');
     if (!feedEl) return;
-
+    
     let scrollTimeout;
     let isScrolling = false;
-
+    
     feedEl.addEventListener('scroll', () => {
       isScrolling = true;
       clearTimeout(scrollTimeout);
@@ -1522,13 +973,14 @@
         detectCurrentPost();
       }, 100);
     });
-
+    
+    // Also detect on scroll end with IntersectionObserver
     const posts = feedEl.querySelectorAll('.post');
     const observerOptions = {
       root: feedEl,
       threshold: 0.5
     };
-
+    
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting && !isScrolling) {
@@ -1540,46 +992,28 @@
         }
       });
     }, observerOptions);
-
+    
     posts.forEach(post => observer.observe(post));
   }
-
-  function setupInfiniteScroll() {
-    const feedEl = document.getElementById('feed-container');
-    if (!feedEl) return;
-    const loadingIndicator = feedEl.querySelector('.loading-indicator');
-    if (!loadingIndicator) return;
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && hasMorePosts && !isLoadingMore) {
-          loadMorePosts();
-        }
-      });
-    }, {
-      root: feedEl,
-      threshold: 0.1,
-      rootMargin: '100px'
-    });
-
-    observer.observe(loadingIndicator);
-  }
-
+  
   function detectCurrentPost() {
     const feedEl = document.getElementById('feed-container');
-    if (!feedEl) return;
-    const postsEls = feedEl.querySelectorAll('.post');
+    const posts = feedEl.querySelectorAll('.post');
+    
     let currentPost = null;
     let minDistance = Infinity;
-    postsEls.forEach(post => {
+    
+    posts.forEach(post => {
       const rect = post.getBoundingClientRect();
       const feedRect = feedEl.getBoundingClientRect();
       const distance = Math.abs(rect.top - feedRect.top);
+      
       if (distance < minDistance) {
         minDistance = distance;
         currentPost = post;
       }
     });
+    
     if (currentPost) {
       const postId = currentPost.dataset.postId;
       if (postId !== currentPostId) {
@@ -1588,51 +1022,50 @@
       }
     }
   }
-
-  // ---------------- Comments loader ----------------
+  
   async function loadCommentsForPost(postId) {
     const post = findPostById(postId);
     if (!post) return;
-
+    
     const commentsList = document.getElementById('sidebar-comments-list');
     const commentForm = document.getElementById('sidebar-comment-form');
     const commentInput = document.getElementById('sidebar-comment-input');
-
-    if (!commentsList || !commentForm) return;
+    
     commentsList.innerHTML = '';
     commentForm.style.display = 'flex';
     commentForm.dataset.postId = postId;
-
+    
     if (!post.comments || post.comments.length === 0) {
       commentsList.innerHTML = '<p style="color: #888; text-align: center; padding: 2rem;">No comments yet. Be the first!</p>';
       return;
     }
-
+    
     post.comments.forEach(comment => {
       if (!comment) return;
+      
       const commentDiv = document.createElement('div');
       commentDiv.className = 'sidebar-comment';
       commentDiv.dataset.commentId = comment.id;
-
+      
       const header = document.createElement('div');
       header.style.display = 'flex';
       header.style.alignItems = 'center';
       header.style.gap = '0.5rem';
       header.style.marginBottom = '0.5rem';
       header.style.paddingRight = '2rem';
-
+      
       const avatar = avatarElement(comment.author, comment.avatar, 32);
       avatar.style.flexShrink = '0';
       header.appendChild(avatar);
-
+      
       const author = document.createElement('div');
       author.style.fontWeight = '600';
       author.style.color = 'white';
       author.textContent = comment.author;
       header.appendChild(author);
-
+      
       commentDiv.appendChild(header);
-
+      
       const text = document.createElement('p');
       text.className = 'comment-text-content';
       text.style.color = '#ddd';
@@ -1640,38 +1073,47 @@
       text.style.wordBreak = 'break-word';
       text.textContent = comment.text;
       commentDiv.appendChild(text);
-
-      // Permissions & menu (edit/delete)
+      
+      // Check permissions
       const isCommentAuthor = fbUser && (comment.authorUid ? comment.authorUid === fbUser.uid : (fbProfile && comment.author === fbProfile.name));
       const isPostAuthor = fbUser && (post.authorUid ? post.authorUid === fbUser.uid : (fbProfile && post.author === fbProfile.name));
-
+      
       if (isCommentAuthor || isPostAuthor) {
+        // Menu toggle button
         const menuToggle = document.createElement('button');
         menuToggle.className = 'comment-menu-toggle';
         menuToggle.innerHTML = '⋮';
+        
+        // Dropdown menu
         const dropdown = document.createElement('div');
         dropdown.className = 'comment-dropdown';
-
+        
         if (isCommentAuthor) {
           const editBtn = document.createElement('button');
           editBtn.textContent = 'Edit';
           editBtn.addEventListener('click', async () => {
             const newText = prompt('Edit your comment:', comment.text);
             if (newText === null || newText.trim() === '') return;
+            
             try {
               const { data: postData } = await supabase
                 .from('posts')
                 .select('comments')
                 .eq('id', postId)
                 .single();
+              
               if (!postData) return;
+              
               const updatedComments = (postData.comments || []).map(c =>
                 c.id === comment.id ? { ...c, text: newText.trim() } : c
               );
+              
               await supabase
                 .from('posts')
                 .update({ comments: updatedComments })
                 .eq('id', postId);
+              
+              console.log('✅ Comment edited');
               dropdown.classList.remove('visible');
             } catch (err) {
               console.error('❌ Failed to edit comment:', err);
@@ -1680,25 +1122,31 @@
           });
           dropdown.appendChild(editBtn);
         }
-
+        
         if (isCommentAuthor || isPostAuthor) {
           const deleteBtn = document.createElement('button');
           deleteBtn.className = 'danger';
           deleteBtn.textContent = 'Delete';
           deleteBtn.addEventListener('click', async () => {
             if (!confirm('Delete this comment?')) return;
+            
             try {
               const { data: postData } = await supabase
                 .from('posts')
                 .select('comments')
                 .eq('id', postId)
                 .single();
+              
               if (!postData) return;
+              
               const updatedComments = (postData.comments || []).filter(c => c.id !== comment.id);
+              
               await supabase
                 .from('posts')
                 .update({ comments: updatedComments })
                 .eq('id', postId);
+              
+              console.log('🗑️ Comment deleted');
               dropdown.classList.remove('visible');
             } catch (err) {
               console.error('❌ Failed to delete comment:', err);
@@ -1707,32 +1155,38 @@
           });
           dropdown.appendChild(deleteBtn);
         }
-
+        
+        // Toggle dropdown
         menuToggle.addEventListener('click', (e) => {
           e.stopPropagation();
+          // Close other dropdowns
           document.querySelectorAll('.comment-dropdown.visible').forEach(d => {
             if (d !== dropdown) d.classList.remove('visible');
           });
           dropdown.classList.toggle('visible');
         });
-
+        
         commentDiv.appendChild(menuToggle);
         commentDiv.appendChild(dropdown);
       }
-
+      
       commentsList.appendChild(commentDiv);
     });
-
+    
     // Close dropdowns when clicking outside
     document.addEventListener('click', (e) => {
       if (!e.target.closest('.sidebar-comment')) {
-        document.querySelectorAll('.comment-dropdown.visible').forEach(d => d.classList.remove('visible'));
+        document.querySelectorAll('.comment-dropdown.visible').forEach(d => {
+          d.classList.remove('visible');
+        });
       }
     });
   }
 
-  // ---------------- Notifications + auth state ----------------
+  // Start global notifications when user is authenticated
   let authUnsubscribe = null;
+
+  // DOM refs
   const feedEl = document.getElementById('feed-container');
   const friendsEl = document.getElementById('friends-container');
   const profilePicEl = document.getElementById('profile-pic');
@@ -1747,6 +1201,7 @@
   const openProfileEditorBtn = document.getElementById('open-profile-editor');
   const offlineBanner = document.getElementById('offline-banner');
 
+  // Notification system
   let notificationPanel = null;
   let notificationBadge = null;
   let notifications = [];
@@ -1754,6 +1209,7 @@
   let postsSubscription = null;
   let notificationInitTime = null;
 
+  // Load notification state from localStorage
   function loadNotificationState() {
     try {
       const saved = localStorage.getItem('notificationState');
@@ -1761,7 +1217,10 @@
         const state = JSON.parse(saved);
         lastSeenPostIds = new Set(state.lastSeenPostIds || []);
         notificationInitTime = state.initTime || null;
-        notifications = (state.notifications || []).filter(n => (Date.now() - n.timestamp) < (60 * 60 * 1000));
+        notifications = (state.notifications || []).filter(n => {
+          return (Date.now() - n.timestamp) < (60 * 60 * 1000);
+        });
+        console.log('📱 Loaded notification state:', lastSeenPostIds.size, 'posts seen');
       } else {
         notificationInitTime = Date.now();
         saveNotificationState();
@@ -1772,6 +1231,7 @@
     }
   }
 
+  // Save notification state to localStorage
   function saveNotificationState() {
     try {
       const state = {
@@ -1785,20 +1245,14 @@
     }
   }
 
-  // ---------------- Runtime state ----------------
+  // runtime state
   let fbUser = null;
   let fbProfile = null;
   let posts = [];
   let profileUnsub = null;
   let friendsUnsub = null;
 
-  // Pagination state
-  let currentPage = 0;
-  const POSTS_PER_PAGE = 20;
-  let isLoadingMore = false;
-  let hasMorePosts = true;
-
-  // ---------------- Helpers ----------------
+  /* ------------------ small helpers ------------------ */
   function escapeHtml(str) {
     if (!str) return '';
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -1818,6 +1272,7 @@
       img.style.objectFit = 'cover';
       img.style.borderRadius = '50%';
       img.style.display = 'block';
+
       wrapper.style.overflow = 'hidden';
       wrapper.style.borderRadius = '50%';
       wrapper.innerHTML = '';
@@ -1835,45 +1290,41 @@
   function checkUsernameCooldownUI(profileObj) {
     const last = profileObj?.last_username_change ? new Date(profileObj.last_username_change).getTime() : null;
     const cooldownMsgEl = document.getElementById('username-cooldown-msg');
-    if (!last) {
-      usernameInput && (usernameInput.disabled = false);
-      if (cooldownMsgEl) cooldownMsgEl.textContent = '';
-      return;
+    if (!last) { 
+      usernameInput.disabled = false; 
+      cooldownMsgEl.textContent = ''; 
+      return; 
     }
     const hoursPassed = (Date.now() - last) / (1000 * 60 * 60);
     if (hoursPassed < COOLDOWN_HOURS) {
       const hoursLeft = Math.ceil(COOLDOWN_HOURS - hoursPassed);
-      usernameInput && (usernameInput.disabled = true);
-      if (cooldownMsgEl) cooldownMsgEl.textContent = `You can change your username again in ${hoursLeft} hour(s).`;
+      usernameInput.disabled = true;
+      cooldownMsgEl.textContent = `You can change your username again in ${hoursLeft} hour(s).`;
     } else {
-      usernameInput && (usernameInput.disabled = false);
-      if (cooldownMsgEl) cooldownMsgEl.textContent = '';
+      usernameInput.disabled = false; 
+      cooldownMsgEl.textContent = '';
     }
   }
 
-  // ---------------- Rendering ----------------
-  function renderFeed(array, append = false) {
-    if (!feedEl) return;
-    console.log('🎨 Rendering feed with', array.length, 'posts', append ? '(appending)' : '(replacing)');
-    if (!append) feedEl.innerHTML = '';
-    else {
-      const loadingIndicator = feedEl.querySelector('.loading-indicator');
-      if (loadingIndicator) loadingIndicator.remove();
-    }
-
+  /* ------------------ rendering ------------------ */
+  function renderFeed(array) {
+    console.log('🎨 Rendering feed with', array.length, 'posts');
+    feedEl.innerHTML = '';
     const hiddenKey = fbUser ? `hiddenPosts_${fbUser.id}` : 'hiddenPosts_guest';
     const hiddenPosts = JSON.parse(localStorage.getItem(hiddenKey) || '[]');
     const visible = (array || []).filter(p => !hiddenPosts.includes(p.id));
     console.log('👁️ Visible posts after filtering:', visible.length);
-
-    if (!visible.length && !append) {
+    
+    if (!visible.length) {
       const d = document.createElement('div');
       d.className = 'empty-feed-message';
       d.textContent = 'No posts yet — add friends to bring your feed to life!';
       feedEl.appendChild(d);
+      console.log('📭 Feed is empty');
       return;
     }
 
+    console.log('✅ Rendering', visible.length, 'posts');
     visible.forEach(post => {
       const article = document.createElement('article');
       article.className = 'post';
@@ -1901,481 +1352,1285 @@
       meta.appendChild(tdiv);
       header.appendChild(meta);
 
+      // actions menu (edit/delete only if author)
+      const actionsWrap = document.createElement('div');
+      actionsWrap.className = 'actions-menu-container';
+      actionsWrap.style.marginLeft = 'auto';
+      const menuBtn = document.createElement('button');
+      menuBtn.className = 'action-menu-btn';
+      menuBtn.type = 'button';
+      menuBtn.textContent = '•••';
+      actionsWrap.appendChild(menuBtn);
+      const menu = document.createElement('div'); menu.className = 'action-menu';
+
+      const isAuthor = fbUser && (post.author_uid ? post.author_uid === fbUser.id : (fbProfile && post.author_name === fbProfile.name));
+      if (isAuthor) {
+        const editLink = document.createElement('a'); editLink.className = 'edit-post'; editLink.href = '#'; editLink.textContent = 'Edit Post';
+        const delLink = document.createElement('a'); delLink.className = 'delete-post danger'; delLink.href = '#'; delLink.textContent = 'Delete Post';
+        menu.appendChild(editLink); menu.appendChild(delLink);
+      }
+      actionsWrap.appendChild(menu);
+      header.appendChild(actionsWrap);
+
       article.appendChild(header);
 
-      // Post menu
-      const postMenu = document.createElement('div');
-      postMenu.className = 'post-menu';
-      postMenu.style.position = 'absolute';
-      postMenu.style.top = '1rem';
-      postMenu.style.right = '1rem';
-
-      const menuBtn = document.createElement('button');
-      menuBtn.className = 'post-menu-btn';
-      menuBtn.innerHTML = '⋮';
-      menuBtn.style.cssText = 'background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer; padding: 0.5rem; border-radius: 4px; transition: all 0.2s;';
-
-      const dropdown = document.createElement('div');
-      dropdown.className = 'post-menu-dropdown';
-      dropdown.style.cssText = 'position: absolute; right: 0; top: 100%; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 0.5rem; min-width: 120px; display: none; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.5);';
-
-      const hideBtn = document.createElement('button');
-      hideBtn.textContent = 'Hide Post';
-      hideBtn.style.cssText = 'display: block; width: 100%; padding: 0.5rem 0.75rem; background: none; border: none; color: white; text-align: left; cursor: pointer; border-radius: 4px; transition: background-color 0.2s;';
-      hideBtn.addEventListener('click', () => {
-        const hiddenKey = fbUser ? `hiddenPosts_${fbUser.id}` : 'hiddenPosts_guest';
-        const hidden = JSON.parse(localStorage.getItem(hiddenKey) || '[]');
-        hidden.push(post.id);
-        localStorage.setItem(hiddenKey, JSON.stringify(hidden));
-        article.remove();
-        dropdown.style.display = 'none';
-      });
-      hideBtn.addEventListener('mouseenter', () => hideBtn.style.backgroundColor = 'rgba(255,255,255,0.1)');
-      hideBtn.addEventListener('mouseleave', () => hideBtn.style.backgroundColor = 'transparent');
-      dropdown.appendChild(hideBtn);
-
-      const isAuthor = fbUser && (post.authorUid ? post.authorUid === fbUser.uid : (fbProfile && (post.author === fbProfile.name || post.author_name === fbProfile.name)));
-
-      if (isAuthor) {
-        const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'Delete Post';
-        deleteBtn.style.cssText = 'display: block; width: 100%; padding: 0.5rem 0.75rem; background: none; border: none; color: #ef4444; text-align: left; cursor: pointer; border-radius: 4px; transition: background-color 0.2s;';
-        deleteBtn.addEventListener('click', async () => {
-          if (!confirm('Delete this post?')) return;
-          try {
-            await supabase.from('posts').delete().eq('id', post.id);
-            article.remove();
-            dropdown.style.display = 'none';
-          } catch (err) {
-            console.error('Failed to delete post:', err);
-            alert('Failed to delete post.');
-          }
-        });
-        deleteBtn.addEventListener('mouseenter', () => deleteBtn.style.backgroundColor = 'rgba(255,255,255,0.1)');
-        deleteBtn.addEventListener('mouseleave', () => deleteBtn.style.backgroundColor = 'transparent');
-        dropdown.appendChild(deleteBtn);
+      // image
+      if (post.image) {
+        const img = document.createElement('img'); img.className = 'post-image'; img.src = post.image;
+        article.appendChild(img);
       }
-
-      menuBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        document.querySelectorAll('.post-menu-dropdown').forEach(d => {
-          if (d !== dropdown) d.style.display = 'none';
-        });
-        dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-      });
-
-      postMenu.appendChild(menuBtn);
-      postMenu.appendChild(dropdown);
-      header.appendChild(postMenu);
-
-      // Close dropdown when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('.post-menu')) {
-          dropdown.style.display = 'none';
-        }
-      });
 
       // body
-      const body = document.createElement('div');
-      body.className = 'post-body';
-      const textP = document.createElement('p');
-      textP.textContent = post.text || '';
-      body.appendChild(textP);
+      const body = document.createElement('div'); body.className = 'post-body'; body.innerText = post.body || '';
       article.appendChild(body);
 
-      // media
-      if (post.media_url) {
-        const mediaDiv = document.createElement('div');
-        mediaDiv.className = 'post-media';
-        if (post.media_type === 'video') {
-          const vid = document.createElement('video');
-          vid.src = post.media_url;
-          vid.controls = true;
-          vid.style.maxWidth = '100%';
-          vid.style.borderRadius = '8px';
-          mediaDiv.appendChild(vid);
-        } else {
-          const img = document.createElement('img');
-          img.src = post.media_url;
-          img.alt = 'Post image';
-          img.style.maxWidth = '100%';
-          img.style.borderRadius = '8px';
-          mediaDiv.appendChild(img);
-        }
-        article.appendChild(mediaDiv);
-      }
-
-      // actions
-      const actions = document.createElement('div');
-      actions.className = 'post-actions';
-      actions.style.cssText = 'display: flex; gap: 1rem; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid #333;';
+      // actions row
+      const actions = document.createElement('div'); actions.className = 'post-actions';
 
       const likeBtn = document.createElement('button');
       likeBtn.className = 'action-btn like-btn';
-      likeBtn.innerHTML = `👍 ${post.likes || 0}`;
-      likeBtn.style.cssText = 'background: none; border: none; color: #888; font-size: 1rem; cursor: pointer; padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem;';
-      likeBtn.addEventListener('mouseenter', () => likeBtn.style.backgroundColor = 'rgba(255,255,255,0.1)');
-      likeBtn.addEventListener('mouseleave', () => likeBtn.style.backgroundColor = 'transparent');
-      actions.appendChild(likeBtn);
+      likeBtn.type = 'button';
+      const likeCountSpan = document.createElement('span');
+      likeCountSpan.className = 'action-count';
+      likeCountSpan.textContent = (post.liked_by ? post.liked_by.length : 0);
+      likeBtn.innerHTML = '👍 ';
+      likeBtn.appendChild(likeCountSpan);
 
       const dislikeBtn = document.createElement('button');
       dislikeBtn.className = 'action-btn dislike-btn';
-      dislikeBtn.innerHTML = `👎 ${post.dislikes || 0}`;
-      dislikeBtn.style.cssText = 'background: none; border: none; color: #888; font-size: 1rem; cursor: pointer; padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem;';
-      dislikeBtn.addEventListener('mouseenter', () => dislikeBtn.style.backgroundColor = 'rgba(255,255,255,0.1)');
-      dislikeBtn.addEventListener('mouseleave', () => dislikeBtn.style.backgroundColor = 'transparent');
+      dislikeBtn.type = 'button';
+      const dislikeCountSpan = document.createElement('span');
+      dislikeCountSpan.className = 'action-count';
+      dislikeCountSpan.textContent = (post.disliked_by ? post.disliked_by.length : 0);
+      dislikeBtn.innerHTML = '👎 ';
+      dislikeBtn.appendChild(dislikeCountSpan);
+
+      actions.appendChild(likeBtn);
       actions.appendChild(dislikeBtn);
 
-      const commentBtn = document.createElement('button');
-      commentBtn.className = 'action-btn';
-      commentBtn.innerHTML = `💬 ${(post.comments || []).length}`;
-      commentBtn.style.cssText = 'background: none; border: none; color: #888; font-size: 1rem; cursor: pointer; padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem;';
-      commentBtn.addEventListener('mouseenter', () => commentBtn.style.backgroundColor = 'rgba(255,255,255,0.1)');
-      commentBtn.addEventListener('mouseleave', () => commentBtn.style.backgroundColor = 'transparent');
-      commentBtn.addEventListener('click', () => {
-        currentPostId = post.id;
-        loadCommentsForPost(post.id);
-      });
-      actions.appendChild(commentBtn);
+      function updateReactionButtonStatesFor(likeEl, dislikeEl, postObj) {
+        const uid = fbUser?.id;
+        if (!uid) {
+          likeEl.classList.remove('is-active');
+          dislikeEl.classList.remove('is-active');
+          return;
+        }
+        likeEl.classList.toggle('is-active', Array.isArray(postObj.liked_by) && postObj.liked_by.includes(uid));
+        dislikeEl.classList.toggle('is-active', Array.isArray(postObj.disliked_by) && postObj.disliked_by.includes(uid));
+      }
 
+      updateReactionButtonStatesFor(likeBtn, dislikeBtn, post);
+
+      let reactionWriteInFlight = false;
+
+      likeBtn.addEventListener('click', async () => {
+        if (!fbUser) { alert('Sign in to like posts.'); return; }
+        if (!navigator.onLine) { alert('You are offline — action cannot be saved.'); return; }
+        if (reactionWriteInFlight) return;
+
+        const uid = fbUser.id;
+        post.liked_by = post.liked_by || [];
+        post.disliked_by = post.disliked_by || [];
+
+        const alreadyLiked = post.liked_by.includes(uid);
+
+        if (alreadyLiked) {
+          post.liked_by = post.liked_by.filter(x => x !== uid);
+        } else {
+          post.liked_by = [...post.liked_by, uid];
+          post.disliked_by = post.disliked_by.filter(x => x !== uid);
+        }
+
+        likeCountSpan.textContent = post.liked_by.length;
+        dislikeCountSpan.textContent = post.disliked_by.length;
+        updateReactionButtonStatesFor(likeBtn, dislikeBtn, post);
+
+        reactionWriteInFlight = true;
+        likeBtn.disabled = dislikeBtn.disabled = true;
+        
+        try {
+          await supabase
+            .from('posts')
+            .update({
+              liked_by: post.liked_by,
+              disliked_by: post.disliked_by
+            })
+            .eq('id', post.id);
+        } catch (err) {
+          console.error('Failed to persist like:', err);
+          alert('Failed to save like. See console.');
+          if (alreadyLiked) post.liked_by = [...post.liked_by, uid];
+          else post.liked_by = post.liked_by.filter(x => x !== uid);
+          likeCountSpan.textContent = post.liked_by.length;
+          dislikeCountSpan.textContent = post.disliked_by.length;
+          updateReactionButtonStatesFor(likeBtn, dislikeBtn, post);
+        } finally {
+          reactionWriteInFlight = false;
+          likeBtn.disabled = dislikeBtn.disabled = false;
+        }
+      });
+
+      dislikeBtn.addEventListener('click', async () => {
+        if (!fbUser) { alert('Sign in to dislike posts.'); return; }
+        if (!navigator.onLine) { alert('You are offline — action cannot be saved.'); return; }
+        if (reactionWriteInFlight) return;
+
+        const uid = fbUser.id;
+        post.liked_by = post.liked_by || [];
+        post.disliked_by = post.disliked_by || [];
+
+        const alreadyDisliked = post.disliked_by.includes(uid);
+
+        if (alreadyDisliked) {
+          post.disliked_by = post.disliked_by.filter(x => x !== uid);
+        } else {
+          post.disliked_by = [...post.disliked_by, uid];
+          post.liked_by = post.liked_by.filter(x => x !== uid);
+        }
+
+        likeCountSpan.textContent = post.liked_by.length;
+        dislikeCountSpan.textContent = post.disliked_by.length;
+        updateReactionButtonStatesFor(likeBtn, dislikeBtn, post);
+
+        reactionWriteInFlight = true;
+        likeBtn.disabled = dislikeBtn.disabled = true;
+        
+        try {
+          await supabase
+            .from('posts')
+            .update({
+              liked_by: post.liked_by,
+              disliked_by: post.disliked_by
+            })
+            .eq('id', post.id);
+        } catch (err) {
+          console.error('Failed to persist dislike:', err);
+          alert('Failed to save dislike. See console.');
+          if (alreadyDisliked) post.disliked_by = [...post.disliked_by, uid];
+          else post.disliked_by = post.disliked_by.filter(x => x !== uid);
+          likeCountSpan.textContent = post.liked_by.length;
+          dislikeCountSpan.textContent = post.disliked_by.length;
+          updateReactionButtonStatesFor(likeBtn, dislikeBtn, post);
+        } finally {
+          reactionWriteInFlight = false;
+          likeBtn.disabled = dislikeBtn.disabled = false;
+        }
+      });
+
+      const reportBtn = document.createElement('button');
+      reportBtn.className = 'action-btn report-visible-btn';
+      reportBtn.type = 'button';
+      reportBtn.innerHTML = '⚑ <span style="margin-left:6px;">Hide</span>';
+
+      reportBtn.addEventListener('click', () => {
+        if (!confirm('Are you sure you want to hide this post? This action cannot be undone.')) return;
+
+        const hiddenKey = fbUser ? `hiddenPosts_${fbUser.id}` : 'hiddenPosts_guest';
+        let hiddenPosts = JSON.parse(localStorage.getItem(hiddenKey) || '[]');
+
+        if (!hiddenPosts.includes(post.id)) {
+          hiddenPosts.push(post.id);
+          localStorage.setItem(hiddenKey, JSON.stringify(hiddenPosts));
+        }
+
+        posts = posts.filter(p => p.id !== post.id);
+        renderFeed(posts);
+      });
+
+      actions.appendChild(reportBtn);
       article.appendChild(actions);
+
       feedEl.appendChild(article);
     });
-
-    // loading indicator or end message
-    if (hasMorePosts && visible.length > 0) {
-      const loadingDiv = document.createElement('div');
-      loadingDiv.className = 'loading-indicator';
-      loadingDiv.innerHTML = `
-        <div style="display: flex; align-items: center; justify-content: center; padding: 2rem; gap: 0.75rem;">
-          <div class="spinner" style="width: 24px; height: 24px; border: 3px solid #333; border-top-color: #1DA1F2; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
-          <span style="color: #888;">Loading more posts...</span>
-        </div>
-      `;
-      feedEl.appendChild(loadingDiv);
-    } else if (!hasMorePosts && visible.length > 0) {
-      const endDiv = document.createElement('div');
-      endDiv.className = 'end-of-feed';
-      endDiv.innerHTML = `
-        <div style="text-align: center; padding: 2rem; color: #888;">
-          <p style="margin: 0;">🎉 You're all caught up!</p>
-          <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">No more posts to show</p>
-        </div>
-      `;
-      feedEl.appendChild(endDiv);
-    }
-
-    if (!append) {
-      setupScrollSnap();
-      setupInfiniteScroll();
+    
+    // Setup scroll snap after rendering
+    setupScrollSnap();
+    
+    // Detect first post
+    if (visible.length > 0) {
+      setTimeout(() => detectCurrentPost(), 500);
     }
   }
 
-  function renderFriends(friendsList) {
-    if (!friendsEl) return;
-    friendsEl.innerHTML = '';
-    if (!friendsList || friendsList.length === 0) {
-      friendsEl.innerHTML = '<p style="color:#888;">No friends yet.</p>';
+  /* ------------------ event delegation for menus / edit / delete ------------------ */
+
+  document.addEventListener('click', async (ev) => {
+    const target = ev.target;
+
+    const menuBtn = target.closest('.action-menu-btn');
+    if (menuBtn) {
+      ev.stopPropagation();
+      const container = menuBtn.closest('.actions-menu-container');
+      if (!container) return;
+      const menu = container.querySelector('.action-menu');
+      document.querySelectorAll('.action-menu.visible').forEach(m => { if (m !== menu) m.classList.remove('visible'); });
+      menu.classList.toggle('visible');
       return;
     }
-    friendsList.forEach(fr => {
-      const item = document.createElement('div');
-      item.className = 'friend-item';
-      const av = avatarElement(fr.name, fr.avatar, 40);
-      item.appendChild(av);
-      const nameDiv = document.createElement('div');
-      nameDiv.style.flex = '1';
-      nameDiv.style.fontWeight = '500';
-      nameDiv.textContent = fr.name;
-      item.appendChild(nameDiv);
-      friendsEl.appendChild(item);
-    });
-  }
 
-  // ---------------- Init on DOM ready ----------------
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log('📄 DOM loaded, initializing...');
-    initCreatePostModal();
-    loadNotificationState();
+    const link = target.closest('.action-menu a, .action-menu a *');
+    if (link) {
+      ev.preventDefault();
+      const anchor = target.closest('a');
+      if (!anchor) return;
+
+      if (anchor.classList.contains('edit-post')) {
+        const postEl = anchor.closest('.post');
+        if (!postEl) return;
+        const pid = postEl.dataset.postId;
+        const postObj = findPostById(pid);
+        if (!postObj) return;
+        const bodyEl = postEl.querySelector('.post-body');
+        const editArea = document.createElement('div'); editArea.className = 'post-edit';
+        editArea.innerHTML = `<textarea class="post-edit-input" style="width:100%;min-height:100px">${escapeHtml(postObj.body)}</textarea>
+          <div style="margin-top:8px;">
+            <button class="action-btn save-post-edit" type="button">Save</button>
+            <button class="action-btn cancel-post-edit" type="button">Cancel</button>
+          </div>`;
+        bodyEl.replaceWith(editArea);
+        document.querySelectorAll('.action-menu.visible').forEach(m => m.classList.remove('visible'));
+        return;
+      }
+
+      if (anchor.classList.contains('delete-post')) {
+        const postEl = anchor.closest('.post'); if (!postEl) return;
+        const pid = postEl.dataset.postId;
+        if (!confirm('Delete this post? This cannot be undone.')) { document.querySelectorAll('.action-menu.visible').forEach(m => m.classList.remove('visible')); return; }
+        try {
+          await supabase.from('posts').delete().eq('id', pid);
+        } catch (err) {
+          console.error('Failed to delete post:', err);
+          alert('Failed to delete post. Check console / security rules.');
+        }
+        return;
+      }
+    }
+
+    const clickedInsideMenu = !!target.closest('.action-menu') || !!target.closest('.action-menu-btn');
+    if (!clickedInsideMenu) document.querySelectorAll('.action-menu.visible').forEach(m => m.classList.remove('visible'));
   });
 
-  // ---------------- Auth monitoring ----------------
-  onAuthStateChanged(async (user) => {
-    fbUser = user;
-    if (!user) {
-      console.log('❌ No user, redirecting to login');
-      window.location.href = '/pages/loginblacknote.html';
+  document.addEventListener('click', async (ev) => {
+    const t = ev.target;
+    if (t.matches('.save-post-edit')) {
+      const editDiv = t.closest('.post-edit'); if (!editDiv) return;
+      const pid = editDiv.closest('.post').dataset.postId;
+      const newVal = editDiv.querySelector('.post-edit-input').value.trim(); if (!newVal) return;
+      try {
+        await supabase
+          .from('posts')
+          .update({ 
+            body: newVal,
+            edited_at: new Date().toISOString()
+          })
+          .eq('id', pid);
+      } catch (err) {
+        console.error('Failed to update post:', err);
+        alert('Failed to save edit. See console.');
+      }
       return;
     }
-
-    console.log('✅ User authenticated:', user.email);
-    const profile = await getUserProfile(user.id);
-    fbProfile = profile;
-
-    if (profile) {
-      // Set profile picture
-      if (profile.avatar) {
-        if (profilePicEl) {
-          profilePicEl.style.backgroundImage = `url(${profile.avatar})`;
-          profilePicEl.style.backgroundSize = 'cover';
-          profilePicEl.style.backgroundPosition = 'center';
-        }
-      } else if (profilePicEl) {
-        profilePicEl.style.backgroundImage = '';
-        profilePicEl.textContent = (profile.name && profile.name[0]) ? profile.name[0].toUpperCase() : '?';
-        profilePicEl.style.display = 'flex';
-        profilePicEl.style.alignItems = 'center';
-        profilePicEl.style.justifyContent = 'center';
-        profilePicEl.style.fontSize = '3rem';
-        profilePicEl.style.fontWeight = '700';
-        profilePicEl.style.color = 'white';
-      }
-
-      if (profileBioEl) profileBioEl.textContent = profile.bio || 'No bio yet.';
-      const mainNameEl = document.querySelector('.main-profile-name');
-      if (mainNameEl) mainNameEl.textContent = profile.name || user.email;
-
-      if (pfpPreview) pfpPreview.src = profile.avatar || '/assets/BN.png';
-      if (usernameInput) usernameInput.value = profile.name || '';
-      if (bioInput) bioInput.value = profile.bio || '';
-
-      if (profile.badge) {
-        selectedBadge = profile.badge;
-        displayBadge(profile.badge);
-        const option = badgeSelector && badgeSelector.querySelector(`[data-badge="${profile.badge}"]`);
-        if (option) option.classList.add('selected');
-      }
-
-      checkUsernameCooldownUI(profile);
+    if (t.matches('.cancel-post-edit')) {
+      renderFeed(posts);
+      return;
     }
-
-    console.log('📊 Performance: Loading posts with pagination (20 at a time)');
-    loadPosts();
-    loadFriends();
   });
 
-  // ---------------- Load posts + pagination ----------------
-  async function loadPosts() {
-    console.log('📥 Loading initial posts (0-19)...');
-    currentPage = 0;
-    hasMorePosts = true;
+  /* ------------------ profile modal handling ------------------ */
 
-    const startIndex = 0;
-    const endIndex = POSTS_PER_PAGE - 1;
-
-    const { data, error } = await supabase
-      .from('posts')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .range(startIndex, endIndex);
-
-    if (error) {
-      console.error('❌ Failed to load posts:', error);
-      return;
+  openProfileEditorBtn.addEventListener('click', () => {
+    if (!fbUser) { alert('Sign in to edit your profile.'); return; }
+    usernameInput.value = fbProfile?.name || '';
+    bioInput.value = fbProfile?.bio || '';
+    pfpPreview.src = (fbProfile && fbProfile.pfp && String(fbProfile.pfp).startsWith('http')) ? fbProfile.pfp : '/assets/BN.png';
+    
+    // Load saved badge selection
+    selectedBadge = fbProfile?.badge || null;
+    badgeSelector.querySelectorAll('.badge-option').forEach(b => b.classList.remove('selected'));
+    if (selectedBadge) {
+      const opt = badgeSelector.querySelector(`[data-badge="${selectedBadge}"]`);
+      if (opt) opt.classList.add('selected');
     }
+    
+    checkUsernameCooldownUI(fbProfile || {});
+    profileModal.classList.add('visible');
+    profileModal.setAttribute('aria-hidden','false');
+  });
 
-    posts = data || [];
-    console.log(`✅ Loaded ${posts.length} posts`);
+  document.getElementById('close-modal').addEventListener('click', () => {
+    profileModal.classList.remove('visible');
+    profileModal.setAttribute('aria-hidden','true');
+  });
 
-    if (posts.length < POSTS_PER_PAGE) {
-      hasMorePosts = false;
-      console.log('📭 No more posts available');
-    }
+  profileModal.addEventListener('click', (e) => { if (e.target === profileModal) { profileModal.classList.remove('visible'); profileModal.setAttribute('aria-hidden','true'); } });
 
-    renderFeed(posts, false);
-  }
+  pfpPreview.addEventListener('click', () => pfpUploadModal.click());
+  pfpUploadModal.addEventListener('change', (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = () => { pfpPreview.src = reader.result; };
+    reader.readAsDataURL(f);
+  });
 
-  async function loadMorePosts() {
-    if (isLoadingMore || !hasMorePosts) return;
-    isLoadingMore = true;
-    currentPage++;
+  document.getElementById('profile-edit-form').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    if (!fbUser) { alert('Sign in to save profile.'); return; }
 
-    const startIndex = currentPage * POSTS_PER_PAGE;
-    const endIndex = startIndex + POSTS_PER_PAGE - 1;
-
-    console.log(`📥 Loading more posts (${startIndex}-${endIndex})...`);
-
-    const { data, error } = await supabase
-      .from('posts')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .range(startIndex, endIndex);
-
-    if (error) {
-      console.error('❌ Failed to load more posts:', error);
-      isLoadingMore = false;
-      return;
-    }
-
-    const newPosts = data || [];
-    console.log(`✅ Loaded ${newPosts.length} more posts`);
-
-    if (newPosts.length < POSTS_PER_PAGE) {
-      hasMorePosts = false;
-      console.log('📭 Reached end of posts');
-    }
-
-    posts = [...posts, ...newPosts];
-    renderFeed(newPosts, true);
-    isLoadingMore = false;
-
-    if (hasMorePosts) {
-      setupInfiniteScroll();
-    }
-  }
-
-  async function loadFriends() {
-    if (!fbUser) return;
-    const { data, error } = await supabase
-      .from('friends')
-      .select('friend_id, profiles(name, avatar)')
-      .eq('user_id', fbUser.id);
-
-    if (error) {
-      console.error('Failed to load friends:', error);
-      return;
-    }
-
-    const friendsList = (data || []).map(f => ({
-      id: f.friend_id,
-      name: f.profiles?.name || 'Unknown',
-      avatar: f.profiles?.avatar || null
-    }));
-
-    renderFriends(friendsList);
-  }
-
-  // ---------------- Profile editor ----------------
-  const openProfileEditor = document.getElementById('open-profile-editor');
-  if (openProfileEditor) {
-    openProfileEditor.addEventListener('click', () => {
-      if (profileModal) {
-        profileModal.setAttribute('aria-hidden', 'false');
-        profileModal.style.display = 'flex';
+    const oldName = fbProfile?.name || '';
+    const newName = usernameInput.value.trim() || oldName;
+    const newBio = bioInput.value.trim() || '';
+    
+    // cooldown check ONLY for username changes
+    if (newName !== oldName && fbProfile?.last_username_change) {
+      const hoursPassed = (Date.now() - new Date(fbProfile.last_username_change).getTime()) / (1000*60*60);
+      if (hoursPassed < COOLDOWN_HOURS) {
+        const hoursLeft = Math.ceil(COOLDOWN_HOURS - hoursPassed);
+        document.getElementById('username-cooldown-msg').textContent = `You can change your username again in ${hoursLeft} hour(s).`;
+        return;
       }
-    });
-  }
+    }
 
-  const closeModalBtn = document.getElementById('close-modal');
-  if (closeModalBtn) {
-    closeModalBtn.addEventListener('click', () => {
-      if (profileModal) {
-        profileModal.setAttribute('aria-hidden', 'true');
-        profileModal.style.display = 'none';
-      }
-    });
-  }
-
-  if (pfpUploadModal) {
-    pfpUploadModal.addEventListener('change', (e) => {
-      const file = e.target.files[0];
+    try {
+      let uploadedUrl = fbProfile?.pfp || null;
+      const file = pfpUploadModal.files && pfpUploadModal.files[0];
       if (file) {
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          if (pfpPreview) pfpPreview.src = ev.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  }
-
-  const profileEditForm = document.getElementById('profile-edit-form');
-  if (profileEditForm) {
-    profileEditForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!fbUser) return;
-
-      const newUsername = usernameInput ? usernameInput.value.trim() : '';
-      const newBio = bioInput ? bioInput.value.trim() : '';
-
-      let avatarUrl = fbProfile?.avatar || null;
-      const file = pfpUploadModal ? pfpUploadModal.files[0] : null;
-      if (file) {
-        // Optional: process avatar file similarly to compress/limit
-        const processed = await processUploadedFile(file);
-        if (!processed) {
-          alert('Avatar upload failed or was rejected.');
-          return;
-        }
-        avatarUrl = await uploadImageForUser(processed, fbUser.id);
+        uploadedUrl = await uploadImageForUser(file, fbUser.id);
       }
 
-      const updates = {
-        name: newUsername,
+      const updateData = {
         bio: newBio,
-        avatar: avatarUrl,
+        pfpUrl: uploadedUrl || null,
         badge: selectedBadge
       };
-
-      if (newUsername !== fbProfile?.name) {
-        const canChange = await checkUsernameCooldown(fbProfile);
-        if (!canChange) {
-          alert('You must wait 24 hours between username changes.');
-          return;
-        }
-        updates.last_username_change = new Date().toISOString();
+      
+      if (newName !== oldName) {
+        updateData.displayName = newName;
+        updateData.username = newName;
       }
 
-      await updateUserProfile(fbUser.id, updates);
-      fbProfile = { ...fbProfile, ...updates };
+      await updateUserProfile(updateData);
 
-      if (profilePicEl) profilePicEl.style.backgroundImage = avatarUrl ? `url(${avatarUrl})` : '';
-      if (profileBioEl) profileBioEl.textContent = newBio || 'No bio yet.';
-      const mainNameEl = document.querySelector('.main-profile-name');
-      if (mainNameEl) mainNameEl.textContent = newUsername || fbUser.email;
-
-      displayBadge(selectedBadge);
-
-      if (profileModal) {
-        profileModal.setAttribute('aria-hidden', 'true');
-        profileModal.style.display = 'none';
-      }
-
-      alert('Profile updated!');
-    });
-  }
-
-  async function checkUsernameCooldown(profileObj) {
-    if (!profileObj?.last_username_change) return true;
-    const lastChange = new Date(profileObj.last_username_change).getTime();
-    const hoursPassed = (Date.now() - lastChange) / (1000 * 60 * 60);
-    return hoursPassed >= COOLDOWN_HOURS;
-  }
-
-  // ---------------- Menu + logout ----------------
-  const menuToggle = document.getElementById('menuToggle');
-  const slideMenu = document.getElementById('slideMenu');
-  const menuOverlay = document.getElementById('menuOverlay');
-
-  if (menuToggle) {
-    menuToggle.addEventListener('click', () => {
-      slideMenu && slideMenu.classList.add('open');
-      menuOverlay && menuOverlay.classList.add('visible');
-    });
-  }
-
-  if (menuOverlay) {
-    menuOverlay.addEventListener('click', () => {
-      slideMenu && slideMenu.classList.remove('open');
-      menuOverlay && menuOverlay.classList.remove('visible');
-    });
-  }
-
-  const logoutBtn = document.getElementById('logoutBtn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', async () => {
-      await supabase.auth.signOut();
-      window.location.href = '/pages/loginblacknote.html';
-    });
-  }
-
-  // ---------------- Offline detection ----------------
-  window.addEventListener('online', () => {
-    if (offlineBanner) offlineBanner.style.display = 'none';
+      profileModal.classList.remove('visible');
+      profileModal.setAttribute('aria-hidden','true');
+    } catch (err) {
+      console.error('Failed to save profile:', err);
+      alert('Failed to save profile. See console for details.');
+    }
   });
 
-  window.addEventListener('offline', () => {
-    if (offlineBanner) offlineBanner.style.display = 'block';
+  /* ------------------ create post ------------------ */
+
+  setTimeout(() => {
+    const postButton = document.getElementById('create-post-btn');
+    if (postButton) {
+      postButton.addEventListener('click', async () => {
+        if (!fbUser || !fbProfile) { alert('You must be signed in to post.'); return; }
+        if (!navigator.onLine) { alert('You are offline — posting disabled.'); return; }
+        
+        const textarea = document.getElementById('new-post-text');
+        const text = textarea ? textarea.value.trim() : '';
+        if (!text) { alert('Please write something!'); return; }
+        
+        // Disable button while posting
+        postButton.disabled = true;
+        postButton.textContent = 'Posting...';
+        
+        try {
+          await supabase.from('posts').insert({
+            author_uid: fbUser.id,
+            author_name: fbProfile.name,
+            author_avatar: fbProfile.pfp || null,
+            body: text,
+            created_at: new Date().toISOString(),
+            display_time: new Date().toLocaleString(),
+            liked_by: [],
+            disliked_by: [],
+            comments: []
+          });
+          
+          // Close modal and reset
+          closeCreatePostModal();
+          
+          console.log('✅ Post created successfully');
+        } catch (err) {
+          console.error('Failed to create post:', err);
+          alert('Failed to create post.');
+        } finally {
+          postButton.disabled = false;
+          postButton.textContent = 'Post';
+        }
+      });
+    }
+  }, 1000);
+
+  const mediaInput = document.getElementById('new-post-media');
+  const fileNameSpan = document.getElementById('file-name');
+  const removeMediaBtn = document.getElementById('remove-media');
+
+  mediaInput.addEventListener('change', () => {
+    if (mediaInput.files.length > 0) {
+      const file = mediaInput.files[0];
+      fileNameSpan.textContent = file.name;
+    } else {
+      fileNameSpan.textContent = 'No file chosen';
+    }
+  });
+
+  removeMediaBtn.addEventListener('click', () => {
+    mediaInput.value = '';
+    fileNameSpan.textContent = 'No file chosen';
+  });
+
+  /* ------------------ comments (Supabase) ------------------ */
+
+  // Sidebar comment form
+  document.getElementById('sidebar-comment-form').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+
+    if (!fbUser || !fbProfile) {
+      alert('You must be signed in to comment.');
+      return;
+    }
+
+    const form = ev.target;
+    const postId = form.dataset.postId;
+    const input = document.getElementById('sidebar-comment-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    const comment = {
+      id: 'c' + Date.now(),
+      authorUid: fbUser.id,
+      author: fbProfile?.name || 'Anonymous',
+      avatar: (fbProfile && fbProfile.pfp && String(fbProfile.pfp).startsWith('http')) ? fbProfile.pfp : null,
+      text,
+      createdAt: new Date().toISOString(),
+    };
+
+    try {
+      const { data: post } = await supabase
+        .from('posts')
+        .select('comments')
+        .eq('id', postId)
+        .single();
+      
+      const updatedComments = [...(post?.comments || []), comment];
+      
+      await supabase
+        .from('posts')
+        .update({ comments: updatedComments })
+        .eq('id', postId);
+
+      input.value = '';
+      console.log('✅ Comment saved!');
+    } catch (err) {
+      console.error('❌ Failed to add comment:', err);
+      alert('Failed to add comment.');
+    }
+  });
+
+  /* ------------------ Supabase subscriptions & auth handling ------------------ */
+
+  async function subscribeToUserProfile(uid) {
+    if (profileUnsub) profileUnsub();
+    
+    try {
+      const profile = await getUserProfile(uid);
+      fbProfile = profile;
+      updateProfileUI(profile);
+      
+      // Subscribe to changes
+      const channel = supabase
+        .channel(`user-${uid}`)
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'users',
+          filter: `uid=eq.${uid}`
+        }, async (payload) => {
+          const updated = payload.new;
+          fbProfile = updated;
+          updateProfileUI(updated);
+        })
+        .subscribe();
+      
+      profileUnsub = () => channel.unsubscribe();
+    } catch (err) {
+      console.error('Failed to subscribe to profile:', err);
+    }
+  }
+  
+  function updateProfileUI(profile) {
+    if (profile && profile.pfp && String(profile.pfp).startsWith('http')) {
+      profilePicEl.innerHTML = ''; 
+      const img = document.createElement('img'); 
+      img.src = profile.pfp; 
+      img.style.width='100%'; 
+      img.style.height='100%'; 
+      img.style.objectFit='cover'; 
+      img.style.borderRadius='50%'; 
+      profilePicEl.appendChild(img);
+    } else {
+      profilePicEl.innerHTML = ''; 
+      profilePicEl.textContent = (profile && profile.name) ? profile.name[0].toUpperCase() : '?';
+    }
+    
+    document.querySelectorAll('.main-profile-name').forEach(el => el.textContent = profile?.name || 'Black Note');
+    profileBioEl.textContent = profile?.bio || '';
+    pfpPreview.src = (profile && profile.pfp && String(profile.pfp).startsWith('http')) ? profile.pfp : '/assets/BN.png';
+    
+    // Display badge next to username
+    displayBadge(profile?.badge, document.getElementById('profile-badge-display'));
+  }
+
+  async function subscribeToPosts() {
+    if (postsSubscription) {
+      try { postsSubscription.unsubscribe(); } catch(e) {}
+      postsSubscription = null;
+    }
+
+    if (!fbUser) {
+      console.warn("❌ No logged in user – cannot subscribe to posts.");
+      posts = [];
+      renderFeed(posts);
+      return;
+    }
+
+    console.log('📝 Starting post subscription for user:', fbUser.id);
+
+    try {
+      const profile = await getUserProfile(fbUser.id);
+      const friends = Array.isArray(profile.friends) ? profile.friends : [];
+      
+      console.log('👥 User has', friends.length, 'friends');
+
+      const visibleUids = [fbUser.id, ...friends];
+      console.log('👁️ Visible UIDs:', visibleUids);
+
+      // Get initial posts
+      const { data: initialPosts, error } = await supabase
+        .from('posts')
+        .select('*')
+        .in('author_uid', visibleUids)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      console.log('📬 Initial posts fetched:', initialPosts?.length || 0);
+      posts = initialPosts || [];
+      renderFeed(posts);
+
+      // Subscribe to changes
+      postsSubscription = supabase
+        .channel('posts-feed')
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'posts'
+        }, async (payload) => {
+          console.log('📬 Post change detected:', payload.eventType);
+          
+          // Refetch all posts
+          const { data: updatedPosts } = await supabase
+            .from('posts')
+            .select('*')
+            .in('author_uid', visibleUids)
+            .order('created_at', { ascending: false });
+
+          posts = updatedPosts || [];
+          renderFeed(posts);
+        })
+        .subscribe();
+
+    } catch (err) {
+      console.error('❌ subscribeToPosts error', err);
+      posts = [];
+      renderFeed(posts);
+    }
+  }
+
+  function addNotification(notif) {
+    if (notifications.some(n => n.id === notif.id)) return;
+    
+    notifications.unshift(notif);
+    
+    if (notifications.length > 50) {
+      notifications = notifications.slice(0, 50);
+    }
+    
+    if (notificationBadge) {
+      notificationBadge.style.display = 'block';
+    }
+    
+    cleanupOldNotifications();
+    saveNotificationState();
+  }
+
+  function cleanupOldNotifications() {
+    const now = Date.now();
+    const oneHour = 60 * 60 * 1000;
+    
+    const oldLength = notifications.length;
+    notifications = notifications.filter(notif => {
+      return (now - notif.timestamp) < oneHour;
+    });
+    
+    if (oldLength !== notifications.length) {
+      saveNotificationState();
+    }
+    
+    if (notifications.length === 0 && notificationBadge) {
+      notificationBadge.style.display = 'none';
+    }
+  }
+
+  function renderNotifications() {
+    const notifList = document.getElementById('notification-list');
+    if (!notifList) return;
+    
+    cleanupOldNotifications();
+    
+    if (notifications.length > 0 && notificationBadge) {
+      notificationBadge.style.display = 'block';
+    }
+    
+    notifList.innerHTML = '';
+    
+    const sortedNotifications = [...notifications].sort((a, b) => b.timestamp - a.timestamp);
+    
+    if (sortedNotifications.length === 0) {
+      const empty = document.createElement('div');
+      empty.style.color = '#888';
+      empty.style.padding = '1rem';
+      empty.style.textAlign = 'center';
+      empty.textContent = 'No new notifications';
+      notifList.appendChild(empty);
+      return;
+    }
+    
+    sortedNotifications.forEach(notif => {
+      const item = document.createElement('div');
+      item.style.display = 'flex';
+      item.style.gap = '12px';
+      item.style.padding = '12px';
+      item.style.borderBottom = '1px solid #333';
+      item.style.cursor = 'pointer';
+      item.style.transition = 'background-color 0.2s';
+      
+      item.addEventListener('mouseenter', () => {
+        item.style.backgroundColor = '#252525';
+      });
+      item.addEventListener('mouseleave', () => {
+        item.style.backgroundColor = 'transparent';
+      });
+      
+      const avatar = avatarElement(notif.authorName, notif.authorAvatar, 40);
+      item.appendChild(avatar);
+      
+      const content = document.createElement('div');
+      content.style.flex = '1';
+      content.style.color = 'white';
+      
+      const text = document.createElement('div');
+      text.innerHTML = `<strong>${escapeHtml(notif.authorName)}</strong> ${escapeHtml(notif.message)}`;
+      text.style.marginBottom = '4px';
+      
+      if (notif.type === 'message') {
+        const msgIcon = document.createElement('span');
+        msgIcon.textContent = ' 💬';
+        text.appendChild(msgIcon);
+      }
+      
+      content.appendChild(text);
+      
+      const time = document.createElement('div');
+      time.style.fontSize = '12px';
+      time.style.color = '#888';
+      const elapsed = Date.now() - notif.timestamp;
+      const minutes = Math.floor(elapsed / 60000);
+      const hours = Math.floor(minutes / 60);
+      const days = Math.floor(hours / 24);
+      time.textContent = days > 0 ? `${days}d ago` : hours > 0 ? `${hours}h ago` : minutes > 0 ? `${minutes}m ago` : 'Just now';
+      content.appendChild(time);
+      
+      item.appendChild(content);
+      notifList.appendChild(item);
+      
+      if (notif.type === 'post' && notif.postId) {
+        item.addEventListener('click', () => {
+          const postEl = document.querySelector(`[data-post-id="${notif.postId}"]`);
+          if (postEl) {
+            postEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            notificationPanel.style.display = 'none';
+          }
+        });
+      } else if (notif.type === 'message' && notif.chatId) {
+        item.addEventListener('click', () => {
+          location.href = `/pages/hollablacknote.html?peer=${encodeURIComponent(notif.senderId)}`;
+        });
+      }
+    });
+  }
+
+  // Auth state listener
+  authUnsubscribe = onAuthStateChanged((user) => {
+    console.log('🔐 Auth state changed:', user ? 'User logged in' : 'User logged out');
+    
+    if (!user) {
+      fbUser = null; fbProfile = null;
+      if (postsSubscription) { postsSubscription.unsubscribe(); postsSubscription = null; }
+      if (profileUnsub) { profileUnsub(); profileUnsub = null; }
+      if (friendsUnsub) { friendsUnsub(); friendsUnsub = null; }
+      profilePicEl.innerHTML = ''; profilePicEl.textContent = '?';
+      document.querySelectorAll('.main-profile-name').forEach(el => el.textContent = 'Guest');
+      profileBioEl.textContent = '';
+      feedEl.innerHTML = `<div class="empty-feed-message">Sign in to see the live feed and post.</div>`;
+      openProfileEditorBtn.disabled = true;
+      console.log('👋 User logged out, UI reset');
+      return;
+    }
+
+    console.log('👤 User:', user.id, user.email);
+    fbUser = user;
+    openProfileEditorBtn.disabled = false;
+
+    console.log('👤 Subscribing to user profile...');
+    subscribeToUserProfile(user.id);
+    
+    console.log('📝 Subscribing to posts...');
+    subscribeToPosts();
+
+    console.log('👥 Loading friends and requests...');
+    loadFriendsAndRequests(user.id);
+
+    // Start global notifications
+    startGlobalNotifications(user.id);
+
+    document.querySelectorAll('.main-profile-name').forEach(el => el.textContent = user.user_metadata?.display_name || 'Signed User');
+    profileBioEl.textContent = '';
+    
+    console.log('✅ All subscriptions initialized');
+  });
+
+  let friendsListExpanded = false;
+
+  async function loadFriendsAndRequests(uid) {
+    if (friendsUnsub) friendsUnsub();
+    console.log('👥 Loading friends for user:', uid);
+    
+    try {
+      const profile = await getUserProfile(uid);
+      const friendsArray = Array.isArray(profile.friends) ? profile.friends : [];
+      const requestsArray = Array.isArray(profile.friend_requests) ? profile.friend_requests : [];
+
+      console.log('✅ Friends loaded:', friendsArray.length);
+      console.log('📨 Friend requests:', requestsArray.length);
+
+      renderFriendsUI(friendsArray, requestsArray);
+      
+      // Subscribe to changes
+      const channel = supabase
+        .channel(`user-friends-${uid}`)
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'users',
+          filter: `uid=eq.${uid}`
+        }, async (payload) => {
+          const updated = payload.new;
+          const newFriends = Array.isArray(updated.friends) ? updated.friends : [];
+          const newRequests = Array.isArray(updated.friend_requests) ? updated.friend_requests : [];
+          renderFriendsUI(newFriends, newRequests);
+        })
+        .subscribe();
+      
+      friendsUnsub = () => channel.unsubscribe();
+    } catch (err) {
+      console.error('❌ friends error:', err);
+      friendsEl.innerHTML = '<div style="color:var(--muted)">No friends yet</div>';
+    }
+  }
+
+  async function renderFriendsUI(friendsArray, requestsArray) {
+    console.log('🎨 Rendering friends UI:', friendsArray.length, 'friends,', requestsArray.length, 'requests');
+    friendsEl.innerHTML = '';
+
+    if (requestsArray.length) {
+      console.log('📨 Rendering', requestsArray.length, 'friend requests');
+      const header = document.createElement('div');
+      header.style.fontWeight = '700';
+      header.style.marginBottom = '0.5rem';
+      header.style.color = 'var(--muted)';
+      header.textContent = 'Friend Requests';
+      friendsEl.appendChild(header);
+
+      for (const uid of requestsArray) {
+        try {
+          const udata = await getUserProfile(uid);
+
+          const item = document.createElement('div');
+          item.className = 'friend-item';
+
+          const av = avatarElement(udata.name, udata.pfp, 54);
+          av.className = 'f-avatar';
+          item.appendChild(av);
+
+          const info = document.createElement('div');
+          info.style.flex = '1';
+          const name = document.createElement('div'); name.className = 'friend-name'; name.textContent = udata.name || 'Unknown';
+          info.appendChild(name);
+
+          const actionsWrap = document.createElement('div');
+          actionsWrap.style.display = 'flex';
+          actionsWrap.style.gap = '0.5rem';
+
+          const acceptBtn = document.createElement('button');
+          acceptBtn.className = 'menu-item friend-accept';
+          acceptBtn.textContent = 'Accept';
+          acceptBtn.addEventListener('click', async () => {
+            try {
+              const { data: myProfile } = await supabase.from('users').select('*').eq('uid', fbUser.id).single();
+              const { data: theirProfile } = await supabase.from('users').select('*').eq('uid', uid).single();
+              
+              const myFriends = [...(myProfile.friends || []), uid];
+              const myRequests = (myProfile.friend_requests || []).filter(r => r !== uid);
+              const theirFriends = [...(theirProfile.friends || []), fbUser.id];
+              
+              await supabase.from('users').update({ friends: myFriends, friend_requests: myRequests }).eq('uid', fbUser.id);
+              await supabase.from('users').update({ friends: theirFriends }).eq('uid', uid);
+              
+              alert('Friend request accepted.');
+            } catch (err) {
+              console.error('Failed to accept request:', err);
+              alert('Failed to accept request.');
+            }
+          });
+
+          const declineBtn = document.createElement('button');
+          declineBtn.className = 'menu-item friend-decline';
+          declineBtn.textContent = 'Decline';
+          declineBtn.addEventListener('click', async () => {
+            try {
+              const { data: myProfile } = await supabase.from('users').select('friend_requests').eq('uid', fbUser.id).single();
+              const newRequests = (myProfile.friend_requests || []).filter(r => r !== uid);
+              await supabase.from('users').update({ friend_requests: newRequests }).eq('uid', fbUser.id);
+              alert('Friend request declined.');
+            } catch (err) {
+              console.error('Failed to decline request:', err);
+              alert('Failed to decline request.');
+            }
+          });
+
+          actionsWrap.appendChild(acceptBtn);
+          actionsWrap.appendChild(declineBtn);
+
+          item.appendChild(info);
+          item.appendChild(actionsWrap);
+
+          friendsEl.appendChild(item);
+        } catch (err) {
+          console.error('Failed to render friend request:', err);
+        }
+      }
+    }
+
+    const friendsHeader = document.createElement('div');
+    friendsHeader.style.fontWeight = '700';
+    friendsHeader.style.marginTop = '0.75rem';
+    friendsHeader.style.marginBottom = '0.5rem';
+    friendsHeader.style.color = 'var(--muted)';
+    friendsHeader.textContent = 'Friends';
+    friendsEl.appendChild(friendsHeader);
+
+    if (!friendsArray.length) {
+      const empty = document.createElement('div');
+      empty.style.color = 'var(--muted)';
+      empty.textContent = 'No friends yet';
+      friendsEl.appendChild(empty);
+      console.log('📭 No friends to display');
+      return;
+    }
+
+    console.log('👥 Fetching friend data for', friendsArray.length, 'friends');
+    const INITIAL_FRIENDS_SHOW = 7;
+    const friendsToShow = friendsListExpanded ? friendsArray.length : Math.min(INITIAL_FRIENDS_SHOW, friendsArray.length);
+    console.log('🎨 Rendering', friendsToShow, 'of', friendsArray.length, 'friends');
+    
+    for (let i = 0; i < friendsToShow; i++) {
+      const uid = friendsArray[i];
+      try {
+        const udata = await getUserProfile(uid);
+
+        const item = document.createElement('div');
+        item.className = 'friend-item';
+
+        const av = document.createElement('div');
+        av.className = 'f-avatar';
+        if (udata.pfp && String(udata.pfp).startsWith('http')) {
+          const img = document.createElement('img'); 
+          img.src = udata.pfp; 
+          img.alt = udata.name || 'U'; 
+          img.style.width='100%'; 
+          img.style.height='100%'; 
+          img.style.objectFit='cover'; 
+          img.style.borderRadius='50%';
+          av.innerHTML = ''; 
+          av.appendChild(img);
+        } else {
+          av.textContent = (udata.name && udata.name[0]) ? udata.name[0].toUpperCase() : '?';
+        }
+        item.appendChild(av);
+
+        const name = document.createElement('div');
+        name.className = 'friend-name';
+        name.textContent = udata.name || 'Unknown';
+        name.style.flex = '1';
+        name.style.cursor = 'pointer';
+        name.addEventListener('click', () => {
+          location.href = `/pages/profileblacknote.html?user=${encodeURIComponent(udata.name || uid)}`;
+        });
+        item.appendChild(name);
+
+        // 3-dot menu button
+        const menuBtn = document.createElement('button');
+        menuBtn.className = 'friend-menu-btn';
+        menuBtn.innerHTML = '⋮';
+        menuBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.querySelectorAll('.friend-dropdown.visible').forEach(d => {
+            if (d !== dropdown) d.classList.remove('visible');
+          });
+          dropdown.classList.toggle('visible');
+        });
+        
+        // Dropdown menu
+        const dropdown = document.createElement('div');
+        dropdown.className = 'friend-dropdown';
+        
+        const viewProfileBtn = document.createElement('button');
+        viewProfileBtn.textContent = 'View Profile';
+        viewProfileBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          location.href = `/pages/profileblacknote.html?user=${encodeURIComponent(udata.name || uid)}`;
+        });
+        dropdown.appendChild(viewProfileBtn);
+        
+        const hollaBtn = document.createElement('button');
+        hollaBtn.textContent = 'Holla';
+        hollaBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          location.href = '/pages/hollablacknote.html?peer=' + encodeURIComponent(uid);
+        });
+        dropdown.appendChild(hollaBtn);
+        
+        item.appendChild(menuBtn);
+        item.appendChild(dropdown);
+        
+        friendsEl.appendChild(item);
+      } catch (err) {
+        console.error('Failed to render friend:', err);
+      }
+    }
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.friend-item')) {
+        document.querySelectorAll('.friend-dropdown.visible').forEach(d => {
+          d.classList.remove('visible');
+        });
+      }
+    });
+    
+    if (friendsArray.length > INITIAL_FRIENDS_SHOW) {
+      const toggleButton = document.createElement('button');
+      toggleButton.className = 'menu-item';
+      toggleButton.textContent = friendsListExpanded ? 'View Less' : `View More (${friendsArray.length - INITIAL_FRIENDS_SHOW} more)`;
+      toggleButton.style.width = '100%';
+      toggleButton.style.marginTop = '0.5rem';
+      toggleButton.addEventListener('click', () => {
+        friendsListExpanded = !friendsListExpanded;
+        renderFriendsUI(friendsArray, requestsArray);
+      });
+      friendsEl.appendChild(toggleButton);
+    }
+    
+    console.log('✅ Friends UI rendered successfully');
+  }
+
+  (function init() {
+    openProfileEditorBtn.disabled = true;
+    profilePicEl.textContent = '?';
+    document.querySelectorAll('.main-profile-name').forEach(el => el.textContent = 'Guest');
+    profileBioEl.textContent = '';
+
+    loadNotificationState();
+    
+    // Initialize create post modal
+    initCreatePostModal();
+
+    const initNotificationButton = () => {
+      let notifButton = document.getElementById('notification-bell-link');
+      
+      if (!notifButton) {
+        console.warn('Notification button not found in HTML.');
+        return;
+      }
+      
+      notificationBadge = document.getElementById('notification-badge');
+      if (!notificationBadge) {
+        notificationBadge = document.createElement('span');
+        notificationBadge.id = 'notification-badge';
+        notifButton.appendChild(notificationBadge);
+      }
+      
+      notificationBadge.style.position = 'absolute';
+      notificationBadge.style.top = '5px';
+      notificationBadge.style.right = '5px';
+      notificationBadge.style.width = '12px';
+      notificationBadge.style.height = '12px';
+      notificationBadge.style.borderRadius = '50%';
+      notificationBadge.style.backgroundColor = '#ff4444';
+      notificationBadge.style.border = '2px solid #1a1a1a';
+      notificationBadge.style.display = 'none';
+      notificationBadge.style.zIndex = '10';
+      
+      const buttonParent = notifButton.parentElement;
+      if (buttonParent) {
+        buttonParent.style.position = 'relative';
+      }
+      notifButton.style.position = 'relative';
+    
+      notificationPanel = document.createElement('div');
+      notificationPanel.id = 'notification-panel';
+      notificationPanel.style.position = 'absolute';
+      notificationPanel.style.top = '57px';
+      notificationPanel.style.left = '1060px';
+      notificationPanel.style.width = '320px';
+      notificationPanel.style.maxHeight = '600px';
+      notificationPanel.style.backgroundColor = '#1a1a1a';
+      notificationPanel.style.border = '1px solid #333';
+      notificationPanel.style.borderRadius = '12px';
+      notificationPanel.style.boxShadow = '0 8px 24px rgba(0,0,0,0.5)';
+      notificationPanel.style.display = 'none';
+      notificationPanel.style.zIndex = '1000';
+      notificationPanel.style.overflowY = 'auto';
+      notificationPanel.style.padding = '1rem';
+      
+      const panelHeader = document.createElement('h3');
+      panelHeader.textContent = 'Notifications';
+      panelHeader.style.margin = '0 0 1rem 0';
+      panelHeader.style.color = 'white';
+      panelHeader.style.fontSize = '18px';
+      panelHeader.style.fontWeight = 'bold';
+      panelHeader.style.borderBottom = '1px solid #333';
+      panelHeader.style.paddingBottom = '0.75rem';
+      notificationPanel.appendChild(panelHeader);
+      
+      const notifList = document.createElement('div');
+      notifList.id = 'notification-list';
+      notificationPanel.appendChild(notifList);
+      
+      notifButton.parentElement.appendChild(notificationPanel);
+      
+      notifButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const isVisible = notificationPanel.style.display === 'block';
+        notificationPanel.style.display = isVisible ? 'none' : 'block';
+        if (!isVisible) {
+          notificationBadge.style.display = 'none';
+          renderNotifications();
+          saveNotificationState();
+        }
+      });
+      
+      document.addEventListener('click', (e) => {
+        if (!notificationPanel.contains(e.target) && !notifButton.contains(e.target)) {
+          notificationPanel.style.display = 'none';
+        }
+      });
+      
+      document.body.appendChild(notificationPanel);
+    };
+      
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initNotificationButton);
+    } else {
+      initNotificationButton();
+    }
+
+    document.body.style.backgroundImage = 'url("/assets/back2.gif")';
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundAttachment = 'fixed';
+    document.body.style.backgroundRepeat = 'no-repeat';
+    document.body.style.margin = '0';
+    document.body.style.padding = '0';
+    
+    const backToTopBtn = document.createElement('button');
+    backToTopBtn.id = 'back-to-top-btn';
+    backToTopBtn.innerHTML = '↑';
+    backToTopBtn.style.position = 'fixed';
+    backToTopBtn.style.bottom = '30px';
+    backToTopBtn.style.right = '30px';
+    backToTopBtn.style.width = '50px';
+    backToTopBtn.style.height = '50px';
+    backToTopBtn.style.borderRadius = '50%';
+    backToTopBtn.style.backgroundColor = '#1DA1F2';
+    backToTopBtn.style.color = 'white';
+    backToTopBtn.style.border = 'none';
+    backToTopBtn.style.fontSize = '24px';
+    backToTopBtn.style.cursor = 'pointer';
+    backToTopBtn.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+    backToTopBtn.style.zIndex = '1000';
+    backToTopBtn.style.opacity = '0';
+    backToTopBtn.style.visibility = 'hidden';
+    backToTopBtn.style.transition = 'opacity 0.3s, visibility 0.3s, transform 0.2s';
+    backToTopBtn.style.display = 'flex';
+    backToTopBtn.style.alignItems = 'center';
+    backToTopBtn.style.justifyContent = 'center';
+    backToTopBtn.setAttribute('aria-label', 'Back to top');
+    
+    backToTopBtn.addEventListener('mouseenter', () => {
+      backToTopBtn.style.transform = 'scale(1.1)';
+      backToTopBtn.style.backgroundColor = '#1a8cd8';
+    });
+    backToTopBtn.addEventListener('mouseleave', () => {
+      backToTopBtn.style.transform = 'scale(1)';
+      backToTopBtn.style.backgroundColor = '#1DA1F2';
+    });
+    
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    document.body.appendChild(backToTopBtn);
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.style.opacity = '1';
+        backToTopBtn.style.visibility = 'visible';
+      } else {
+        backToTopBtn.style.opacity = '0';
+        backToTopBtn.style.visibility = 'hidden';
+      }
+    });
+    
+    const style = document.createElement('style');
+    style.textContent = `
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("/assets/back.gif");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        z-index: -2;
+        pointer-events: none;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: -1;
+        pointer-events: none;
+      }
+      main {
+        background: transparent !important;
+        min-height: 100vh;
+      }
+      .layout {
+        background: transparent !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    window.addEventListener('online', () => offlineBanner.classList.remove('visible'));
+    window.addEventListener('offline', () => offlineBanner.classList.add('visible'));
+    if (!navigator.onLine) offlineBanner.classList.add('visible');
+  })();
+
+</script>
+
+<script>
+  const menuToggle = document.getElementById('menuToggle');
+  const slideMenu = document.getElementById('slideMenu');
+  const overlay = document.getElementById('menuOverlay');
+  const contactBtn = document.getElementById('contactBtn');
+  const aboutBtn = document.getElementById('aboutBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  function openMenu() {
+    slideMenu.classList.add('open');
+    overlay.classList.add('visible');
+    slideMenu.setAttribute('aria-hidden', 'false');
+    overlay.removeAttribute('aria-hidden');
+    menuToggle.setAttribute('aria-expanded', 'true');
+    logoutBtn.focus();
+  }
+  function closeMenu() {
+    slideMenu.classList.remove('open');
+    overlay.classList.remove('visible');
+    slideMenu.setAttribute('aria-hidden', 'true');
+    overlay.setAttribute('aria-hidden', 'true');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.focus();
+  }
+  function toggleMenu() { slideMenu.classList.contains('open') ? closeMenu() : openMenu(); }
+
+  menuToggle.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+  overlay.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+
+  contactBtn.addEventListener('click', () => {
+    closeMenu();
+    const gmailComposeURL = 'https://mail.google.com/mail/?view=cm&fs=1&to=hamdiglennurdaneta@gmail.com&su=Contact%20BlackNote';
+    window.open(gmailComposeURL, '_blank');
+  });
+
+  aboutBtn.addEventListener('click', () => {
+    closeMenu();
+    location.href = '/pages/aboutblacknote.html';
+  });
+  
+  logoutBtn.addEventListener('click', async () => {
+    try {
+      const { logout } = await import('/javascript/supabase.js');
+      await logout();
+      location.href = '/index.html';
+    } catch (err) {
+      console.error('Logout error:', err);
+      location.href = '/index.html';
+    }
+  });
+</script>
+
+<script type="module">
+  import { initializeSearch } from '/javascript/blacknote.js';
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    initializeSearch();
   });
 </script>
 
