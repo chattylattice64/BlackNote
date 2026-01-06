@@ -614,9 +614,6 @@
 <a href="#" id="notification-bell-link" class="icon-btn" title="Notifications" style="margin-left: 15px; margin-right: 30px;">
     <img src="/assets/notif.png" alt="Notifications" class="custom-emoji">
 </a>
- <a href="/pages/noteai.html" class="icon-btn" title="Ai Assistant">
-    <img src="/assets/gem.png" alt="Gemini" class="custom-emoji">
-  </a>
 
 <a href="/pages/blacknote.html" class="icon-btn" title="home">
     <img src="/assets/home.png" alt="home" class="custom-emoji">
@@ -824,8 +821,8 @@
   const COOLDOWN_HOURS = 24;
   
   // Badge selection functionality
-  const badgeSelector = document.getElementById('badge-selector');
-  const badgeDisplay = document.getElementById('profile-badge-display');
+  // NOTE: we'll initialize `badgeSelector` after DOM is ready inside init()
+  let badgeSelector = null;
   let selectedBadge = null;
   let currentPostId = null; // Track currently visible post
   
@@ -921,19 +918,12 @@
     if (mediaInput) mediaInput.value = '';
   }
   
-  badgeSelector.addEventListener('click', (e) => {
-    const option = e.target.closest('.badge-option');
-    if (!option) return;
+  // Badge click handler will be attached after DOM ready (inside init)
+  function displayBadge(badgeColor, targetElement) {
+    // If targetElement not provided, pick the standard element
+    if (!targetElement) targetElement = document.getElementById('profile-badge-display');
+    if (!targetElement) return;
     
-    // Remove previous selection
-    badgeSelector.querySelectorAll('.badge-option').forEach(b => b.classList.remove('selected'));
-    
-    // Mark as selected
-    option.classList.add('selected');
-    selectedBadge = option.dataset.badge;
-  });
-  
-  function displayBadge(badgeColor, targetElement = badgeDisplay) {
     if (!badgeColor) {
       targetElement.innerHTML = '';
       return;
@@ -948,6 +938,9 @@
       // Fallback to colored div if image not found
       const fallback = document.createElement('div');
       fallback.className = 'profile-badge-small';
+      fallback.style.width = '28px';
+      fallback.style.height = '28px';
+      fallback.style.borderRadius = '6px';
       fallback.style.backgroundColor = badgeColor === 'white' ? '#f3f4f6' : badgeColor;
       targetElement.innerHTML = '';
       targetElement.appendChild(fallback);
@@ -1291,24 +1284,25 @@
     const last = profileObj?.last_username_change ? new Date(profileObj.last_username_change).getTime() : null;
     const cooldownMsgEl = document.getElementById('username-cooldown-msg');
     if (!last) { 
-      usernameInput.disabled = false; 
-      cooldownMsgEl.textContent = ''; 
+      if (usernameInput) usernameInput.disabled = false; 
+      if (cooldownMsgEl) cooldownMsgEl.textContent = ''; 
       return; 
     }
     const hoursPassed = (Date.now() - last) / (1000 * 60 * 60);
     if (hoursPassed < COOLDOWN_HOURS) {
       const hoursLeft = Math.ceil(COOLDOWN_HOURS - hoursPassed);
-      usernameInput.disabled = true;
-      cooldownMsgEl.textContent = `You can change your username again in ${hoursLeft} hour(s).`;
+      if (usernameInput) usernameInput.disabled = true;
+      if (cooldownMsgEl) cooldownMsgEl.textContent = `You can change your username again in ${hoursLeft} hour(s).`;
     } else {
-      usernameInput.disabled = false; 
-      cooldownMsgEl.textContent = '';
+      if (usernameInput) usernameInput.disabled = false; 
+      if (cooldownMsgEl) cooldownMsgEl.textContent = '';
     }
   }
 
   /* ------------------ rendering ------------------ */
   function renderFeed(array) {
     console.log('🎨 Rendering feed with', array.length, 'posts');
+    if (!feedEl) return;
     feedEl.innerHTML = '';
     const hiddenKey = fbUser ? `hiddenPosts_${fbUser.id}` : 'hiddenPosts_guest';
     const hiddenPosts = JSON.parse(localStorage.getItem(hiddenKey) || '[]');
@@ -1646,10 +1640,12 @@
     
     // Load saved badge selection
     selectedBadge = fbProfile?.badge || null;
-    badgeSelector.querySelectorAll('.badge-option').forEach(b => b.classList.remove('selected'));
-    if (selectedBadge) {
-      const opt = badgeSelector.querySelector(`[data-badge="${selectedBadge}"]`);
-      if (opt) opt.classList.add('selected');
+    if (badgeSelector) {
+      badgeSelector.querySelectorAll('.badge-option').forEach(b => b.classList.remove('selected'));
+      if (selectedBadge) {
+        const opt = badgeSelector.querySelector(`[data-badge="${selectedBadge}"]`);
+        if (opt) opt.classList.add('selected');
+      }
     }
     
     checkUsernameCooldownUI(fbProfile || {});
@@ -1711,6 +1707,18 @@
 
       await updateUserProfile(updateData);
 
+      // Immediate optimistic UI update so badge appears right away
+      fbProfile = {
+        ...(fbProfile || {}),
+        bio: newBio,
+        pfp: uploadedUrl || fbProfile?.pfp,
+        badge: selectedBadge,
+        name: newName !== oldName ? newName : (fbProfile?.name || newName),
+        username: newName !== oldName ? newName : (fbProfile?.username || newName)
+      };
+      updateProfileUI(fbProfile);
+      displayBadge(selectedBadge, document.getElementById('profile-badge-display'));
+
       profileModal.classList.remove('visible');
       profileModal.setAttribute('aria-hidden','true');
     } catch (err) {
@@ -1768,67 +1776,74 @@
   const fileNameSpan = document.getElementById('file-name');
   const removeMediaBtn = document.getElementById('remove-media');
 
-  mediaInput.addEventListener('change', () => {
-    if (mediaInput.files.length > 0) {
-      const file = mediaInput.files[0];
-      fileNameSpan.textContent = file.name;
-    } else {
-      fileNameSpan.textContent = 'No file chosen';
-    }
-  });
+  if (mediaInput) {
+    mediaInput.addEventListener('change', () => {
+      if (mediaInput.files.length > 0) {
+        const file = mediaInput.files[0];
+        if (fileNameSpan) fileNameSpan.textContent = file.name;
+      } else {
+        if (fileNameSpan) fileNameSpan.textContent = 'No file chosen';
+      }
+    });
+  }
 
-  removeMediaBtn.addEventListener('click', () => {
-    mediaInput.value = '';
-    fileNameSpan.textContent = 'No file chosen';
-  });
+  if (removeMediaBtn) {
+    removeMediaBtn.addEventListener('click', () => {
+      if (mediaInput) mediaInput.value = '';
+      if (fileNameSpan) fileNameSpan.textContent = 'No file chosen';
+    });
+  }
 
   /* ------------------ comments (Supabase) ------------------ */
 
   // Sidebar comment form
-  document.getElementById('sidebar-comment-form').addEventListener('submit', async (ev) => {
-    ev.preventDefault();
+  const sidebarCommentForm = document.getElementById('sidebar-comment-form');
+  if (sidebarCommentForm) {
+    sidebarCommentForm.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
 
-    if (!fbUser || !fbProfile) {
-      alert('You must be signed in to comment.');
-      return;
-    }
+      if (!fbUser || !fbProfile) {
+        alert('You must be signed in to comment.');
+        return;
+      }
 
-    const form = ev.target;
-    const postId = form.dataset.postId;
-    const input = document.getElementById('sidebar-comment-input');
-    const text = input.value.trim();
-    if (!text) return;
+      const form = ev.target;
+      const postId = form.dataset.postId;
+      const input = document.getElementById('sidebar-comment-input');
+      const text = input.value.trim();
+      if (!text) return;
 
-    const comment = {
-      id: 'c' + Date.now(),
-      authorUid: fbUser.id,
-      author: fbProfile?.name || 'Anonymous',
-      avatar: (fbProfile && fbProfile.pfp && String(fbProfile.pfp).startsWith('http')) ? fbProfile.pfp : null,
-      text,
-      createdAt: new Date().toISOString(),
-    };
+      const comment = {
+        id: 'c' + Date.now(),
+        authorUid: fbUser.id,
+        author: fbProfile?.name || 'Anonymous',
+        avatar: (fbProfile && fbProfile.pfp && String(fbProfile.pfp).startsWith('http')) ? fbProfile.pfp : null,
+        text,
+        createdAt: new Date().toISOString(),
+      };
 
-    try {
-      const { data: post } = await supabase
-        .from('posts')
-        .select('comments')
-        .eq('id', postId)
-        .single();
-      
-      const updatedComments = [...(post?.comments || []), comment];
-      
-      await supabase
-        .from('posts')
-        .update({ comments: updatedComments })
-        .eq('id', postId);
+      try {
+        const { data: post } = await supabase
+          .from('posts')
+          .select('comments')
+          .eq('id', postId)
+          .single();
+        
+        const updatedComments = [...(post?.comments || []), comment];
+        
+        await supabase
+          .from('posts')
+          .update({ comments: updatedComments })
+          .eq('id', postId);
 
-      input.value = '';
-      console.log('✅ Comment saved!');
-    } catch (err) {
-      console.error('❌ Failed to add comment:', err);
-      alert('Failed to add comment.');
-    }
-  });
+        if (input) input.value = '';
+        console.log('✅ Comment saved!');
+      } catch (err) {
+        console.error('❌ Failed to add comment:', err);
+        alert('Failed to add comment.');
+      }
+    });
+  }
 
   /* ------------------ Supabase subscriptions & auth handling ------------------ */
 
@@ -1863,22 +1878,24 @@
   
   function updateProfileUI(profile) {
     if (profile && profile.pfp && String(profile.pfp).startsWith('http')) {
-      profilePicEl.innerHTML = ''; 
-      const img = document.createElement('img'); 
-      img.src = profile.pfp; 
-      img.style.width='100%'; 
-      img.style.height='100%'; 
-      img.style.objectFit='cover'; 
-      img.style.borderRadius='50%'; 
-      profilePicEl.appendChild(img);
-    } else {
+      if (profilePicEl) {
+        profilePicEl.innerHTML = ''; 
+        const img = document.createElement('img'); 
+        img.src = profile.pfp; 
+        img.style.width='100%'; 
+        img.style.height='100%'; 
+        img.style.objectFit='cover'; 
+        img.style.borderRadius='50%'; 
+        profilePicEl.appendChild(img);
+      }
+    } else if (profilePicEl) {
       profilePicEl.innerHTML = ''; 
       profilePicEl.textContent = (profile && profile.name) ? profile.name[0].toUpperCase() : '?';
     }
     
     document.querySelectorAll('.main-profile-name').forEach(el => el.textContent = profile?.name || 'Black Note');
-    profileBioEl.textContent = profile?.bio || '';
-    pfpPreview.src = (profile && profile.pfp && String(profile.pfp).startsWith('http')) ? profile.pfp : '/assets/BN.png';
+    if (profileBioEl) profileBioEl.textContent = profile?.bio || '';
+    if (pfpPreview) pfpPreview.src = (profile && profile.pfp && String(profile.pfp).startsWith('http')) ? profile.pfp : '/assets/BN.png';
     
     // Display badge next to username
     displayBadge(profile?.badge, document.getElementById('profile-badge-display'));
@@ -2082,18 +2099,18 @@
       if (postsSubscription) { postsSubscription.unsubscribe(); postsSubscription = null; }
       if (profileUnsub) { profileUnsub(); profileUnsub = null; }
       if (friendsUnsub) { friendsUnsub(); friendsUnsub = null; }
-      profilePicEl.innerHTML = ''; profilePicEl.textContent = '?';
+      if (profilePicEl) { profilePicEl.innerHTML = ''; profilePicEl.textContent = '?'; }
       document.querySelectorAll('.main-profile-name').forEach(el => el.textContent = 'Guest');
-      profileBioEl.textContent = '';
-      feedEl.innerHTML = `<div class="empty-feed-message">Sign in to see the live feed and post.</div>`;
-      openProfileEditorBtn.disabled = true;
+      if (profileBioEl) profileBioEl.textContent = '';
+      if (feedEl) feedEl.innerHTML = `<div class="empty-feed-message">Sign in to see the live feed and post.</div>`;
+      if (openProfileEditorBtn) openProfileEditorBtn.disabled = true;
       console.log('👋 User logged out, UI reset');
       return;
     }
 
     console.log('👤 User:', user.id, user.email);
     fbUser = user;
-    openProfileEditorBtn.disabled = false;
+    if (openProfileEditorBtn) openProfileEditorBtn.disabled = false;
 
     console.log('👤 Subscribing to user profile...');
     subscribeToUserProfile(user.id);
@@ -2108,7 +2125,7 @@
     startGlobalNotifications(user.id);
 
     document.querySelectorAll('.main-profile-name').forEach(el => el.textContent = user.user_metadata?.display_name || 'Signed User');
-    profileBioEl.textContent = '';
+    if (profileBioEl) profileBioEl.textContent = '';
     
     console.log('✅ All subscriptions initialized');
   });
@@ -2154,6 +2171,7 @@
 
   async function renderFriendsUI(friendsArray, requestsArray) {
     console.log('🎨 Rendering friends UI:', friendsArray.length, 'friends,', requestsArray.length, 'requests');
+    if (!friendsEl) return;
     friendsEl.innerHTML = '';
 
     if (requestsArray.length) {
@@ -2359,10 +2377,10 @@
   }
 
   (function init() {
-    openProfileEditorBtn.disabled = true;
-    profilePicEl.textContent = '?';
+    if (openProfileEditorBtn) openProfileEditorBtn.disabled = true;
+    if (profilePicEl) profilePicEl.textContent = '?';
     document.querySelectorAll('.main-profile-name').forEach(el => el.textContent = 'Guest');
-    profileBioEl.textContent = '';
+    if (profileBioEl) profileBioEl.textContent = '';
 
     loadNotificationState();
     
@@ -2458,6 +2476,23 @@
       document.addEventListener('DOMContentLoaded', initNotificationButton);
     } else {
       initNotificationButton();
+    }
+
+    // Attach badge selector handler AFTER DOM is ready
+    badgeSelector = document.getElementById('badge-selector');
+    if (badgeSelector) {
+      badgeSelector.addEventListener('click', (e) => {
+        const option = e.target.closest('.badge-option');
+        if (!option) return;
+
+        badgeSelector.querySelectorAll('.badge-option').forEach(b => b.classList.remove('selected'));
+
+        option.classList.add('selected');
+        selectedBadge = option.dataset.badge || null;
+
+        // Preview badge immediately on selection
+        displayBadge(selectedBadge, document.getElementById('profile-badge-display'));
+      });
     }
 
     document.body.style.backgroundImage = 'url("/assets/back2.gif")';
