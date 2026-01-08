@@ -9,144 +9,90 @@
   <link rel="stylesheet" href="/css/blacknote.css">
   
   <style>
-    /* Homepage Specific Styles - Does not affect topbar */
-    
-    /* Reset and Base */
-    .homepage-container {
-      margin-top: 80px;
-      min-height: calc(100vh - 80px);
-      position: relative;
+    /* Badge styles */
+    .badge-container {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #333;
     }
     
-    /* Main Layout */
-    .main-layout {
+    .badge-display {
       display: flex;
-      width: 100%;
-      min-height: calc(100vh - 80px);
-      position: relative;
-    }
-    
-    /* Left Sidebar - Profile */
-    .left-sidebar {
-      position: fixed;
-      left: -320px;
-      top: 80px;
-      width: 320px;
-      height: calc(100vh - 80px);
-      background: rgba(26, 26, 26, 0.98);
-      backdrop-filter: blur(10px);
-      border-right: 1px solid #333;
-      transition: left 0.3s ease;
-      z-index: 100;
-      overflow-y: auto;
-      padding: 1.5rem;
-    }
-    
-    .left-sidebar.open {
-      left: 0;
-    }
-    
-    .sidebar-toggle-left {
-      position: fixed;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      background: #1DA1F2;
-      border: none;
-      color: white;
-      padding: 1rem 0.5rem;
-      cursor: pointer;
-      border-radius: 0 8px 8px 0;
-      z-index: 99;
-      transition: all 0.3s;
-      font-size: 1.2rem;
-      box-shadow: 2px 0 8px rgba(0,0,0,0.3);
-    }
-    
-    .sidebar-toggle-left:hover {
-      background: #1a8cd8;
-      padding-right: 0.7rem;
-    }
-    
-    /* Profile Content */
-    .profile-section {
-      text-align: center;
-    }
-    
-    .profile-pic {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      margin: 0 auto 1rem;
-      background: linear-gradient(135deg, #1DA1F2, #0d8bd9);
-      display: flex;
-      align-items: center;
       justify-content: center;
-      font-size: 3rem;
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.2s;
-      overflow: hidden;
-    }
-    
-    .profile-pic:hover {
-      transform: scale(1.05);
-    }
-    
-    .profile-name {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: white;
       margin-bottom: 0.5rem;
     }
     
-    .profile-bio {
-      color: #888;
-      margin-bottom: 1.5rem;
-      font-size: 0.95rem;
-      line-height: 1.4;
-    }
-    
-    .edit-profile-btn {
-      width: 100%;
-      padding: 0.75rem;
-      background: #1DA1F2;
-      border: none;
+    .badge-icon {
+      width: 64px;
+      height: 64px;
       border-radius: 8px;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-bottom: 1rem;
-    }
-    
-    .edit-profile-btn:hover {
-      background: #1a8cd8;
-      transform: translateY(-2px);
-    }
-    
-    /* Center Feed */
-    .center-feed {
-      flex: 1;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-      min-height: calc(100vh - 80px);
-    }
-    
-    /* Create Post */
-    .create-post-compact {
-      background: rgba(26, 26, 26, 0.98);
-      backdrop-filter: blur(10px);
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
+      object-fit: cover;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     
-    .create-post-btn {
+    /* Badge next to username in profile */
+    .profile-header-with-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+    
+    .profile-badge-small {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    
+    .badge-selector {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .badge-option {
+      width: 100%;
+      aspect-ratio: 1;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .badge-option:hover {
+      transform: scale(1.05);
+      border-color: #666;
+    }
+    
+    .badge-option.selected {
+      border-color: #1DA1F2;
+      box-shadow: 0 0 12px rgba(29, 161, 242, 0.5);
+    }
+    
+    .badge-option.red { background-color: #ef4444; }
+    .badge-option.gold { background-color: #fbbf24; }
+    .badge-option.blue { background-color: #3b82f6; }
+    .badge-option.green { background-color: #10b981; }
+    .badge-option.white { background-color: #f3f4f6; }
+    .badge-option.black { background-color: #1f2937; }
+    .badge-option.pink { background-color: #ec4899; }
+    
+    /* Collapsible create post - NOW COMPACT BUTTON */
+    .create-post-button-container {
+      padding: 1rem;
+      background: #1a1a1a;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      border: 1px solid #2a2a2a;
+    }
+    
+    .create-post-compact-btn {
       width: 100%;
       padding: 1rem;
       background: linear-gradient(135deg, #1DA1F2, #0d8bd9);
@@ -161,1316 +107,2568 @@
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
+      box-shadow: 0 4px 12px rgba(29, 161, 242, 0.3);
     }
     
-    .create-post-btn:hover {
+    .create-post-compact-btn:hover {
       background: linear-gradient(135deg, #1a8cd8, #0c7ac4);
       transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(29, 161, 242, 0.4);
     }
     
-    /* Posts Feed */
-    .posts-feed {
+    .create-post-compact-btn:active {
+      transform: translateY(0);
+    }
+    
+    /* Create Post Modal - FULLSCREEN */
+    .create-post-modal {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 10000;
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+    
+    .create-post-modal.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .create-post-modal-content {
+      background: #0a0a0a;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      transform: translateY(20px);
+      transition: transform 0.2s ease;
     }
     
-    .post-card {
-      background: rgba(26, 26, 26, 0.98);
-      backdrop-filter: blur(10px);
-      border: 1px solid #333;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
+    .create-post-modal.visible .create-post-modal-content {
+      transform: translateY(0);
     }
     
-    .post-card:hover {
-      transform: translateY(-2px);
-    }
-    
-    .post-header {
-      padding: 1rem 1.5rem;
+    .create-post-modal-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid #333;
       display: flex;
       align-items: center;
-      gap: 1rem;
-      border-bottom: 1px solid #333;
+      justify-content: space-between;
+      flex-shrink: 0;
+      background: #1a1a1a;
     }
     
-    .post-avatar {
-      width: 48px;
-      height: 48px;
+    .create-post-modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+    }
+    
+    .create-post-close-btn {
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 2rem;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background: #444;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      overflow: hidden;
+      transition: all 0.2s;
     }
     
-    .post-meta {
+    .create-post-close-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .create-post-modal-body {
       flex: 1;
-    }
-    
-    .post-author {
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-    }
-    
-    .post-author:hover {
-      color: #1DA1F2;
-    }
-    
-    .post-time {
-      color: #888;
-      font-size: 0.85rem;
-    }
-    
-    .post-menu-btn {
-      background: none;
-      border: none;
-      color: #888;
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 0.5rem;
-      border-radius: 50%;
-      transition: all 0.2s;
-    }
-    
-    .post-menu-btn:hover {
-      background: rgba(255,255,255,0.1);
-      color: white;
-    }
-    
-    .post-body {
-      padding: 1.5rem;
-      color: white;
-      font-size: 1rem;
-      line-height: 1.6;
-      word-wrap: break-word;
-    }
-    
-    .post-media {
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
       width: 100%;
-      max-height: 600px;
-      object-fit: contain;
-      background: #000;
-    }
-    
-    .post-actions {
-      padding: 1rem 1.5rem;
-      display: flex;
-      gap: 1rem;
-      border-top: 1px solid #333;
-      flex-wrap: wrap;
-    }
-    
-    .action-btn {
-      background: none;
-      border: 1px solid #444;
-      color: #888;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.9rem;
-    }
-    
-    .action-btn:hover {
-      background: rgba(255,255,255,0.05);
-      border-color: #666;
-      color: white;
-    }
-    
-    .action-btn.active {
-      background: #1DA1F2;
-      border-color: #1DA1F2;
-      color: white;
-    }
-    
-    .toggle-comments-btn {
-      background: none;
-      border: 1px solid #1DA1F2;
-      color: #1DA1F2;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.9rem;
-      margin-left: auto;
-    }
-    
-    .toggle-comments-btn:hover {
-      background: #1DA1F2;
-      color: white;
-    }
-    
-    /* Right Sidebar - Comments */
-    .right-sidebar {
-      position: fixed;
-      right: -400px;
-      top: 80px;
-      width: 400px;
-      height: calc(100vh - 80px);
-      background: rgba(26, 26, 26, 0.98);
-      backdrop-filter: blur(10px);
-      border-left: 1px solid #333;
-      transition: right 0.3s ease;
-      z-index: 100;
       display: flex;
       flex-direction: column;
     }
     
-    .right-sidebar.open {
-      right: 0;
-    }
-    
-    .sidebar-toggle-right {
-      position: fixed;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      background: #1DA1F2;
-      border: none;
+    .create-post-textarea {
+      width: 100%;
+      flex: 1;
+      min-height: 300px;
+      padding: 1.5rem;
+      background: #1a1a1a;
+      border: 2px solid #333;
+      border-radius: 12px;
       color: white;
-      padding: 1rem 0.5rem;
-      cursor: pointer;
-      border-radius: 8px 0 0 8px;
-      z-index: 99;
-      transition: all 0.3s;
-      font-size: 1.2rem;
-      box-shadow: -2px 0 8px rgba(0,0,0,0.3);
-      display: none;
+      font-size: 1.1rem;
+      resize: none;
+      transition: border-color 0.2s;
+      font-family: inherit;
     }
     
-    .sidebar-toggle-right.active {
-      display: block;
+    .create-post-textarea:focus {
+      outline: none;
+      border-color: #1DA1F2;
     }
     
-    .sidebar-toggle-right:hover {
-      background: #1a8cd8;
-      padding-left: 0.7rem;
+    .create-post-media {
+      margin: 1.5rem 0;
     }
     
-    .comments-header {
-      padding: 1rem 1.5rem;
-      border-bottom: 1px solid #333;
+    .create-post-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .create-post-cancel-btn {
+      padding: 0.75rem 1.5rem;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 8px;
       color: white;
       font-weight: 600;
-      font-size: 1.1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
     }
     
-    .close-comments {
+    .create-post-cancel-btn:hover {
+      background: #333;
+    }
+    
+    .post-btn {
+      padding: 0.75rem 2rem;
+      background: #1DA1F2;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .post-btn:hover {
+      background: #1a8cd8;
+    }
+    
+    .post-btn:disabled {
+      background: #555;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+    
+    /* Friends under profile */
+    .left .friends-section {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .friends-section .panel {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    .friends-section h3 {
+      margin: 0 0 1rem 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    
+    .friends-list {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 0.5rem;
+    }
+    
+    .friends-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .friends-list::-webkit-scrollbar-track {
+      background: #1a1a1a;
+      border-radius: 3px;
+    }
+    
+    .friends-list::-webkit-scrollbar-thumb {
+      background: #444;
+      border-radius: 3px;
+    }
+    
+    .friends-list::-webkit-scrollbar-thumb:hover {
+      background: #666;
+    }
+    
+    .left {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+      max-height: calc(100vh - 80px);
+      padding: 0;
+      width: 420px; 
+      min-width: 420px;
+    }
+    
+    .left > .panel {
+      flex-shrink: 0;
+      margin: 0;
+    }
+    
+    /* Friends section with max height */
+    .left .friends-section {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    
+    /* Friend item with 3-dot menu */
+    .friend-item {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 8px;
+      transition: background-color 0.2s;
+      margin-bottom: 0.5rem;
+    }
+    
+    .friend-item:hover {
+      background-color: rgba(255,255,255,0.05);
+    }
+    
+    .friend-menu-btn {
+      margin-left: auto;
       background: none;
       border: none;
       color: #888;
       font-size: 1.5rem;
       cursor: pointer;
       padding: 0.25rem 0.5rem;
-      border-radius: 50%;
+      border-radius: 4px;
+      transition: all 0.2s;
     }
     
-    .close-comments:hover {
-      background: rgba(255,255,255,0.1);
+    .friend-menu-btn:hover {
+      background-color: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+    
+    .friend-dropdown {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 0.5rem;
+      min-width: 150px;
+      z-index: 100;
+      display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    
+    .friend-dropdown.visible {
+      display: block;
+    }
+    
+    .friend-dropdown button {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      background: none;
+      border: none;
       color: white;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.2s;
     }
     
-    .comments-content {
+    .friend-dropdown button:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+    
+    /* Scroll snap for posts */
+    .feed {
+      height: calc(100vh - 80px);
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scroll-behavior: smooth;
+    }
+    
+    .feed::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .post {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      min-height: calc(100vh - 80px);
+      max-height: calc(100vh - 80px);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      margin-bottom: 0;
+      padding: 1.5rem;
+    }
+    
+    .post-body {
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 1rem 0;
+      margin: 1rem 0;
+    }
+    
+    .post-actions {
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid #333;
+    }
+    
+    /* Ensure posts fill the viewport */
+    .center {
+      height: calc(100vh - 80px);
+      overflow: hidden;
+      margin-left: 120px; 
+      margin-right: 120px;
+    }
+    
+    .create-post-panel {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #1a1a1a;
+    }
+    
+    /* Comments sidebar */
+    .comments-sidebar {
+      position: fixed;
+      right: 0;
+      top: 80px;
+      width: 500px;
+      height: calc(100vh - 80px);
+      background: #1a1a1a;
+      border-left: 1px solid #333;
+      display: flex;
+      flex-direction: column;
+      z-index: 50;
+      border-top-left-radius: 12px; 
+      border-bottom-left-radius: 12px; 
+    }
+    
+    .comments-sidebar-header {
+      padding: 1rem;
+      border-bottom: 1px solid #333;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    .comments-sidebar-content {
       flex: 1;
       overflow-y: auto;
       padding: 1rem;
     }
     
-    .comment-item {
+    .sidebar-comment {
       margin-bottom: 1rem;
       padding-bottom: 1rem;
       border-bottom: 1px solid #333;
+      position: relative;
     }
     
-    .comment-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    .comment-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #444;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 0.85rem;
-      overflow: hidden;
-    }
-    
-    .comment-author {
-      color: white;
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-    
-    .comment-text {
-      color: #ddd;
-      margin-left: 2.5rem;
-      font-size: 0.9rem;
-      line-height: 1.4;
-    }
-    
-    .comment-form {
-      padding: 1rem;
-      border-top: 1px solid #333;
-      display: flex;
-      gap: 0.5rem;
-    }
-    
-    .comment-input {
-      flex: 1;
-      background: #2a2a2a;
-      border: 1px solid #333;
-      border-radius: 20px;
-      padding: 0.75rem 1rem;
-      color: white;
-      font-size: 0.9rem;
-    }
-    
-    .comment-input:focus {
-      outline: none;
-      border-color: #1DA1F2;
-    }
-    
-    .comment-submit {
-      background: #1DA1F2;
-      border: none;
-      color: white;
-      padding: 0.75rem 1.5rem;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-    
-    .comment-submit:hover {
-      background: #1a8cd8;
-    }
-    
-    /* Create Post Modal */
-    .create-modal {
-      position: fixed;
+    .comment-menu-toggle {
+      position: absolute;
       top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.9);
-      z-index: 1000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-    
-    .create-modal.show {
-      display: flex;
-    }
-    
-    .modal-content {
-      background: #1a1a1a;
-      border-radius: 12px;
-      max-width: 600px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-    
-    .modal-header {
-      padding: 1.5rem;
-      border-bottom: 1px solid #333;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .modal-title {
-      color: white;
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-    
-    .modal-close {
+      right: 0;
       background: none;
       border: none;
       color: #888;
-      font-size: 2rem;
+      font-size: 1.2rem;
       cursor: pointer;
-      padding: 0;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .modal-close:hover {
-      background: rgba(255,255,255,0.1);
-      color: white;
-    }
-    
-    .modal-body {
-      padding: 1.5rem;
-    }
-    
-    .post-textarea {
-      width: 100%;
-      min-height: 150px;
-      background: #2a2a2a;
-      border: 1px solid #333;
-      border-radius: 8px;
-      padding: 1rem;
-      color: white;
-      font-size: 1rem;
-      resize: vertical;
-      font-family: inherit;
-    }
-    
-    .post-textarea:focus {
-      outline: none;
-      border-color: #1DA1F2;
-    }
-    
-    .media-upload-section {
-      margin-top: 1rem;
-      padding: 1rem;
-      background: #2a2a2a;
-      border-radius: 8px;
-      border: 2px dashed #444;
-      text-align: center;
-      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
       transition: all 0.2s;
     }
     
-    .media-upload-section:hover {
-      border-color: #1DA1F2;
-      background: #333;
+    .comment-menu-toggle:hover {
+      background-color: rgba(255,255,255,0.1);
+      color: #fff;
     }
     
-    .media-upload-label {
-      color: #888;
+    .comment-dropdown {
+      position: absolute;
+      top: 30px;
+      right: 0;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 0.5rem;
+      min-width: 120px;
+      z-index: 100;
+      display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    
+    .comment-dropdown.visible {
+      display: block;
+    }
+    
+    .comment-dropdown button {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      background: none;
+      border: none;
+      color: white;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.2s;
       font-size: 0.9rem;
     }
     
-    .upload-progress {
-      margin-top: 1rem;
-      display: none;
+    .comment-dropdown button:hover {
+      background-color: rgba(255,255,255,0.1);
     }
     
-    .progress-bar {
-      width: 100%;
-      height: 8px;
-      background: #333;
-      border-radius: 4px;
-      overflow: hidden;
+    .comment-dropdown button.danger {
+      color: #ef4444;
     }
     
-    .progress-fill {
-      height: 100%;
-      background: #1DA1F2;
-      width: 0%;
-      transition: width 0.3s;
-    }
-    
-    .progress-text {
-      color: #888;
-      font-size: 0.85rem;
-      margin-top: 0.5rem;
-      text-align: center;
-    }
-    
-    .modal-footer {
-      padding: 1rem 1.5rem;
+    .comments-sidebar-form {
+      padding: 1rem;
       border-top: 1px solid #333;
       display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-    }
-    
-    .modal-btn {
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .modal-btn-cancel {
-      background: #2a2a2a;
-      border: 1px solid #444;
-      color: white;
-    }
-    
-    .modal-btn-cancel:hover {
-      background: #333;
-    }
-    
-    .modal-btn-post {
-      background: #1DA1F2;
-      border: none;
-      color: white;
-    }
-    
-    .modal-btn-post:hover {
-      background: #1a8cd8;
-    }
-    
-    .modal-btn-post:disabled {
-      background: #555;
-      cursor: not-allowed;
-      opacity: 0.5;
-    }
-    
-    /* Profile Editor Modal */
-    .profile-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.9);
-      z-index: 1000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-    
-    .profile-modal.show {
-      display: flex;
-    }
-    
-    .profile-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    
-    .form-group {
-      display: flex;
-      flex-direction: column;
       gap: 0.5rem;
     }
     
-    .form-label {
-      color: #888;
-      font-size: 0.9rem;
+    .comments-sidebar-input {
+      flex: 1;
+      padding: 0.75rem;
+      background: #2a2a2a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: white;
+    }
+    
+    .comments-sidebar-submit {
+      padding: 0.75rem 1.5rem;
+      background: #1DA1F2;
+      border: none;
+      border-radius: 8px;
+      color: white;
       font-weight: 600;
-    }
-    
-    .form-input {
-      background: #2a2a2a;
-      border: 1px solid #333;
-      border-radius: 8px;
-      padding: 0.75rem;
-      color: white;
-      font-size: 1rem;
-    }
-    
-    .form-input:focus {
-      outline: none;
-      border-color: #1DA1F2;
-    }
-    
-    .form-textarea {
-      background: #2a2a2a;
-      border: 1px solid #333;
-      border-radius: 8px;
-      padding: 0.75rem;
-      color: white;
-      font-size: 1rem;
-      min-height: 100px;
-      resize: vertical;
-      font-family: inherit;
-    }
-    
-    .form-textarea:focus {
-      outline: none;
-      border-color: #1DA1F2;
-    }
-    
-    .pfp-preview-container {
-      text-align: center;
-    }
-    
-    .pfp-preview {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      margin: 0 auto;
-      object-fit: cover;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: background-color 0.2s;
     }
     
-    .pfp-preview:hover {
-      transform: scale(1.05);
-    }
-    
-    /* Empty State */
-    .empty-feed {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: #888;
-    }
-    
-    .empty-feed h2 {
-      color: white;
-      margin-bottom: 1rem;
-    }
-    
-    /* Mobile Responsive */
-    @media (max-width: 768px) {
-      .center-feed {
-        padding: 1rem 0.5rem;
-      }
-      
-      .left-sidebar {
-        width: 280px;
-        left: -280px;
-      }
-      
-      .right-sidebar {
-        width: 100%;
-        right: -100%;
-      }
-      
-      .post-actions {
-        flex-direction: column;
-      }
-      
-      .toggle-comments-btn {
-        margin-left: 0;
-      }
-      
-      .sidebar-toggle-left,
-      .sidebar-toggle-right {
-        display: block;
-      }
-    }
-    
-    /* Scrollbar Styling */
-    .left-sidebar::-webkit-scrollbar,
-    .comments-content::-webkit-scrollbar,
-    .modal-content::-webkit-scrollbar {
-      width: 6px;
-    }
-    
-    .left-sidebar::-webkit-scrollbar-track,
-    .comments-content::-webkit-scrollbar-track,
-    .modal-content::-webkit-scrollbar-track {
-      background: #1a1a1a;
-    }
-    
-    .left-sidebar::-webkit-scrollbar-thumb,
-    .comments-content::-webkit-scrollbar-thumb,
-    .modal-content::-webkit-scrollbar-thumb {
-      background: #444;
-      border-radius: 3px;
-    }
-    
-    .left-sidebar::-webkit-scrollbar-thumb:hover,
-    .comments-content::-webkit-scrollbar-thumb:hover,
-    .modal-content::-webkit-scrollbar-thumb:hover {
-      background: #666;
-    }
-    
-    /* Loading Spinner */
-    .loading {
-      text-align: center;
-      padding: 2rem;
-      color: #888;
-    }
-    
-    .spinner {
-      border: 3px solid #333;
-      border-top: 3px solid #1DA1F2;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto;
-    }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .comments-sidebar-submit:hover {
+      background: #1a8cd8;
     }
   </style>
 </head>
 
 <body>
   <header class="topbar">
-    <div class="left-section">
-      <button id="menuToggle" class="hamburger" aria-label="Open menu" aria-expanded="false" title="Menu">
-        <span></span><span></span><span></span>
-      </button>
-      <a href="/pages/blacknote.html">
-        <img src="/assets/blacknotetrans.png" alt="Logo" class="logo" />
-      </a>
-    </div>
+  <div class="left-section">
+    <button id="menuToggle" class="hamburger" aria-label="Open menu" aria-expanded="false" title="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="/pages/blacknote.html">
+      <img src="/assets/blacknotetrans.png" alt="Logo" class="logo" />
+    </a>
+  </div>
 
-    <div class="center-section">
-      <div class="search-container">
-        <input type="text" class="search-box" placeholder="Search..." />
-      </div>
+  <div class="center-section">
+    <div class="search-container">
+      <input type="text" class="search-box" placeholder="Search..." />
     </div>
+  </div>
 
-    <div class="right-section">
-      <a href="#" id="notification-bell-link" class="icon-btn" title="Notifications" style="margin-left: 15px; margin-right: 30px;">
-        <img src="/assets/notif.png" alt="Notifications" class="custom-emoji">
-      </a>
-      <a href="/pages/blacknote.html" class="icon-btn" title="home">
-        <img src="/assets/home.png" alt="home" class="custom-emoji">
-      </a>
-      <a href="/pages/friendsblacknote.html" class="icon-btn" title="Add">
-        <img src="/assets/add.png" alt="Add" class="custom-emoji">
-      </a>
-      <a href="/pages/mapblacknote.html" class="icon-btn" title="Basketball">
-        <img src="/assets/ball.png" alt="Basketball" class="custom-emoji">
-      </a>
-      <a href="/pages/dripblacknote.html" class="icon-btn" title="Black Market">
-        <img src="/assets/shop.png" alt="Money" class="custom-emoji">
-      </a>
-      <a href="/pages/hollablacknote.html" class="icon-btn" title="Holla">
-        <img src="/assets/hol.png" alt="Holla" class="custom-emoji">
-      </a>
-    </div>
-  </header>
+<div class="right-section">
 
-  <nav id="slideMenu" class="slide-menu" aria-hidden="true" role="navigation">
-    <div class="slide-menu-inner" role="menu" aria-label="Site menu">
-      <button id="contactBtn" class="menu-item" role="menuitem">Contact Us!</button>
-      <button id="aboutBtn" class="menu-item" role="menuitem">About</button>
-      <button id="logoutBtn" class="menu-item login-btn" role="menuitem">Logout</button>
-    </div>
-  </nav>
-  <div id="menuOverlay" class="menu-overlay" aria-hidden="true"></div>
+<a href="#" id="notification-bell-link" class="icon-btn" title="Notifications" style="margin-left: 15px; margin-right: 30px;">
+    <img src="/assets/notif.png" alt="Notifications" class="custom-emoji">
+</a>
+
+<a href="/pages/blacknote.html" class="icon-btn" title="home">
+    <img src="/assets/home.png" alt="home" class="custom-emoji">
+  </a>
+  <a href="/pages/friendsblacknote.html" class="icon-btn" title="Add">
+    <img src="/assets/add.png" alt="Add" class="custom-emoji">
+  </a>
+  <a href="/pages/mapblacknote.html" class="icon-btn" title="Basketball">
+    <img src="/assets/ball.png" alt="Basketball" class="custom-emoji">
+  </a>
+  <a href="/pages/dripblacknote.html" class="icon-btn" title="Black Market">
+    <img src="/assets/shop.png" alt="Money" class="custom-emoji">
+  </a>
+  <a href="/pages/hollablacknote.html" class="icon-btn" title="Holla">
+    <img src="/assets/hol.png" alt="Holla" class="custom-emoji">
+  </a>
+</div>
+
+</header>
+
+<nav id="slideMenu" class="slide-menu" aria-hidden="true" role="navigation">
+  <div class="slide-menu-inner" role="menu" aria-label="Site menu">
+    <button id="contactBtn" class="menu-item" role="menuitem">Contact Us!</button>
+    <button id="aboutBtn" class="menu-item" role="menuitem">About</button>
+    <button id="logoutBtn" class="menu-item login-btn" role="menuitem">Logout</button>
+  </div>
+</nav>
+<div id="menuOverlay" class="menu-overlay" aria-hidden="true"></div>
 
   <div id="offline-banner" class="offline-banner">You are offline — some features may be unavailable.</div>
 
-  <div class="homepage-container">
-    <!-- Left Sidebar Toggle -->
-    <button class="sidebar-toggle-left" id="toggleLeftSidebar">☰</button>
-
-    <!-- Left Sidebar - Profile -->
-    <aside class="left-sidebar" id="leftSidebar">
-      <div class="profile-section">
-        <div class="profile-pic" id="profilePic">?</div>
-        <div class="profile-name" id="profileName">Guest</div>
-        <div class="profile-bio" id="profileBio">Sign in to customize your profile</div>
-        <button class="edit-profile-btn" id="editProfileBtn">Edit Profile</button>
+<div class="layout">
+  <!-- Left column -->
+  <aside class="left">
+    <div class="panel profile-center">
+      <input id="pfp-upload" type="file" accept="image/*" style="display:none;">
+      <div id="profile-pic" class="profile-pic" title="Profile picture (open Edit Profile to change)"></div>
+      
+      <!-- Badge next to username -->
+      <div class="profile-header-with-badge">
+        <div id="profile-badge-display"></div>
+        <div class="profile-name main-profile-name">Black Note</div>
       </div>
-    </aside>
-
-    <!-- Main Layout -->
-    <div class="main-layout">
-      <!-- Center Feed -->
-      <main class="center-feed">
-        <!-- Create Post -->
-        <div class="create-post-compact">
-          <button class="create-post-btn" id="openCreatePost">
-            <span>✏️</span>
-            <span>Create Post</span>
-          </button>
-        </div>
-
-        <!-- Posts Feed -->
-        <div class="posts-feed" id="postsFeed">
-          <div class="loading">
-            <div class="spinner"></div>
-            <p>Loading posts...</p>
-          </div>
-        </div>
-      </main>
+      
+      <div class="profile-bio" id="profile-bio">Stand-in bio: creative, coffee lover, building BlackNote.</div>
+      
+      <button class="post-btn edit-profile-btn" id="open-profile-editor">Edit Profile</button>
     </div>
-
-    <!-- Right Sidebar Toggle -->
-    <button class="sidebar-toggle-right" id="toggleRightSidebar">💬</button>
-
-    <!-- Right Sidebar - Comments -->
-    <aside class="right-sidebar" id="rightSidebar">
-      <div class="comments-header">
-        <span>Comments</span>
-        <button class="close-comments" id="closeComments">&times;</button>
+    
+    <!-- Create Post Button in Container -->
+    <div class="create-post-button-container">
+      <button class="create-post-compact-btn" id="open-create-post">
+        ✏️ Create Post
+      </button>
+    </div>
+    
+    <!-- Friends moved under profile -->
+    <div class="friends-section">
+      <div class="panel">
+        <h3>Friends</h3>
+        <div class="friends-list" id="friends-container"></div>
       </div>
-      <div class="comments-content" id="commentsContent">
+    </div>
+  </aside>
+
+  <!-- Center column -->
+  <main class="center">
+    <div class="feed" id="feed-container"></div>
+  </main>
+
+  <!-- Right column - Comments Sidebar -->
+  <aside class="right">
+    <div class="comments-sidebar">
+      <div class="comments-sidebar-header">Comments</div>
+      <div class="comments-sidebar-content" id="sidebar-comments-list">
         <p style="color: #888; text-align: center; padding: 2rem;">Select a post to view comments</p>
       </div>
-      <form class="comment-form" id="commentForm" style="display: none;">
-        <input type="text" class="comment-input" id="commentInput" placeholder="Add a comment..." required>
-        <button type="submit" class="comment-submit">Post</button>
+      <form class="comments-sidebar-form" id="sidebar-comment-form" style="display: none;">
+        <input type="text" class="comments-sidebar-input" placeholder="Add a comment..." id="sidebar-comment-input" required>
+        <button type="submit" class="comments-sidebar-submit">Post</button>
       </form>
-    </aside>
-  </div>
+    </div>
+  </aside>
+</div>
 
-  <!-- Create Post Modal -->
-  <div class="create-modal" id="createModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Create Post</h2>
-        <button class="modal-close" id="closeCreateModal">&times;</button>
+<!-- Create Post Modal - FULLSCREEN -->
+<div class="create-post-modal" id="create-post-modal" style="display: none;">
+  <div class="create-post-modal-content" onclick="event.stopPropagation();">
+    <div class="create-post-modal-header">
+      <h2 class="create-post-modal-title">Create a New Post</h2>
+      <button class="create-post-close-btn" id="close-create-modal" type="button">&times;</button>
+    </div>
+    <div class="create-post-modal-body">
+      <textarea class="create-post-textarea" placeholder="What's on your mind?" id="new-post-text"></textarea>
+
+      <div class="create-post-media">
+        <label for="new-post-media" class="media-upload-btn">
+          📎 Attach Media
+        </label>
+        <input type="file" id="new-post-media" accept="image/*,video/*" style="display:none;">
+        <span id="file-name" class="file-name">No file chosen</span>
+        <button id="remove-media" class="remove-media-btn" title="Remove file" type="button">✖</button>
       </div>
-      <div class="modal-body">
-        <textarea class="post-textarea" id="postText" placeholder="What's on your mind?"></textarea>
-        
-        <div class="media-upload-section" id="mediaUploadSection">
-          <input type="file" id="mediaInput" accept="image/*,video/*" style="display: none;">
-          <div class="media-upload-label">
-            📎 Click to attach image or video (max 30MB after compression)
-          </div>
-          <div id="mediaPreview"></div>
-        </div>
-        
-        <div class="upload-progress" id="uploadProgress">
-          <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-          </div>
-          <div class="progress-text" id="progressText">Uploading...</div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="modal-btn modal-btn-cancel" id="cancelPost">Cancel</button>
-        <button class="modal-btn modal-btn-post" id="submitPost">Post</button>
+
+      <div class="create-post-actions">
+        <button class="create-post-cancel-btn" id="cancel-create-post" type="button">Cancel</button>
+        <button class="post-btn" id="create-post-btn" type="button">Post</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Profile Editor Modal -->
-  <div class="profile-modal" id="profileModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Edit Profile</h2>
-        <button class="modal-close" id="closeProfileModal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <form class="profile-form" id="profileForm">
-          <div class="form-group pfp-preview-container">
-            <label class="form-label">Profile Picture</label>
-            <input type="file" id="pfpInput" accept="image/*" style="display: none;">
-            <img src="/assets/BN.png" alt="Profile" class="pfp-preview" id="pfpPreview">
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label" for="usernameInput">Username</label>
-            <input type="text" class="form-input" id="usernameInput" placeholder="Enter username">
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label" for="bioInput">Bio</label>
-            <textarea class="form-textarea" id="bioInput" placeholder="Tell us about yourself..."></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="modal-btn modal-btn-cancel" id="cancelProfile">Cancel</button>
-        <button class="modal-btn modal-btn-post" id="saveProfile">Save Changes</button>
-      </div>
+<style>
+  /* Main Layout - NEW DESIGN */
+    .layout {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 320px 1fr 400px;
+      gap: 0;
+      align-items: start;
+      height: 100vh;
+      overflow: hidden;
+      position: fixed;
+      top: 80px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+    
+    .left {
+      height: 100%;
+      overflow-y: auto;
+      border-right: 1px solid #333;
+    }
+    
+    .center {
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .right {
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    @media (max-width: 1024px) {
+        .layout { 
+          grid-template-columns: 1fr; 
+        }
+        .left .friends-section, .right { 
+          display: none; 
+        }
+    }
+    
+</style>
+
+  <div id="profile-editor-modal" class="modal-overlay" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
+      <button class="close-modal-btn" id="close-modal" aria-label="Close" style="position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:2rem; color:var(--muted); cursor:pointer;">&times;</button>
+      <h2 id="profile-modal-title" style="margin-top:0;">Edit Profile</h2>
+      <form id="profile-edit-form">
+        <label for="pfp-upload-modal">Profile Picture</label>
+        <label for="pfp-upload-modal" style="cursor:pointer;">
+          <img id="pfp-preview" src="/assets/BN.png" alt="Profile preview">
+        </label>
+        <input type="file" id="pfp-upload-modal" accept="image/*" style="display:none;">
+
+        <label for="username-input">Username</label>
+        <input type="text" id="username-input" value="Black Note" autocomplete="off">
+        <p id="username-cooldown-msg" aria-live="polite"></p>
+
+        <label for="bio-input">Bio</label>
+        <textarea id="bio-input" placeholder="Write a short bio..."></textarea>
+
+        <!-- Badge Selection -->
+        <label>Choose Your Badge</label>
+        <div class="badge-selector" id="badge-selector">
+          <div class="badge-option red" data-badge="red" title="Red Badge"></div>
+          <div class="badge-option gold" data-badge="gold" title="Gold Badge"></div>
+          <div class="badge-option blue" data-badge="blue" title="Blue Badge"></div>
+          <div class="badge-option green" data-badge="green" title="Green Badge"></div>
+          <div class="badge-option white" data-badge="white" title="White Badge"></div>
+          <div class="badge-option black" data-badge="black" title="Black Badge"></div>
+          <div class="badge-option pink" data-badge="pink" title="Pink Badge"></div>
+        </div>
+
+        <button type="submit" id="save-profile-btn" class="post-btn" style="width: 100%; margin-top: 1rem;">Save Changes</button>
+      </form>
     </div>
   </div>
 
-  <script type="module">
-    import { 
-      supabase, 
-      uploadImageForUser, 
-      onAuthStateChanged,
-      getUserProfile,
-      updateUserProfile
-    } from '/javascript/supabase.js';
+<script type="module">
+  import { 
+    supabase, 
+    uploadImageForUser, 
+    onAuthStateChanged, 
+    startGlobalNotifications,
+    getUserProfile,
+    updateUserProfile
+  } from '/javascript/supabase.js';
 
-    // State
-    let currentUser = null;
-    let currentProfile = null;
-    let posts = [];
-    let currentPostForComments = null;
-    let postsSubscription = null;
-
-    // DOM Elements
-    const leftSidebar = document.getElementById('leftSidebar');
-    const rightSidebar = document.getElementById('rightSidebar');
-    const toggleLeftBtn = document.getElementById('toggleLeftSidebar');
-    const toggleRightBtn = document.getElementById('toggleRightSidebar');
-    const closeCommentsBtn = document.getElementById('closeComments');
-    const postsFeed = document.getElementById('postsFeed');
-    const createModal = document.getElementById('createModal');
-    const profileModal = document.getElementById('profileModal');
-    const commentForm = document.getElementById('commentForm');
-    const commentsContent = document.getElementById('commentsContent');
-
-    // Toggle Sidebars
-    toggleLeftBtn.addEventListener('click', () => {
-      leftSidebar.classList.toggle('open');
+  const COOLDOWN_HOURS = 24;
+  
+  // Badge selection functionality
+  // NOTE: we'll initialize `badgeSelector` after DOM is ready inside init()
+  let badgeSelector = null;
+  let selectedBadge = null;
+  let currentPostId = null; // Track currently visible post
+  
+  // Wait for DOM to be ready before accessing elements
+  let createPostBtn = null;
+  let openCreatePostBtn = null;
+  let createPostModal = null;
+  let closeCreateModal = null;
+  let cancelCreatePost = null;
+  let createPostTextarea = null;
+  
+  // Initialize create post elements after DOM is loaded
+  function initCreatePostModal() {
+    openCreatePostBtn = document.getElementById('open-create-post');
+    createPostModal = document.getElementById('create-post-modal');
+    closeCreateModal = document.getElementById('close-create-modal');
+    cancelCreatePost = document.getElementById('cancel-create-post');
+    createPostTextarea = document.getElementById('new-post-text');
+    createPostBtn = document.getElementById('create-post-btn');
+    
+    console.log('🔧 Create post elements initialized:', {
+      button: !!openCreatePostBtn,
+      modal: !!createPostModal,
+      closeBtn: !!closeCreateModal,
+      cancelBtn: !!cancelCreatePost,
+      textarea: !!createPostTextarea,
+      postBtn: !!createPostBtn
     });
-
-    closeCommentsBtn.addEventListener('click', () => {
-      rightSidebar.classList.remove('open');
-      toggleRightBtn.classList.remove('active');
-    });
-
-    // Create Post Modal
-    document.getElementById('openCreatePost').addEventListener('click', () => {
-      if (!currentUser) {
-        alert('Please sign in to create posts');
-        return;
-      }
-      createModal.classList.add('show');
-    });
-
-    document.getElementById('closeCreateModal').addEventListener('click', () => {
-      createModal.classList.remove('show');
-      resetCreateForm();
-    });
-
-    document.getElementById('cancelPost').addEventListener('click', () => {
-      createModal.classList.remove('show');
-      resetCreateForm();
-    });
-
-    // Media Upload with Compression
-    const mediaInput = document.getElementById('mediaInput');
-    const mediaUploadSection = document.getElementById('mediaUploadSection');
-    const mediaPreview = document.getElementById('mediaPreview');
-    let selectedMedia = null;
-
-    mediaUploadSection.addEventListener('click', () => mediaInput.click());
-
-    mediaInput.addEventListener('change', async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const isVideo = file.type.startsWith('video/');
-      const isImage = file.type.startsWith('image/');
-
-      if (!isVideo && !isImage) {
-        alert('Please upload an image or video file');
-        return;
-      }
-
-      // Show preview and compress
-      mediaPreview.innerHTML = '<p style="color: #888;">Processing...</p>';
-
-      if (isImage) {
-        selectedMedia = await compressImage(file);
-        const url = URL.createObjectURL(selectedMedia);
-        mediaPreview.innerHTML = `<img src="${url}" style="max-width: 100%; border-radius: 8px; margin-top: 1rem;">`;
-      } else if (isVideo) {
-        selectedMedia = await compressVideo(file);
-        const url = URL.createObjectURL(selectedMedia);
-        mediaPreview.innerHTML = `<video src="${url}" controls style="max-width: 100%; border-radius: 8px; margin-top: 1rem;"></video>`;
-      }
-
-      // Check size
-      const sizeMB = selectedMedia.size / (1024 * 1024);
-      if (sizeMB > 30) {
-        alert('File is still too large after compression. Please choose a smaller file.');
-        selectedMedia = null;
-        mediaPreview.innerHTML = '';
-        mediaInput.value = '';
-      } else {
-        mediaPreview.innerHTML += `<p style="color: #888; margin-top: 0.5rem;">Size: ${sizeMB.toFixed(2)} MB</p>`;
+    
+    if (openCreatePostBtn) {
+      openCreatePostBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('🖱️ Create post button clicked');
+        openCreatePostModal();
+      });
+    }
+    
+    if (closeCreateModal) {
+      closeCreateModal.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeCreatePostModal();
+      });
+    }
+    
+    if (cancelCreatePost) {
+      cancelCreatePost.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeCreatePostModal();
+      });
+    }
+    
+    if (createPostModal) {
+      createPostModal.addEventListener('click', (e) => {
+        if (e.target === createPostModal) {
+          closeCreatePostModal();
+        }
+      });
+    }
+    
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && createPostModal && createPostModal.style.display === 'block') {
+        closeCreatePostModal();
       }
     });
-
-    // Image Compression
-    async function compressImage(file) {
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = new Image();
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            let width = img.width;
-            let height = img.height;
-
-            // Resize if too large
-            const maxDimension = 1920;
-            if (width > maxDimension || height > maxDimension) {
-              if (width > height) {
-                height = (height / width) * maxDimension;
-                width = maxDimension;
-              } else {
-                width = (width / height) * maxDimension;
-                height = maxDimension;
-              }
+  }
+  
+  function openCreatePostModal() {
+    console.log('📝 Opening create post modal');
+    if (createPostModal) {
+      createPostModal.style.display = 'block';
+      setTimeout(() => {
+        createPostModal.classList.add('visible');
+        if (createPostTextarea) createPostTextarea.focus();
+      }, 10);
+    }
+  }
+  
+  function closeCreatePostModal() {
+    console.log('❌ Closing create post modal');
+    if (createPostModal) {
+      createPostModal.classList.remove('visible');
+      setTimeout(() => {
+        createPostModal.style.display = 'none';
+      }, 200);
+    }
+    if (createPostTextarea) createPostTextarea.value = '';
+    const fileNameEl = document.getElementById('file-name');
+    const mediaInput = document.getElementById('new-post-media');
+    if (fileNameEl) fileNameEl.textContent = 'No file chosen';
+    if (mediaInput) mediaInput.value = '';
+  }
+  
+  // Badge click handler will be attached after DOM ready (inside init)
+  function displayBadge(badgeColor, targetElement) {
+    // If targetElement not provided, pick the standard element
+    if (!targetElement) targetElement = document.getElementById('profile-badge-display');
+    if (!targetElement) return;
+    
+    if (!badgeColor) {
+      targetElement.innerHTML = '';
+      return;
+    }
+    
+    // Create badge image
+    const badgeImg = document.createElement('img');
+    badgeImg.className = 'profile-badge-small';
+    badgeImg.src = `/assets/badges/${badgeColor}.png`;
+    badgeImg.alt = `${badgeColor} badge`;
+    badgeImg.onerror = () => {
+      // Fallback to colored div if image not found
+      const fallback = document.createElement('div');
+      fallback.className = 'profile-badge-small';
+      fallback.style.width = '28px';
+      fallback.style.height = '28px';
+      fallback.style.borderRadius = '6px';
+      fallback.style.backgroundColor = badgeColor === 'white' ? '#f3f4f6' : badgeColor;
+      targetElement.innerHTML = '';
+      targetElement.appendChild(fallback);
+    };
+    
+    targetElement.innerHTML = '';
+    targetElement.appendChild(badgeImg);
+  }
+  
+  // Scroll detection for posts
+  function setupScrollSnap() {
+    const feedEl = document.getElementById('feed-container');
+    if (!feedEl) return;
+    
+    let scrollTimeout;
+    let isScrolling = false;
+    
+    feedEl.addEventListener('scroll', () => {
+      isScrolling = true;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+        detectCurrentPost();
+      }, 100);
+    });
+    
+    // Also detect on scroll end with IntersectionObserver
+    const posts = feedEl.querySelectorAll('.post');
+    const observerOptions = {
+      root: feedEl,
+      threshold: 0.5
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !isScrolling) {
+          const postId = entry.target.dataset.postId;
+          if (postId !== currentPostId) {
+            currentPostId = postId;
+            loadCommentsForPost(postId);
+          }
+        }
+      });
+    }, observerOptions);
+    
+    posts.forEach(post => observer.observe(post));
+  }
+  
+  function detectCurrentPost() {
+    const feedEl = document.getElementById('feed-container');
+    const posts = feedEl.querySelectorAll('.post');
+    
+    let currentPost = null;
+    let minDistance = Infinity;
+    
+    posts.forEach(post => {
+      const rect = post.getBoundingClientRect();
+      const feedRect = feedEl.getBoundingClientRect();
+      const distance = Math.abs(rect.top - feedRect.top);
+      
+      if (distance < minDistance) {
+        minDistance = distance;
+        currentPost = post;
+      }
+    });
+    
+    if (currentPost) {
+      const postId = currentPost.dataset.postId;
+      if (postId !== currentPostId) {
+        currentPostId = postId;
+        loadCommentsForPost(postId);
+      }
+    }
+  }
+  
+  async function loadCommentsForPost(postId) {
+    const post = findPostById(postId);
+    if (!post) return;
+    
+    const commentsList = document.getElementById('sidebar-comments-list');
+    const commentForm = document.getElementById('sidebar-comment-form');
+    const commentInput = document.getElementById('sidebar-comment-input');
+    
+    commentsList.innerHTML = '';
+    commentForm.style.display = 'flex';
+    commentForm.dataset.postId = postId;
+    
+    if (!post.comments || post.comments.length === 0) {
+      commentsList.innerHTML = '<p style="color: #888; text-align: center; padding: 2rem;">No comments yet. Be the first!</p>';
+      return;
+    }
+    
+    post.comments.forEach(comment => {
+      if (!comment) return;
+      
+      const commentDiv = document.createElement('div');
+      commentDiv.className = 'sidebar-comment';
+      commentDiv.dataset.commentId = comment.id;
+      
+      const header = document.createElement('div');
+      header.style.display = 'flex';
+      header.style.alignItems = 'center';
+      header.style.gap = '0.5rem';
+      header.style.marginBottom = '0.5rem';
+      header.style.paddingRight = '2rem';
+      
+      const avatar = avatarElement(comment.author, comment.avatar, 32);
+      avatar.style.flexShrink = '0';
+      header.appendChild(avatar);
+      
+      const author = document.createElement('div');
+      author.style.fontWeight = '600';
+      author.style.color = 'white';
+      author.textContent = comment.author;
+      header.appendChild(author);
+      
+      commentDiv.appendChild(header);
+      
+      const text = document.createElement('p');
+      text.className = 'comment-text-content';
+      text.style.color = '#ddd';
+      text.style.margin = '0';
+      text.style.wordBreak = 'break-word';
+      text.textContent = comment.text;
+      commentDiv.appendChild(text);
+      
+      // Check permissions
+      const isCommentAuthor = fbUser && (comment.authorUid ? comment.authorUid === fbUser.uid : (fbProfile && comment.author === fbProfile.name));
+      const isPostAuthor = fbUser && (post.authorUid ? post.authorUid === fbUser.uid : (fbProfile && post.author === fbProfile.name));
+      
+      if (isCommentAuthor || isPostAuthor) {
+        // Menu toggle button
+        const menuToggle = document.createElement('button');
+        menuToggle.className = 'comment-menu-toggle';
+        menuToggle.innerHTML = '⋮';
+        
+        // Dropdown menu
+        const dropdown = document.createElement('div');
+        dropdown.className = 'comment-dropdown';
+        
+        if (isCommentAuthor) {
+          const editBtn = document.createElement('button');
+          editBtn.textContent = 'Edit';
+          editBtn.addEventListener('click', async () => {
+            const newText = prompt('Edit your comment:', comment.text);
+            if (newText === null || newText.trim() === '') return;
+            
+            try {
+              const { data: postData } = await supabase
+                .from('posts')
+                .select('comments')
+                .eq('id', postId)
+                .single();
+              
+              if (!postData) return;
+              
+              const updatedComments = (postData.comments || []).map(c =>
+                c.id === comment.id ? { ...c, text: newText.trim() } : c
+              );
+              
+              await supabase
+                .from('posts')
+                .update({ comments: updatedComments })
+                .eq('id', postId);
+              
+              console.log('✅ Comment edited');
+              dropdown.classList.remove('visible');
+            } catch (err) {
+              console.error('❌ Failed to edit comment:', err);
+              alert('Failed to update comment.');
             }
-
-            canvas.width = width;
-            canvas.height = height;
-
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-
-            canvas.toBlob((blob) => {
-              resolve(new File([blob], file.name, { type: 'image/jpeg' }));
-            }, 'image/jpeg', 0.8);
-          };
-          img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-
-    // Video Compression (simplified - actual compression would require ffmpeg.wasm)
-    async function compressVideo(file) {
-      // For now, just return the file
-      // In production, you'd want to use ffmpeg.wasm for actual compression
-      return file;
-    }
-
-    // Submit Post
-    document.getElementById('submitPost').addEventListener('click', async () => {
-      const text = document.getElementById('postText').value.trim();
+          });
+          dropdown.appendChild(editBtn);
+        }
+        
+        if (isCommentAuthor || isPostAuthor) {
+          const deleteBtn = document.createElement('button');
+          deleteBtn.className = 'danger';
+          deleteBtn.textContent = 'Delete';
+          deleteBtn.addEventListener('click', async () => {
+            if (!confirm('Delete this comment?')) return;
+            
+            try {
+              const { data: postData } = await supabase
+                .from('posts')
+                .select('comments')
+                .eq('id', postId)
+                .single();
+              
+              if (!postData) return;
+              
+              const updatedComments = (postData.comments || []).filter(c => c.id !== comment.id);
+              
+              await supabase
+                .from('posts')
+                .update({ comments: updatedComments })
+                .eq('id', postId);
+              
+              console.log('🗑️ Comment deleted');
+              dropdown.classList.remove('visible');
+            } catch (err) {
+              console.error('❌ Failed to delete comment:', err);
+              alert('Failed to delete comment.');
+            }
+          });
+          dropdown.appendChild(deleteBtn);
+        }
+        
+        // Toggle dropdown
+        menuToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          // Close other dropdowns
+          document.querySelectorAll('.comment-dropdown.visible').forEach(d => {
+            if (d !== dropdown) d.classList.remove('visible');
+          });
+          dropdown.classList.toggle('visible');
+        });
+        
+        commentDiv.appendChild(menuToggle);
+        commentDiv.appendChild(dropdown);
+      }
       
-      if (!text && !selectedMedia) {
-        alert('Please add some content to your post');
-        return;
+      commentsList.appendChild(commentDiv);
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.sidebar-comment')) {
+        document.querySelectorAll('.comment-dropdown.visible').forEach(d => {
+          d.classList.remove('visible');
+        });
+      }
+    });
+  }
+
+  // Start global notifications when user is authenticated
+  let authUnsubscribe = null;
+
+  // DOM refs
+  const feedEl = document.getElementById('feed-container');
+  const friendsEl = document.getElementById('friends-container');
+  const profilePicEl = document.getElementById('profile-pic');
+  const profileBioEl = document.getElementById('profile-bio');
+
+  const profileModal = document.getElementById('profile-editor-modal');
+  const pfpPreview = document.getElementById('pfp-preview');
+  const pfpUploadModal = document.getElementById('pfp-upload-modal');
+  const usernameInput = document.getElementById('username-input');
+  const bioInput = document.getElementById('bio-input');
+  const saveProfileBtn = document.getElementById('save-profile-btn');
+  const openProfileEditorBtn = document.getElementById('open-profile-editor');
+  const offlineBanner = document.getElementById('offline-banner');
+
+  // Notification system
+  let notificationPanel = null;
+  let notificationBadge = null;
+  let notifications = [];
+  let lastSeenPostIds = new Set();
+  let postsSubscription = null;
+  let notificationInitTime = null;
+
+  // Load notification state from localStorage
+  function loadNotificationState() {
+    try {
+      const saved = localStorage.getItem('notificationState');
+      if (saved) {
+        const state = JSON.parse(saved);
+        lastSeenPostIds = new Set(state.lastSeenPostIds || []);
+        notificationInitTime = state.initTime || null;
+        notifications = (state.notifications || []).filter(n => {
+          return (Date.now() - n.timestamp) < (60 * 60 * 1000);
+        });
+        console.log('📱 Loaded notification state:', lastSeenPostIds.size, 'posts seen');
+      } else {
+        notificationInitTime = Date.now();
+        saveNotificationState();
+      }
+    } catch (err) {
+      console.error('Failed to load notification state:', err);
+      notificationInitTime = Date.now();
+    }
+  }
+
+  // Save notification state to localStorage
+  function saveNotificationState() {
+    try {
+      const state = {
+        lastSeenPostIds: Array.from(lastSeenPostIds),
+        initTime: notificationInitTime,
+        notifications: notifications
+      };
+      localStorage.setItem('notificationState', JSON.stringify(state));
+    } catch (err) {
+      console.error('Failed to save notification state:', err);
+    }
+  }
+
+  // runtime state
+  let fbUser = null;
+  let fbProfile = null;
+  let posts = [];
+  let profileUnsub = null;
+  let friendsUnsub = null;
+
+  /* ------------------ small helpers ------------------ */
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function avatarElement(name, imgUrl, size = 48) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'avatar';
+    wrapper.style.width = size + 'px';
+    wrapper.style.height = size + 'px';
+    if (imgUrl && String(imgUrl).startsWith('http')) {
+      const img = document.createElement('img');
+      img.src = imgUrl;
+      img.alt = name || '';
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'cover';
+      img.style.borderRadius = '50%';
+      img.style.display = 'block';
+
+      wrapper.style.overflow = 'hidden';
+      wrapper.style.borderRadius = '50%';
+      wrapper.innerHTML = '';
+      wrapper.appendChild(img);
+    } else {
+      wrapper.textContent = (name && name[0]) ? name[0].toUpperCase() : '?';
+    }
+    return wrapper;
+  }
+
+  function findPostById(id) {
+    return posts.find(p => p.id === id);
+  }
+
+  function checkUsernameCooldownUI(profileObj) {
+    const last = profileObj?.last_username_change ? new Date(profileObj.last_username_change).getTime() : null;
+    const cooldownMsgEl = document.getElementById('username-cooldown-msg');
+    if (!last) { 
+      if (usernameInput) usernameInput.disabled = false; 
+      if (cooldownMsgEl) cooldownMsgEl.textContent = ''; 
+      return; 
+    }
+    const hoursPassed = (Date.now() - last) / (1000 * 60 * 60);
+    if (hoursPassed < COOLDOWN_HOURS) {
+      const hoursLeft = Math.ceil(COOLDOWN_HOURS - hoursPassed);
+      if (usernameInput) usernameInput.disabled = true;
+      if (cooldownMsgEl) cooldownMsgEl.textContent = `You can change your username again in ${hoursLeft} hour(s).`;
+    } else {
+      if (usernameInput) usernameInput.disabled = false; 
+      if (cooldownMsgEl) cooldownMsgEl.textContent = '';
+    }
+  }
+
+  /* ------------------ rendering ------------------ */
+  function renderFeed(array) {
+    console.log('🎨 Rendering feed with', array.length, 'posts');
+    if (!feedEl) return;
+    feedEl.innerHTML = '';
+    const hiddenKey = fbUser ? `hiddenPosts_${fbUser.id}` : 'hiddenPosts_guest';
+    const hiddenPosts = JSON.parse(localStorage.getItem(hiddenKey) || '[]');
+    const visible = (array || []).filter(p => !hiddenPosts.includes(p.id));
+    console.log('👁️ Visible posts after filtering:', visible.length);
+    
+    if (!visible.length) {
+      const d = document.createElement('div');
+      d.className = 'empty-feed-message';
+      d.textContent = 'No posts yet — add friends to bring your feed to life!';
+      feedEl.appendChild(d);
+      console.log('📭 Feed is empty');
+      return;
+    }
+
+    console.log('✅ Rendering', visible.length, 'posts');
+    visible.forEach(post => {
+      const article = document.createElement('article');
+      article.className = 'post';
+      article.dataset.postId = post.id;
+
+      // header
+      const header = document.createElement('div');
+      header.className = 'post-header';
+      const avatarWrap = avatarElement(post.author_name || post.author || '', post.author_avatar || null, 48);
+      avatarWrap.addEventListener('click', () => {
+        location.href = `profileblacknote.html?user=${encodeURIComponent(post.author_name || post.author || '')}`;
+      });
+      header.appendChild(avatarWrap);
+
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      const authorLink = document.createElement('a');
+      authorLink.className = 'author';
+      authorLink.href = `profileblacknote.html?user=${encodeURIComponent(post.author_name || post.author || '')}`;
+      authorLink.textContent = post.author_name || post.author || 'Unknown';
+      meta.appendChild(authorLink);
+      const tdiv = document.createElement('div');
+      tdiv.className = 'time';
+      tdiv.textContent = post.display_time || (post.created_at ? new Date(post.created_at).toLocaleString() : '');
+      meta.appendChild(tdiv);
+      header.appendChild(meta);
+
+      // actions menu (edit/delete only if author)
+      const actionsWrap = document.createElement('div');
+      actionsWrap.className = 'actions-menu-container';
+      actionsWrap.style.marginLeft = 'auto';
+      const menuBtn = document.createElement('button');
+      menuBtn.className = 'action-menu-btn';
+      menuBtn.type = 'button';
+      menuBtn.textContent = '•••';
+      actionsWrap.appendChild(menuBtn);
+      const menu = document.createElement('div'); menu.className = 'action-menu';
+
+      const isAuthor = fbUser && (post.author_uid ? post.author_uid === fbUser.id : (fbProfile && post.author_name === fbProfile.name));
+      if (isAuthor) {
+        const editLink = document.createElement('a'); editLink.className = 'edit-post'; editLink.href = '#'; editLink.textContent = 'Edit Post';
+        const delLink = document.createElement('a'); delLink.className = 'delete-post danger'; delLink.href = '#'; delLink.textContent = 'Delete Post';
+        menu.appendChild(editLink); menu.appendChild(delLink);
+      }
+      actionsWrap.appendChild(menu);
+      header.appendChild(actionsWrap);
+
+      article.appendChild(header);
+
+      // image
+      if (post.image) {
+        const img = document.createElement('img'); img.className = 'post-image'; img.src = post.image;
+        article.appendChild(img);
       }
 
-      const submitBtn = document.getElementById('submitPost');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Posting...';
+      // body
+      const body = document.createElement('div'); body.className = 'post-body'; body.innerText = post.body || '';
+      article.appendChild(body);
 
-      try {
-        let mediaUrl = null;
+      // actions row
+      const actions = document.createElement('div'); actions.className = 'post-actions';
 
-        if (selectedMedia) {
-          // Upload media
-          document.getElementById('uploadProgress').style.display = 'block';
-          mediaUrl = await uploadMediaWithProgress(selectedMedia);
+      const likeBtn = document.createElement('button');
+      likeBtn.className = 'action-btn like-btn';
+      likeBtn.type = 'button';
+      const likeCountSpan = document.createElement('span');
+      likeCountSpan.className = 'action-count';
+      likeCountSpan.textContent = (post.liked_by ? post.liked_by.length : 0);
+      likeBtn.innerHTML = '👍 ';
+      likeBtn.appendChild(likeCountSpan);
+
+      const dislikeBtn = document.createElement('button');
+      dislikeBtn.className = 'action-btn dislike-btn';
+      dislikeBtn.type = 'button';
+      const dislikeCountSpan = document.createElement('span');
+      dislikeCountSpan.className = 'action-count';
+      dislikeCountSpan.textContent = (post.disliked_by ? post.disliked_by.length : 0);
+      dislikeBtn.innerHTML = '👎 ';
+      dislikeBtn.appendChild(dislikeCountSpan);
+
+      actions.appendChild(likeBtn);
+      actions.appendChild(dislikeBtn);
+
+      function updateReactionButtonStatesFor(likeEl, dislikeEl, postObj) {
+        const uid = fbUser?.id;
+        if (!uid) {
+          likeEl.classList.remove('is-active');
+          dislikeEl.classList.remove('is-active');
+          return;
+        }
+        likeEl.classList.toggle('is-active', Array.isArray(postObj.liked_by) && postObj.liked_by.includes(uid));
+        dislikeEl.classList.toggle('is-active', Array.isArray(postObj.disliked_by) && postObj.disliked_by.includes(uid));
+      }
+
+      updateReactionButtonStatesFor(likeBtn, dislikeBtn, post);
+
+      let reactionWriteInFlight = false;
+
+      likeBtn.addEventListener('click', async () => {
+        if (!fbUser) { alert('Sign in to like posts.'); return; }
+        if (!navigator.onLine) { alert('You are offline — action cannot be saved.'); return; }
+        if (reactionWriteInFlight) return;
+
+        const uid = fbUser.id;
+        post.liked_by = post.liked_by || [];
+        post.disliked_by = post.disliked_by || [];
+
+        const alreadyLiked = post.liked_by.includes(uid);
+
+        if (alreadyLiked) {
+          post.liked_by = post.liked_by.filter(x => x !== uid);
+        } else {
+          post.liked_by = [...post.liked_by, uid];
+          post.disliked_by = post.disliked_by.filter(x => x !== uid);
         }
 
-        // Create post
-        await supabase.from('posts').insert({
-          author_uid: currentUser.id,
-          author_name: currentProfile?.name || 'User',
-          author_avatar: currentProfile?.pfp || null,
-          body: text,
-          image: mediaUrl,
-          created_at: new Date().toISOString(),
-          display_time: new Date().toLocaleString(),
-          liked_by: [],
-          disliked_by: [],
-          comments: []
-        });
+        likeCountSpan.textContent = post.liked_by.length;
+        dislikeCountSpan.textContent = post.disliked_by.length;
+        updateReactionButtonStatesFor(likeBtn, dislikeBtn, post);
 
-        createModal.classList.remove('show');
-        resetCreateForm();
-      } catch (error) {
-        console.error('Error creating post:', error);
-        alert('Failed to create post');
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Post';
-      }
+        reactionWriteInFlight = true;
+        likeBtn.disabled = dislikeBtn.disabled = true;
+        
+        try {
+          await supabase
+            .from('posts')
+            .update({
+              liked_by: post.liked_by,
+              disliked_by: post.disliked_by
+            })
+            .eq('id', post.id);
+        } catch (err) {
+          console.error('Failed to persist like:', err);
+          alert('Failed to save like. See console.');
+          if (alreadyLiked) post.liked_by = [...post.liked_by, uid];
+          else post.liked_by = post.liked_by.filter(x => x !== uid);
+          likeCountSpan.textContent = post.liked_by.length;
+          dislikeCountSpan.textContent = post.disliked_by.length;
+          updateReactionButtonStatesFor(likeBtn, dislikeBtn, post);
+        } finally {
+          reactionWriteInFlight = false;
+          likeBtn.disabled = dislikeBtn.disabled = false;
+        }
+      });
+
+      dislikeBtn.addEventListener('click', async () => {
+        if (!fbUser) { alert('Sign in to dislike posts.'); return; }
+        if (!navigator.onLine) { alert('You are offline — action cannot be saved.'); return; }
+        if (reactionWriteInFlight) return;
+
+        const uid = fbUser.id;
+        post.liked_by = post.liked_by || [];
+        post.disliked_by = post.disliked_by || [];
+
+        const alreadyDisliked = post.disliked_by.includes(uid);
+
+        if (alreadyDisliked) {
+          post.disliked_by = post.disliked_by.filter(x => x !== uid);
+        } else {
+          post.disliked_by = [...post.disliked_by, uid];
+          post.liked_by = post.liked_by.filter(x => x !== uid);
+        }
+
+        likeCountSpan.textContent = post.liked_by.length;
+        dislikeCountSpan.textContent = post.disliked_by.length;
+        updateReactionButtonStatesFor(likeBtn, dislikeBtn, post);
+
+        reactionWriteInFlight = true;
+        likeBtn.disabled = dislikeBtn.disabled = true;
+        
+        try {
+          await supabase
+            .from('posts')
+            .update({
+              liked_by: post.liked_by,
+              disliked_by: post.disliked_by
+            })
+            .eq('id', post.id);
+        } catch (err) {
+          console.error('Failed to persist dislike:', err);
+          alert('Failed to save dislike. See console.');
+          if (alreadyDisliked) post.disliked_by = [...post.disliked_by, uid];
+          else post.disliked_by = post.disliked_by.filter(x => x !== uid);
+          likeCountSpan.textContent = post.liked_by.length;
+          dislikeCountSpan.textContent = post.disliked_by.length;
+          updateReactionButtonStatesFor(likeBtn, dislikeBtn, post);
+        } finally {
+          reactionWriteInFlight = false;
+          likeBtn.disabled = dislikeBtn.disabled = false;
+        }
+      });
+
+      const reportBtn = document.createElement('button');
+      reportBtn.className = 'action-btn report-visible-btn';
+      reportBtn.type = 'button';
+      reportBtn.innerHTML = '⚑ <span style="margin-left:6px;">Hide</span>';
+
+      reportBtn.addEventListener('click', () => {
+        if (!confirm('Are you sure you want to hide this post? This action cannot be undone.')) return;
+
+        const hiddenKey = fbUser ? `hiddenPosts_${fbUser.id}` : 'hiddenPosts_guest';
+        let hiddenPosts = JSON.parse(localStorage.getItem(hiddenKey) || '[]');
+
+        if (!hiddenPosts.includes(post.id)) {
+          hiddenPosts.push(post.id);
+          localStorage.setItem(hiddenKey, JSON.stringify(hiddenPosts));
+        }
+
+        posts = posts.filter(p => p.id !== post.id);
+        renderFeed(posts);
+      });
+
+      actions.appendChild(reportBtn);
+      article.appendChild(actions);
+
+      feedEl.appendChild(article);
     });
+    
+    // Setup scroll snap after rendering
+    setupScrollSnap();
+    
+    // Detect first post
+    if (visible.length > 0) {
+      setTimeout(() => detectCurrentPost(), 500);
+    }
+  }
 
-    async function uploadMediaWithProgress(file) {
-      const fileName = `${currentUser.id}/${Date.now()}_${file.name}`;
-      
-      const { data, error } = await supabase.storage
-        .from('post-media')
-        .upload(fileName, file);
+  /* ------------------ event delegation for menus / edit / delete ------------------ */
 
-      if (error) throw error;
+  document.addEventListener('click', async (ev) => {
+    const target = ev.target;
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('post-media')
-        .getPublicUrl(fileName);
-
-      return publicUrl;
+    const menuBtn = target.closest('.action-menu-btn');
+    if (menuBtn) {
+      ev.stopPropagation();
+      const container = menuBtn.closest('.actions-menu-container');
+      if (!container) return;
+      const menu = container.querySelector('.action-menu');
+      document.querySelectorAll('.action-menu.visible').forEach(m => { if (m !== menu) m.classList.remove('visible'); });
+      menu.classList.toggle('visible');
+      return;
     }
 
-    function resetCreateForm() {
-      document.getElementById('postText').value = '';
-      mediaInput.value = '';
-      mediaPreview.innerHTML = '';
-      selectedMedia = null;
-      document.getElementById('uploadProgress').style.display = 'none';
-    }
+    const link = target.closest('.action-menu a, .action-menu a *');
+    if (link) {
+      ev.preventDefault();
+      const anchor = target.closest('a');
+      if (!anchor) return;
 
-    // Profile Editor
-    document.getElementById('editProfileBtn').addEventListener('click', () => {
-      if (!currentUser) {
-        alert('Please sign in to edit your profile');
+      if (anchor.classList.contains('edit-post')) {
+        const postEl = anchor.closest('.post');
+        if (!postEl) return;
+        const pid = postEl.dataset.postId;
+        const postObj = findPostById(pid);
+        if (!postObj) return;
+        const bodyEl = postEl.querySelector('.post-body');
+        const editArea = document.createElement('div'); editArea.className = 'post-edit';
+        editArea.innerHTML = `<textarea class="post-edit-input" style="width:100%;min-height:100px">${escapeHtml(postObj.body)}</textarea>
+          <div style="margin-top:8px;">
+            <button class="action-btn save-post-edit" type="button">Save</button>
+            <button class="action-btn cancel-post-edit" type="button">Cancel</button>
+          </div>`;
+        bodyEl.replaceWith(editArea);
+        document.querySelectorAll('.action-menu.visible').forEach(m => m.classList.remove('visible'));
         return;
       }
-      
-      document.getElementById('usernameInput').value = currentProfile?.name || '';
-      document.getElementById('bioInput').value = currentProfile?.bio || '';
-      document.getElementById('pfpPreview').src = currentProfile?.pfp || '/assets/BN.png';
-      
-      profileModal.classList.add('show');
-    });
 
-    document.getElementById('closeProfileModal').addEventListener('click', () => {
-      profileModal.classList.remove('show');
-    });
+      if (anchor.classList.contains('delete-post')) {
+        const postEl = anchor.closest('.post'); if (!postEl) return;
+        const pid = postEl.dataset.postId;
+        if (!confirm('Delete this post? This cannot be undone.')) { document.querySelectorAll('.action-menu.visible').forEach(m => m.classList.remove('visible')); return; }
+        try {
+          await supabase.from('posts').delete().eq('id', pid);
+        } catch (err) {
+          console.error('Failed to delete post:', err);
+          alert('Failed to delete post. Check console / security rules.');
+        }
+        return;
+      }
+    }
 
-    document.getElementById('cancelProfile').addEventListener('click', () => {
-      profileModal.classList.remove('show');
-    });
+    const clickedInsideMenu = !!target.closest('.action-menu') || !!target.closest('.action-menu-btn');
+    if (!clickedInsideMenu) document.querySelectorAll('.action-menu.visible').forEach(m => m.classList.remove('visible'));
+  });
 
-    document.getElementById('pfpPreview').addEventListener('click', () => {
-      document.getElementById('pfpInput').click();
-    });
+  document.addEventListener('click', async (ev) => {
+    const t = ev.target;
+    if (t.matches('.save-post-edit')) {
+      const editDiv = t.closest('.post-edit'); if (!editDiv) return;
+      const pid = editDiv.closest('.post').dataset.postId;
+      const newVal = editDiv.querySelector('.post-edit-input').value.trim(); if (!newVal) return;
+      try {
+        await supabase
+          .from('posts')
+          .update({ 
+            body: newVal,
+            edited_at: new Date().toISOString()
+          })
+          .eq('id', pid);
+      } catch (err) {
+        console.error('Failed to update post:', err);
+        alert('Failed to save edit. See console.');
+      }
+      return;
+    }
+    if (t.matches('.cancel-post-edit')) {
+      renderFeed(posts);
+      return;
+    }
+  });
 
-    document.getElementById('pfpInput').addEventListener('change', (e) => {
-      const file = e.target.files[0];
+  /* ------------------ profile modal handling ------------------ */
+
+  openProfileEditorBtn.addEventListener('click', () => {
+    if (!fbUser) { alert('Sign in to edit your profile.'); return; }
+    usernameInput.value = fbProfile?.name || '';
+    bioInput.value = fbProfile?.bio || '';
+    pfpPreview.src = (fbProfile && fbProfile.pfp && String(fbProfile.pfp).startsWith('http')) ? fbProfile.pfp : '/assets/BN.png';
+    
+    // Load saved badge selection
+    selectedBadge = fbProfile?.badge || null;
+    if (badgeSelector) {
+      badgeSelector.querySelectorAll('.badge-option').forEach(b => b.classList.remove('selected'));
+      if (selectedBadge) {
+        const opt = badgeSelector.querySelector(`[data-badge="${selectedBadge}"]`);
+        if (opt) opt.classList.add('selected');
+      }
+    }
+    
+    checkUsernameCooldownUI(fbProfile || {});
+    profileModal.classList.add('visible');
+    profileModal.setAttribute('aria-hidden','false');
+  });
+
+  document.getElementById('close-modal').addEventListener('click', () => {
+    profileModal.classList.remove('visible');
+    profileModal.setAttribute('aria-hidden','true');
+  });
+
+  profileModal.addEventListener('click', (e) => { if (e.target === profileModal) { profileModal.classList.remove('visible'); profileModal.setAttribute('aria-hidden','true'); } });
+
+  pfpPreview.addEventListener('click', () => pfpUploadModal.click());
+  pfpUploadModal.addEventListener('change', (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = () => { pfpPreview.src = reader.result; };
+    reader.readAsDataURL(f);
+  });
+
+  document.getElementById('profile-edit-form').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    if (!fbUser) { alert('Sign in to save profile.'); return; }
+
+    const oldName = fbProfile?.name || '';
+    const newName = usernameInput.value.trim() || oldName;
+    const newBio = bioInput.value.trim() || '';
+    
+    // cooldown check ONLY for username changes
+    if (newName !== oldName && fbProfile?.last_username_change) {
+      const hoursPassed = (Date.now() - new Date(fbProfile.last_username_change).getTime()) / (1000*60*60);
+      if (hoursPassed < COOLDOWN_HOURS) {
+        const hoursLeft = Math.ceil(COOLDOWN_HOURS - hoursPassed);
+        document.getElementById('username-cooldown-msg').textContent = `You can change your username again in ${hoursLeft} hour(s).`;
+        return;
+      }
+    }
+
+    try {
+      let uploadedUrl = fbProfile?.pfp || null;
+      const file = pfpUploadModal.files && pfpUploadModal.files[0];
       if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          document.getElementById('pfpPreview').src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    document.getElementById('saveProfile').addEventListener('click', async () => {
-      if (!currentUser) return;
-
-      const saveBtn = document.getElementById('saveProfile');
-      saveBtn.disabled = true;
-      saveBtn.textContent = 'Saving...';
-
-      try {
-        const name = document.getElementById('usernameInput').value.trim();
-        const bio = document.getElementById('bioInput').value.trim();
-        
-        let pfpUrl = currentProfile?.pfp;
-        const pfpFile = document.getElementById('pfpInput').files[0];
-        
-        if (pfpFile) {
-          pfpUrl = await uploadImageForUser(pfpFile, currentUser.id);
-        }
-
-        await updateUserProfile({
-          displayName: name,
-          username: name,
-          bio: bio,
-          pfpUrl: pfpUrl
-        });
-
-        profileModal.classList.remove('show');
-      } catch (error) {
-        console.error('Error saving profile:', error);
-        alert('Failed to save profile');
-      } finally {
-        saveBtn.disabled = false;
-        saveBtn.textContent = 'Save Changes';
-      }
-    });
-
-    // Render Posts
-    function renderPosts(postsArray) {
-      if (!postsArray || postsArray.length === 0) {
-        postsFeed.innerHTML = `
-          <div class="empty-feed">
-            <h2>No Posts Yet</h2>
-            <p>Be the first to share something!</p>
-          </div>
-        `;
-        return;
+        uploadedUrl = await uploadImageForUser(file, fbUser.id);
       }
 
-      postsFeed.innerHTML = postsArray.map(post => `
-        <article class="post-card" data-post-id="${post.id}">
-          <div class="post-header">
-            <div class="post-avatar">
-              ${post.author_avatar ? 
-                `<img src="${post.author_avatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">` : 
-                (post.author_name ? post.author_name[0].toUpperCase() : '?')}
-            </div>
-            <div class="post-meta">
-              <a href="/pages/profileblacknote.html?user=${encodeURIComponent(post.author_name)}" class="post-author">
-                ${post.author_name || 'Unknown'}
-              </a>
-              <div class="post-time">${post.display_time || new Date(post.created_at).toLocaleString()}</div>
-            </div>
-            ${currentUser && post.author_uid === currentUser.id ? `
-              <button class="post-menu-btn" data-post-id="${post.id}">⋮</button>
-            ` : ''}
-          </div>
-          
-          ${post.body ? `<div class="post-body">${escapeHtml(post.body)}</div>` : ''}
-          
-          ${post.image ? `
-            ${post.image.includes('.mp4') || post.image.includes('.webm') ? 
-              `<video class="post-media" controls><source src="${post.image}"></video>` : 
-              `<img class="post-media" src="${post.image}" alt="Post media">`}
-          ` : ''}
-          
-          <div class="post-actions">
-            <button class="action-btn like-btn ${post.liked_by?.includes(currentUser?.id) ? 'active' : ''}" data-post-id="${post.id}">
-              👍 <span>${post.liked_by?.length || 0}</span>
-            </button>
-            <button class="action-btn dislike-btn ${post.disliked_by?.includes(currentUser?.id) ? 'active' : ''}" data-post-id="${post.id}">
-              👎 <span>${post.disliked_by?.length || 0}</span>
-            </button>
-            <button class="toggle-comments-btn" data-post-id="${post.id}">
-              💬 Comments (${post.comments?.length || 0})
-            </button>
-          </div>
-        </article>
-      `).join('');
-
-      attachPostListeners();
-    }
-
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    function attachPostListeners() {
-      // Like buttons
-      document.querySelectorAll('.like-btn').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-          if (!currentUser) {
-            alert('Please sign in to like posts');
-            return;
-          }
-
-          const postId = e.currentTarget.dataset.postId;
-          const post = posts.find(p => p.id === postId);
-          if (!post) return;
-
-          const liked = post.liked_by || [];
-          const disliked = post.disliked_by || [];
-          const userId = currentUser.id;
-
-          let newLiked, newDisliked;
-          if (liked.includes(userId)) {
-            newLiked = liked.filter(id => id !== userId);
-            newDisliked = disliked;
-          } else {
-            newLiked = [...liked, userId];
-            newDisliked = disliked.filter(id => id !== userId);
-          }
-
-          await supabase.from('posts').update({
-            liked_by: newLiked,
-            disliked_by: newDisliked
-          }).eq('id', postId);
-        });
-      });
-
-      // Dislike buttons
-      document.querySelectorAll('.dislike-btn').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-          if (!currentUser) {
-            alert('Please sign in to dislike posts');
-            return;
-          }
-
-          const postId = e.currentTarget.dataset.postId;
-          const post = posts.find(p => p.id === postId);
-          if (!post) return;
-
-          const liked = post.liked_by || [];
-          const disliked = post.disliked_by || [];
-          const userId = currentUser.id;
-
-          let newLiked, newDisliked;
-          if (disliked.includes(userId)) {
-            newLiked = liked;
-            newDisliked = disliked.filter(id => id !== userId);
-          } else {
-            newLiked = liked.filter(id => id !== userId);
-            newDisliked = [...disliked, userId];
-          }
-
-          await supabase.from('posts').update({
-            liked_by: newLiked,
-            disliked_by: newDisliked
-          }).eq('id', postId);
-        });
-      });
-
-      // Toggle comments
-      document.querySelectorAll('.toggle-comments-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const postId = e.currentTarget.dataset.postId;
-          loadComments(postId);
-          rightSidebar.classList.add('open');
-          toggleRightBtn.classList.add('active');
-        });
-      });
-    }
-
-    // Load Comments
-    function loadComments(postId) {
-      const post = posts.find(p => p.id === postId);
-      if (!post) return;
-
-      currentPostForComments = postId;
-      commentForm.style.display = 'flex';
-      commentForm.dataset.postId = postId;
-
-      if (!post.comments || post.comments.length === 0) {
-        commentsContent.innerHTML = '<p style="color: #888; text-align: center; padding: 2rem;">No comments yet. Be the first!</p>';
-        return;
-      }
-
-      commentsContent.innerHTML = post.comments.map(comment => `
-        <div class="comment-item">
-          <div class="comment-header">
-            <div class="comment-avatar">
-              ${comment.avatar ? 
-                `<img src="${comment.avatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">` : 
-                (comment.author ? comment.author[0].toUpperCase() : '?')}
-            </div>
-            <div class="comment-author">${comment.author || 'Unknown'}</div>
-          </div>
-          <div class="comment-text">${escapeHtml(comment.text)}</div>
-        </div>
-      `).join('');
-    }
-
-    // Comment Form
-    commentForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+      const updateData = {
+        bio: newBio,
+        pfpUrl: uploadedUrl || null,
+        badge: selectedBadge
+      };
       
-      if (!currentUser) {
-        alert('Please sign in to comment');
+      if (newName !== oldName) {
+        updateData.displayName = newName;
+        updateData.username = newName;
+      }
+
+      await updateUserProfile(updateData);
+
+      // Immediate optimistic UI update so badge appears right away
+      fbProfile = {
+        ...(fbProfile || {}),
+        bio: newBio,
+        pfp: uploadedUrl || fbProfile?.pfp,
+        badge: selectedBadge,
+        name: newName !== oldName ? newName : (fbProfile?.name || newName),
+        username: newName !== oldName ? newName : (fbProfile?.username || newName)
+      };
+      updateProfileUI(fbProfile);
+      displayBadge(selectedBadge, document.getElementById('profile-badge-display'));
+
+      profileModal.classList.remove('visible');
+      profileModal.setAttribute('aria-hidden','true');
+    } catch (err) {
+      console.error('Failed to save profile:', err);
+      alert('Failed to save profile. See console for details.');
+    }
+  });
+
+  /* ------------------ create post ------------------ */
+
+  setTimeout(() => {
+    const postButton = document.getElementById('create-post-btn');
+    if (postButton) {
+      postButton.addEventListener('click', async () => {
+        if (!fbUser || !fbProfile) { alert('You must be signed in to post.'); return; }
+        if (!navigator.onLine) { alert('You are offline — posting disabled.'); return; }
+        
+        const textarea = document.getElementById('new-post-text');
+        const text = textarea ? textarea.value.trim() : '';
+        if (!text) { alert('Please write something!'); return; }
+        
+        // Disable button while posting
+        postButton.disabled = true;
+        postButton.textContent = 'Posting...';
+        
+        try {
+          await supabase.from('posts').insert({
+            author_uid: fbUser.id,
+            author_name: fbProfile.name,
+            author_avatar: fbProfile.pfp || null,
+            body: text,
+            created_at: new Date().toISOString(),
+            display_time: new Date().toLocaleString(),
+            liked_by: [],
+            disliked_by: [],
+            comments: []
+          });
+          
+          // Close modal and reset
+          closeCreatePostModal();
+          
+          console.log('✅ Post created successfully');
+        } catch (err) {
+          console.error('Failed to create post:', err);
+          alert('Failed to create post.');
+        } finally {
+          postButton.disabled = false;
+          postButton.textContent = 'Post';
+        }
+      });
+    }
+  }, 1000);
+
+  const mediaInput = document.getElementById('new-post-media');
+  const fileNameSpan = document.getElementById('file-name');
+  const removeMediaBtn = document.getElementById('remove-media');
+
+  if (mediaInput) {
+    mediaInput.addEventListener('change', () => {
+      if (mediaInput.files.length > 0) {
+        const file = mediaInput.files[0];
+        if (fileNameSpan) fileNameSpan.textContent = file.name;
+      } else {
+        if (fileNameSpan) fileNameSpan.textContent = 'No file chosen';
+      }
+    });
+  }
+
+  if (removeMediaBtn) {
+    removeMediaBtn.addEventListener('click', () => {
+      if (mediaInput) mediaInput.value = '';
+      if (fileNameSpan) fileNameSpan.textContent = 'No file chosen';
+    });
+  }
+
+  /* ------------------ comments (Supabase) ------------------ */
+
+  // Sidebar comment form
+  const sidebarCommentForm = document.getElementById('sidebar-comment-form');
+  if (sidebarCommentForm) {
+    sidebarCommentForm.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+
+      if (!fbUser || !fbProfile) {
+        alert('You must be signed in to comment.');
         return;
       }
 
-      const input = document.getElementById('commentInput');
+      const form = ev.target;
+      const postId = form.dataset.postId;
+      const input = document.getElementById('sidebar-comment-input');
       const text = input.value.trim();
       if (!text) return;
 
-      const postId = commentForm.dataset.postId;
-      const post = posts.find(p => p.id === postId);
-      if (!post) return;
+      const comment = {
+        id: 'c' + Date.now(),
+        authorUid: fbUser.id,
+        author: fbProfile?.name || 'Anonymous',
+        avatar: (fbProfile && fbProfile.pfp && String(fbProfile.pfp).startsWith('http')) ? fbProfile.pfp : null,
+        text,
+        createdAt: new Date().toISOString(),
+      };
 
-      const newComment = {
-        id: Date.now().toString(),
-        author: currentProfile?.name || 'User',
-        avatar: currentProfile?.pfp || null,
-        authorUid: currentUser.id,
-        text: text,
+      try {
+        const { data: post } = await supabase
+          .from('posts')
+          .select('comments')
+          .eq('id', postId)
+          .single();
+        
+        const updatedComments = [...(post?.comments || []), comment];
+        
+        await supabase
+          .from('posts')
+          .update({ comments: updatedComments })
+          .eq('id', postId);
+
+        if (input) input.value = '';
+        console.log('✅ Comment saved!');
+      } catch (err) {
+        console.error('❌ Failed to add comment:', err);
+        alert('Failed to add comment.');
+      }
+    });
+  }
+
+  /* ------------------ Supabase subscriptions & auth handling ------------------ */
+
+  async function subscribeToUserProfile(uid) {
+    if (profileUnsub) profileUnsub();
+    
+    try {
+      const profile = await getUserProfile(uid);
+      fbProfile = profile;
+      updateProfileUI(profile);
+      
+      // Subscribe to changes
+      const channel = supabase
+        .channel(`user-${uid}`)
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'users',
+          filter: `uid=eq.${uid}`
+        }, async (payload) => {
+          const updated = payload.new;
+          fbProfile = updated;
+          updateProfileUI(updated);
+        })
+        .subscribe();
+      
+      profileUnsub = () => channel.unsubscribe();
+    } catch (err) {
+      console.error('Failed to subscribe to profile:', err);
+    }
+  }
+  
+  function updateProfileUI(profile) {
+    if (profile && profile.pfp && String(profile.pfp).startsWith('http')) {
+      if (profilePicEl) {
+        profilePicEl.innerHTML = ''; 
+        const img = document.createElement('img'); 
+        img.src = profile.pfp; 
+        img.style.width='100%'; 
+        img.style.height='100%'; 
+        img.style.objectFit='cover'; 
+        img.style.borderRadius='50%'; 
+        profilePicEl.appendChild(img);
+      }
+    } else if (profilePicEl) {
+      profilePicEl.innerHTML = ''; 
+      profilePicEl.textContent = (profile && profile.name) ? profile.name[0].toUpperCase() : '?';
+    }
+    
+    document.querySelectorAll('.main-profile-name').forEach(el => el.textContent = profile?.name || 'Black Note');
+    if (profileBioEl) profileBioEl.textContent = profile?.bio || '';
+    if (pfpPreview) pfpPreview.src = (profile && profile.pfp && String(profile.pfp).startsWith('http')) ? profile.pfp : '/assets/BN.png';
+    
+    // Display badge next to username
+    displayBadge(profile?.badge, document.getElementById('profile-badge-display'));
+  }
+
+  async function subscribeToPosts() {
+    if (postsSubscription) {
+      try { postsSubscription.unsubscribe(); } catch(e) {}
+      postsSubscription = null;
+    }
+
+    if (!fbUser) {
+      console.warn("❌ No logged in user – cannot subscribe to posts.");
+      posts = [];
+      renderFeed(posts);
+      return;
+    }
+
+    console.log('📝 Starting post subscription for user:', fbUser.id);
+
+    try {
+      const profile = await getUserProfile(fbUser.id);
+      const friends = Array.isArray(profile.friends) ? profile.friends : [];
+      
+      console.log('👥 User has', friends.length, 'friends');
+
+      const visibleUids = [fbUser.id, ...friends];
+      console.log('👁️ Visible UIDs:', visibleUids);
+
+      // Get initial posts
+      const { data: initialPosts, error } = await supabase
+        .from('posts')
+        .select('*')
+        .in('author_uid', visibleUids)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      console.log('📬 Initial posts fetched:', initialPosts?.length || 0);
+      posts = initialPosts || [];
+      renderFeed(posts);
+
+      // Subscribe to changes
+      postsSubscription = supabase
+        .channel('posts-feed')
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'posts'
+        }, async (payload) => {
+          console.log('📬 Post change detected:', payload.eventType);
+          
+          // Refetch all posts
+          const { data: updatedPosts } = await supabase
+            .from('posts')
+            .select('*')
+            .in('author_uid', visibleUids)
+            .order('created_at', { ascending: false });
+
+          posts = updatedPosts || [];
+          renderFeed(posts);
+        })
+        .subscribe();
+
+    } catch (err) {
+      console.error('❌ subscribeToPosts error', err);
+      posts = [];
+      renderFeed(posts);
+    }
+  }
+
+  function addNotification(notif) {
+    if (notifications.some(n => n.id === notif.id)) return;
+    
+    notifications.unshift(notif);
+    
+    if (notifications.length > 50) {
+      notifications = notifications.slice(0, 50);
+    }
+    
+    if (notificationBadge) {
+      notificationBadge.style.display = 'block';
+    }
+    
+    cleanupOldNotifications();
+    saveNotificationState();
+  }
+
+  function cleanupOldNotifications() {
+    const now = Date.now();
+    const oneHour = 60 * 60 * 1000;
+    
+    const oldLength = notifications.length;
+    notifications = notifications.filter(notif => {
+      return (now - notif.timestamp) < oneHour;
+    });
+    
+    if (oldLength !== notifications.length) {
+      saveNotificationState();
+    }
+    
+    if (notifications.length === 0 && notificationBadge) {
+      notificationBadge.style.display = 'none';
+    }
+  }
+
+  function renderNotifications() {
+    const notifList = document.getElementById('notification-list');
+    if (!notifList) return;
+    
+    cleanupOldNotifications();
+    
+    if (notifications.length > 0 && notificationBadge) {
+      notificationBadge.style.display = 'block';
+    }
+    
+    notifList.innerHTML = '';
+    
+    const sortedNotifications = [...notifications].sort((a, b) => b.timestamp - a.timestamp);
+    
+    if (sortedNotifications.length === 0) {
+      const empty = document.createElement('div');
+      empty.style.color = '#888';
+      empty.style.padding = '1rem';
+      empty.style.textAlign = 'center';
+      empty.textContent = 'No new notifications';
+      notifList.appendChild(empty);
+      return;
+    }
+    
+    sortedNotifications.forEach(notif => {
+      const item = document.createElement('div');
+      item.style.display = 'flex';
+      item.style.gap = '12px';
+      item.style.padding = '12px';
+      item.style.borderBottom = '1px solid #333';
+      item.style.cursor = 'pointer';
+      item.style.transition = 'background-color 0.2s';
+      
+      item.addEventListener('mouseenter', () => {
+        item.style.backgroundColor = '#252525';
+      });
+      item.addEventListener('mouseleave', () => {
+        item.style.backgroundColor = 'transparent';
+      });
+      
+      const avatar = avatarElement(notif.authorName, notif.authorAvatar, 40);
+      item.appendChild(avatar);
+      
+      const content = document.createElement('div');
+      content.style.flex = '1';
+      content.style.color = 'white';
+      
+      const text = document.createElement('div');
+      text.innerHTML = `<strong>${escapeHtml(notif.authorName)}</strong> ${escapeHtml(notif.message)}`;
+      text.style.marginBottom = '4px';
+      
+      if (notif.type === 'message') {
+        const msgIcon = document.createElement('span');
+        msgIcon.textContent = ' 💬';
+        text.appendChild(msgIcon);
+      }
+      
+      content.appendChild(text);
+      
+      const time = document.createElement('div');
+      time.style.fontSize = '12px';
+      time.style.color = '#888';
+      const elapsed = Date.now() - notif.timestamp;
+      const minutes = Math.floor(elapsed / 60000);
+      const hours = Math.floor(minutes / 60);
+      const days = Math.floor(hours / 24);
+      time.textContent = days > 0 ? `${days}d ago` : hours > 0 ? `${hours}h ago` : minutes > 0 ? `${minutes}m ago` : 'Just now';
+      content.appendChild(time);
+      
+      item.appendChild(content);
+      notifList.appendChild(item);
+      
+      if (notif.type === 'post' && notif.postId) {
+        item.addEventListener('click', () => {
+          const postEl = document.querySelector(`[data-post-id="${notif.postId}"]`);
+          if (postEl) {
+            postEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            notificationPanel.style.display = 'none';
+          }
+        });
+      } else if (notif.type === 'message' && notif.chatId) {
+        item.addEventListener('click', () => {
+          location.href = `/pages/hollablacknote.html?peer=${encodeURIComponent(notif.senderId)}`;
+        });
+      }
+    });
+  }
+
+  // Auth state listener
+  authUnsubscribe = onAuthStateChanged((user) => {
+    console.log('🔐 Auth state changed:', user ? 'User logged in' : 'User logged out');
+    
+    if (!user) {
+      fbUser = null; fbProfile = null;
+      if (postsSubscription) { postsSubscription.unsubscribe(); postsSubscription = null; }
+      if (profileUnsub) { profileUnsub(); profileUnsub = null; }
+      if (friendsUnsub) { friendsUnsub(); friendsUnsub = null; }
+      if (profilePicEl) { profilePicEl.innerHTML = ''; profilePicEl.textContent = '?'; }
+      document.querySelectorAll('.main-profile-name').forEach(el => el.textContent = 'Guest');
+      if (profileBioEl) profileBioEl.textContent = '';
+      if (feedEl) feedEl.innerHTML = `<div class="empty-feed-message">Sign in to see the live feed and post.</div>`;
+      if (openProfileEditorBtn) openProfileEditorBtn.disabled = true;
+      console.log('👋 User logged out, UI reset');
+      return;
+    }
+
+    console.log('👤 User:', user.id, user.email);
+    fbUser = user;
+    if (openProfileEditorBtn) openProfileEditorBtn.disabled = false;
+
+    console.log('👤 Subscribing to user profile...');
+    subscribeToUserProfile(user.id);
+    
+    console.log('📝 Subscribing to posts...');
+    subscribeToPosts();
+
+    console.log('👥 Loading friends and requests...');
+    loadFriendsAndRequests(user.id);
+
+    // Start global notifications
+    startGlobalNotifications(user.id);
+
+    document.querySelectorAll('.main-profile-name').forEach(el => el.textContent = user.user_metadata?.display_name || 'Signed User');
+    if (profileBioEl) profileBioEl.textContent = '';
+    
+    console.log('✅ All subscriptions initialized');
+  });
+
+  let friendsListExpanded = false;
+
+  async function loadFriendsAndRequests(uid) {
+    if (friendsUnsub) friendsUnsub();
+    console.log('👥 Loading friends for user:', uid);
+    
+    try {
+      const profile = await getUserProfile(uid);
+      const friendsArray = Array.isArray(profile.friends) ? profile.friends : [];
+      const requestsArray = Array.isArray(profile.friend_requests) ? profile.friend_requests : [];
+
+      console.log('✅ Friends loaded:', friendsArray.length);
+      console.log('📨 Friend requests:', requestsArray.length);
+
+      renderFriendsUI(friendsArray, requestsArray);
+      
+      // Subscribe to changes
+      const channel = supabase
+        .channel(`user-friends-${uid}`)
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'users',
+          filter: `uid=eq.${uid}`
+        }, async (payload) => {
+          const updated = payload.new;
+          const newFriends = Array.isArray(updated.friends) ? updated.friends : [];
+          const newRequests = Array.isArray(updated.friend_requests) ? updated.friend_requests : [];
+          renderFriendsUI(newFriends, newRequests);
+        })
+        .subscribe();
+      
+      friendsUnsub = () => channel.unsubscribe();
+    } catch (err) {
+      console.error('❌ friends error:', err);
+      friendsEl.innerHTML = '<div style="color:var(--muted)">No friends yet</div>';
+    }
+  }
+
+  async function renderFriendsUI(friendsArray, requestsArray) {
+    console.log('🎨 Rendering friends UI:', friendsArray.length, 'friends,', requestsArray.length, 'requests');
+    if (!friendsEl) return;
+    friendsEl.innerHTML = '';
+
+    if (requestsArray.length) {
+      console.log('📨 Rendering', requestsArray.length, 'friend requests');
+      const header = document.createElement('div');
+      header.style.fontWeight = '700';
+      header.style.marginBottom = '0.5rem';
+      header.style.color = 'var(--muted)';
+      header.textContent = 'Friend Requests';
+      friendsEl.appendChild(header);
+
+      for (const uid of requestsArray) {
+        try {
+          const udata = await getUserProfile(uid);
+
+          const item = document.createElement('div');
+          item.className = 'friend-item';
+
+          const av = avatarElement(udata.name, udata.pfp, 54);
+          av.className = 'f-avatar';
+          item.appendChild(av);
+
+          const info = document.createElement('div');
+          info.style.flex = '1';
+          const name = document.createElement('div'); name.className = 'friend-name'; name.textContent = udata.name || 'Unknown';
+          info.appendChild(name);
+
+          const actionsWrap = document.createElement('div');
+          actionsWrap.style.display = 'flex';
+          actionsWrap.style.gap = '0.5rem';
+
+          const acceptBtn = document.createElement('button');
+          acceptBtn.className = 'menu-item friend-accept';
+          acceptBtn.textContent = 'Accept';
+          acceptBtn.addEventListener('click', async () => {
+            try {
+              const { data: myProfile } = await supabase.from('users').select('*').eq('uid', fbUser.id).single();
+              const { data: theirProfile } = await supabase.from('users').select('*').eq('uid', uid).single();
+              
+              const myFriends = [...(myProfile.friends || []), uid];
+              const myRequests = (myProfile.friend_requests || []).filter(r => r !== uid);
+              const theirFriends = [...(theirProfile.friends || []), fbUser.id];
+              
+              await supabase.from('users').update({ friends: myFriends, friend_requests: myRequests }).eq('uid', fbUser.id);
+              await supabase.from('users').update({ friends: theirFriends }).eq('uid', uid);
+              
+              alert('Friend request accepted.');
+            } catch (err) {
+              console.error('Failed to accept request:', err);
+              alert('Failed to accept request.');
+            }
+          });
+
+          const declineBtn = document.createElement('button');
+          declineBtn.className = 'menu-item friend-decline';
+          declineBtn.textContent = 'Decline';
+          declineBtn.addEventListener('click', async () => {
+            try {
+              const { data: myProfile } = await supabase.from('users').select('friend_requests').eq('uid', fbUser.id).single();
+              const newRequests = (myProfile.friend_requests || []).filter(r => r !== uid);
+              await supabase.from('users').update({ friend_requests: newRequests }).eq('uid', fbUser.id);
+              alert('Friend request declined.');
+            } catch (err) {
+              console.error('Failed to decline request:', err);
+              alert('Failed to decline request.');
+            }
+          });
+
+          actionsWrap.appendChild(acceptBtn);
+          actionsWrap.appendChild(declineBtn);
+
+          item.appendChild(info);
+          item.appendChild(actionsWrap);
+
+          friendsEl.appendChild(item);
+        } catch (err) {
+          console.error('Failed to render friend request:', err);
+        }
+      }
+    }
+
+    const friendsHeader = document.createElement('div');
+    friendsHeader.style.fontWeight = '700';
+    friendsHeader.style.marginTop = '0.75rem';
+    friendsHeader.style.marginBottom = '0.5rem';
+    friendsHeader.style.color = 'var(--muted)';
+    friendsHeader.textContent = 'Friends';
+    friendsEl.appendChild(friendsHeader);
+
+    if (!friendsArray.length) {
+      const empty = document.createElement('div');
+      empty.style.color = 'var(--muted)';
+      empty.textContent = 'No friends yet';
+      friendsEl.appendChild(empty);
+      console.log('📭 No friends to display');
+      return;
+    }
+
+    console.log('👥 Fetching friend data for', friendsArray.length, 'friends');
+    const INITIAL_FRIENDS_SHOW = 7;
+    const friendsToShow = friendsListExpanded ? friendsArray.length : Math.min(INITIAL_FRIENDS_SHOW, friendsArray.length);
+    console.log('🎨 Rendering', friendsToShow, 'of', friendsArray.length, 'friends');
+    
+    for (let i = 0; i < friendsToShow; i++) {
+      const uid = friendsArray[i];
+      try {
+        const udata = await getUserProfile(uid);
+
+        const item = document.createElement('div');
+        item.className = 'friend-item';
+
+        const av = document.createElement('div');
+        av.className = 'f-avatar';
+        if (udata.pfp && String(udata.pfp).startsWith('http')) {
+          const img = document.createElement('img'); 
+          img.src = udata.pfp; 
+          img.alt = udata.name || 'U'; 
+          img.style.width='100%'; 
+          img.style.height='100%'; 
+          img.style.objectFit='cover'; 
+          img.style.borderRadius='50%';
+          av.innerHTML = ''; 
+          av.appendChild(img);
+        } else {
+          av.textContent = (udata.name && udata.name[0]) ? udata.name[0].toUpperCase() : '?';
+        }
+        item.appendChild(av);
+
+        const name = document.createElement('div');
+        name.className = 'friend-name';
+        name.textContent = udata.name || 'Unknown';
+        name.style.flex = '1';
+        name.style.cursor = 'pointer';
+        name.addEventListener('click', () => {
+          location.href = `/pages/profileblacknote.html?user=${encodeURIComponent(udata.name || uid)}`;
+        });
+        item.appendChild(name);
+
+        // 3-dot menu button
+        const menuBtn = document.createElement('button');
+        menuBtn.className = 'friend-menu-btn';
+        menuBtn.innerHTML = '⋮';
+        menuBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.querySelectorAll('.friend-dropdown.visible').forEach(d => {
+            if (d !== dropdown) d.classList.remove('visible');
+          });
+          dropdown.classList.toggle('visible');
+        });
+        
+        // Dropdown menu
+        const dropdown = document.createElement('div');
+        dropdown.className = 'friend-dropdown';
+        
+        const viewProfileBtn = document.createElement('button');
+        viewProfileBtn.textContent = 'View Profile';
+        viewProfileBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          location.href = `/pages/profileblacknote.html?user=${encodeURIComponent(udata.name || uid)}`;
+        });
+        dropdown.appendChild(viewProfileBtn);
+        
+        const hollaBtn = document.createElement('button');
+        hollaBtn.textContent = 'Holla';
+        hollaBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          location.href = '/pages/hollablacknote.html?peer=' + encodeURIComponent(uid);
+        });
+        dropdown.appendChild(hollaBtn);
+        
+        item.appendChild(menuBtn);
+        item.appendChild(dropdown);
+        
+        friendsEl.appendChild(item);
+      } catch (err) {
+        console.error('Failed to render friend:', err);
+      }
+    }
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.friend-item')) {
+        document.querySelectorAll('.friend-dropdown.visible').forEach(d => {
+          d.classList.remove('visible');
+        });
+      }
+    });
+    
+    if (friendsArray.length > INITIAL_FRIENDS_SHOW) {
+      const toggleButton = document.createElement('button');
+      toggleButton.className = 'menu-item';
+      toggleButton.textContent = friendsListExpanded ? 'View Less' : `View More (${friendsArray.length - INITIAL_FRIENDS_SHOW} more)`;
+      toggleButton.style.width = '100%';
+      toggleButton.style.marginTop = '0.5rem';
+      toggleButton.addEventListener('click', () => {
+        friendsListExpanded = !friendsListExpanded;
+        renderFriendsUI(friendsArray, requestsArray);
+      });
+      friendsEl.appendChild(toggleButton);
+    }
+    
+    console.log('✅ Friends UI rendered successfully');
+  }
+
+  (function init() {
+    if (openProfileEditorBtn) openProfileEditorBtn.disabled = true;
+    if (profilePicEl) profilePicEl.textContent = '?';
+    document.querySelectorAll('.main-profile-name').forEach(el => el.textContent = 'Guest');
+    if (profileBioEl) profileBioEl.textContent = '';
+
+    loadNotificationState();
+    
+    // Initialize create post modal
+    initCreatePostModal();
+
+    const initNotificationButton = () => {
+      let notifButton = document.getElementById('notification-bell-link');
+      
+      if (!notifButton) {
+        console.warn('Notification button not found in HTML.');
+        return;
+      }
+      
+      notificationBadge = document.getElementById('notification-badge');
+      if (!notificationBadge) {
+        notificationBadge = document.createElement('span');
+        notificationBadge.id = 'notification-badge';
+        notifButton.appendChild(notificationBadge);
+      }
+      
+      notificationBadge.style.position = 'absolute';
+      notificationBadge.style.top = '5px';
+      notificationBadge.style.right = '5px';
+      notificationBadge.style.width = '12px';
+      notificationBadge.style.height = '12px';
+      notificationBadge.style.borderRadius = '50%';
+      notificationBadge.style.backgroundColor = '#ff4444';
+      notificationBadge.style.border = '2px solid #1a1a1a';
+      notificationBadge.style.display = 'none';
+      notificationBadge.style.zIndex = '10';
+      
+      const buttonParent = notifButton.parentElement;
+      if (buttonParent) {
+        buttonParent.style.position = 'relative';
+      }
+      notifButton.style.position = 'relative';
+    
+      notificationPanel = document.createElement('div');
+      notificationPanel.id = 'notification-panel';
+      notificationPanel.style.position = 'absolute';
+      notificationPanel.style.top = '57px';
+      notificationPanel.style.left = '1060px';
+      notificationPanel.style.width = '320px';
+      notificationPanel.style.maxHeight = '600px';
+      notificationPanel.style.backgroundColor = '#1a1a1a';
+      notificationPanel.style.border = '1px solid #333';
+      notificationPanel.style.borderRadius = '12px';
+      notificationPanel.style.boxShadow = '0 8px 24px rgba(0,0,0,0.5)';
+      notificationPanel.style.display = 'none';
+      notificationPanel.style.zIndex = '1000';
+      notificationPanel.style.overflowY = 'auto';
+      notificationPanel.style.padding = '1rem';
+      
+      const panelHeader = document.createElement('h3');
+      panelHeader.textContent = 'Notifications';
+      panelHeader.style.margin = '0 0 1rem 0';
+      panelHeader.style.color = 'white';
+      panelHeader.style.fontSize = '18px';
+      panelHeader.style.fontWeight = 'bold';
+      panelHeader.style.borderBottom = '1px solid #333';
+      panelHeader.style.paddingBottom = '0.75rem';
+      notificationPanel.appendChild(panelHeader);
+      
+      const notifList = document.createElement('div');
+      notifList.id = 'notification-list';
+      notificationPanel.appendChild(notifList);
+      
+      notifButton.parentElement.appendChild(notificationPanel);
+      
+      notifButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const isVisible = notificationPanel.style.display === 'block';
+        notificationPanel.style.display = isVisible ? 'none' : 'block';
+        if (!isVisible) {
+          notificationBadge.style.display = 'none';
+          renderNotifications();
+          saveNotificationState();
+        }
+      });
+      
+      document.addEventListener('click', (e) => {
+        if (!notificationPanel.contains(e.target) && !notifButton.contains(e.target)) {
+          notificationPanel.style.display = 'none';
+        }
+      });
+      
+      document.body.appendChild(notificationPanel);
+    };
+      
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initNotificationButton);
+    } else {
+      initNotificationButton();
+    }
+
+    // Attach badge selector handler AFTER DOM is ready
+    badgeSelector = document.getElementById('badge-selector');
+    if (badgeSelector) {
+      badgeSelector.addEventListener('click', (e) => {
+        const option = e.target.closest('.badge-option');
+        if (!option) return;
+
+        badgeSelector.querySelectorAll('.badge-option').forEach(b => b.classList.remove('selected'));
+
+        option.classList.add('selected');
+        selectedBadge = option.dataset.badge || null;
+
+        // Preview badge immediately on selection
+        displayBadge(selectedBadge, document.getElementById('profile-badge-display'));
+      });
+    }
+
+    document.body.style.backgroundImage = 'url("/assets/back2.gif")';
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundAttachment = 'fixed';
+    document.body.style.backgroundRepeat = 'no-repeat';
+    document.body.style.margin = '0';
+    document.body.style.padding = '0';
+    
+    const backToTopBtn = document.createElement('button');
+    backToTopBtn.id = 'back-to-top-btn';
+    backToTopBtn.innerHTML = '↑';
+    backToTopBtn.style.position = 'fixed';
+    backToTopBtn.style.bottom = '30px';
+    backToTopBtn.style.right = '30px';
+    backToTopBtn.style.width = '50px';
+    backToTopBtn.style.height = '50px';
+    backToTopBtn.style.borderRadius = '50%';
+    backToTopBtn.style.backgroundColor = '#1DA1F2';
+    backToTopBtn.style.color = 'white';
+    backToTopBtn.style.border = 'none';
+    backToTopBtn.style.fontSize = '24px';
+    backToTopBtn.style.cursor = 'pointer';
+    backToTopBtn.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+    backToTopBtn.style.zIndex = '1000';
+    backToTopBtn.style.opacity = '0';
+    backToTopBtn.style.visibility = 'hidden';
+    backToTopBtn.style.transition = 'opacity 0.3s, visibility 0.3s, transform 0.2s';
+    backToTopBtn.style.display = 'flex';
+    backToTopBtn.style.alignItems = 'center';
+    backToTopBtn.style.justifyContent = 'center';
+    backToTopBtn.setAttribute('aria-label', 'Back to top');
+    
+    backToTopBtn.addEventListener('mouseenter', () => {
+      backToTopBtn.style.transform = 'scale(1.1)';
+      backToTopBtn.style.backgroundColor = '#1a8cd8';
+    });
+    backToTopBtn.addEventListener('mouseleave', () => {
+      backToTopBtn.style.transform = 'scale(1)';
+      backToTopBtn.style.backgroundColor = '#1DA1F2';
+    });
+    
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    document.body.appendChild(backToTopBtn);
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.style.opacity = '1';
+        backToTopBtn.style.visibility = 'visible';
+      } else {
+        backToTopBtn.style.opacity = '0';
+        backToTopBtn.style.visibility = 'hidden';
+      }
+    });
+    
+    const style = document.createElement('style');
+    style.textContent = `
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("/assets/back.gif");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        z-index: -2;
+        pointer-events: none;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: -1;
+        pointer-events: none;
+      }
+      main {
+        background: transparent !important;
+        min-height: 100vh;
+      }
+      .layout {
+        background: transparent !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    window.addEventListener('online', () => offlineBanner.classList.remove('visible'));
+    window.addEventListener('offline', () => offlineBanner.classList.add('visible'));
+    if (!navigator.onLine) offlineBanner.classList.add('visible');
+  })();
+
+</script>
+
+
+<script>
+  const menuToggle = document.getElementById('menuToggle');
+  const slideMenu = document.getElementById('slideMenu');
+  const overlay = document.getElementById('menuOverlay');
+  const contactBtn = document.getElementById('contactBtn');
+  const aboutBtn = document.getElementById('aboutBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  function openMenu() {
+    slideMenu.classList.add('open');
+    overlay.classList.add('visible');
+    slideMenu.setAttribute('aria-hidden', 'false');
+    overlay.removeAttribute('aria-hidden');
+    menuToggle.setAttribute('aria-expanded', 'true');
+    logoutBtn.focus();
+  }
+  function closeMenu() {
+    slideMenu.classList.remove('open');
+    overlay.classList.remove('visible');
+    slideMenu.setAttribute('aria-hidden', 'true');
+    overlay.setAttribute('aria-hidden', 'true');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.focus();
+  }
+  function toggleMenu() { slideMenu.classList.contains('open') ? closeMenu() : openMenu(); }
+
+  menuToggle.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+  overlay.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+
+  contactBtn.addEventListener('click', () => {
+    closeMenu();
+    const gmailComposeURL = 'https://mail.google.com/mail/?view=cm&fs=1&to=hamdiglennurdaneta@gmail.com&su=Contact%20BlackNote';
+    window.open(gmailComposeURL, '_blank');
+  });
+
+  aboutBtn.addEventListener('click', () => {
+    closeMenu();
+    location.href = '/pages/aboutblacknote.html';
+  });
+  
+  logoutBtn.addEventListener('click', async () => {
+    try {
+      const { logout } = await import('/javascript/supabase.js');
+      await logout();
+      location.href = '/index.html';
+    } catch (err) {
+      console.error('Logout error:', err);
+      location.href = '/index.html';
+    }
+  });
+</script>
+
+<script type="module">
+  import { initializeSearch } from '/javascript/blacknote.js';
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    initializeSearch();
+  });
+</script>
+
+</body>
+</html>
